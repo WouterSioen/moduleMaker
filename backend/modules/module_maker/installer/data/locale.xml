@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locale>
+	<backend>
+		<module_maker>
+			<item type="label" name="AddField">
+				<translation language="en"><![CDATA[add field]]></translation>
+				<translation language="nl"><![CDATA[veld toevoegen]]></translation>
+			</item>
+			<item type="label" name="AuthorEmail">
+				<translation language="en"><![CDATA[author email]]></translation>
+				<translation language="nl"><![CDATA[auteur email]]></translation>
+			</item>
+			<item type="label" name="AuthorName">
+				<translation language="en"><![CDATA[author name]]></translation>
+				<translation language="nl"><![CDATA[auteur naam]]></translation>
+			</item>
+			<item type="label" name="AuthorUrl">
+				<translation language="en"><![CDATA[author url]]></translation>
+				<translation language="nl"><![CDATA[auteur url]]></translation>
+			</item>
+			<item type="label" name="Fields">
+				<translation language="en"><![CDATA[fields]]></translation>
+				<translation language="nl"><![CDATA[velden]]></translation>
+			</item>
+			<item type="label" name="Options">
+				<translation language="en"><![CDATA[options]]></translation>
+				<translation language="nl"><![CDATA[opties]]></translation>
+			</item>
+			<item type="label" name="Required">
+				<translation language="en"><![CDATA[required]]></translation>
+				<translation language="nl"><![CDATA[verplicht]]></translation>
+			</item>
+			<item type="label" name="WizardBlocks">
+				<translation language="en"><![CDATA[blocks]]></translation>
+				<translation language="nl"><![CDATA[blocks]]></translation>
+			</item>
+			<item type="label" name="WizardFields">
+				<translation language="en"><![CDATA[fields]]></translation>
+				<translation language="nl"><![CDATA[velden]]></translation>
+			</item>
+			<item type="label" name="WizardInformation">
+				<translation language="en"><![CDATA[information]]></translation>
+				<translation language="nl"><![CDATA[informatie]]></translation>
+			</item>
+			<item type="label" name="WizardSpecialFields">
+				<translation language="en"><![CDATA[special fields]]></translation>
+				<translation language="nl"><![CDATA[speciale velden]]></translation>
+			</item>
+			<item type="message" name="NoFields">
+				<translation language="en"><![CDATA[There are no fields yet.]]></translation>
+				<translation language="nl"><![CDATA[Er zijn nog geen velden.]]></translation>
+			</item>
+			<item type="message" name="NoOptions">
+				<translation language="en"><![CDATA[There are no options yet.]]></translation>
+				<translation language="nl"><![CDATA[Er zijn nog geen opties.]]></translation>
+			</item>
+			<item type="error" name="DefaultShouldBeAnOption">
+				<translation language="en"><![CDATA[The default value should be one of the options.]]></translation>
+				<translation language="nl"><![CDATA[De standaard waarde moet een van de opties zijn.]]></translation>
+			</item>
+			<item type="error" name="ImageSizeNotWellFormed">
+				<translation language="en"><![CDATA[The sizes should be in the format widthxheight (400x400).]]></translation>
+				<translation language="nl"><![CDATA[De groottes moeten in het formaat breedtexhoogte zijn (400x400).]]></translation>
+			</item>
+		</module_maker>
+		<core>
+			<item type="label" name="ModuleMaker">
+				<translation language="nl"><![CDATA[modulemaker]]></translation>
+				<translation language="en"><![CDATA[modulemaker]]></translation>
+			</item>
+		</core>
+	</backend>
+	<frontend>
+		<core>
+		</core>
+	</frontend>
+</locale>
