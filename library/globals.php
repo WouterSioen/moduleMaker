@@ -13,10 +13,6 @@
 /**
  * Spoon configuration
  */
-// should the debug information be shown
-define('SPOON_DEBUG', true);
-// mailaddress where the exceptions will be mailed to (<tag>-bugs@fork-cms.be)
-define('SPOON_DEBUG_EMAIL', 'wouter.sioen@wijs.be');
 // message for the visitors when an exception occur
 define('SPOON_DEBUG_MESSAGE', 'Internal error.');
 // default charset used in spoon.
@@ -29,23 +25,21 @@ define('SPOON_CHARSET', 'utf-8');
 // version of Fork
 define('FORK_VERSION', '3.4.4');
 
-
-/**
- * Database configuration
- */
-// type of connection
-define('DB_TYPE', 'mysql');
-// database name
-define('DB_DATABASE', 'fork_personal');
-// database host
-define('DB_HOSTNAME', '127.0.0.1');
-// database port
-define('DB_PORT', '3306');
-// database username
-define('DB_USERNAME', 'root');
-// datebase password
-define('DB_PASSWORD', '12345678');
-
+if(isStaged())
+{
+	require_once dirname(__FILE__) . '/globals_stage.php';
+}
+else
+{
+	define('SPOON_DEBUG', true);
+	define('SPOON_DEBUG_EMAIL', '');
+	define('DB_TYPE', 'mysql');
+	define('DB_PORT', '3306');
+	define('DB_DATABASE', 'fork_personal');
+	define('DB_HOSTNAME', 'fork_personal');
+	define('DB_USERNAME', 'root');
+	define('DB_PASSWORD', '12345678');
+}
 
 /**
  * Site configuration
@@ -65,13 +59,16 @@ define('ACTION_GROUP_TAG', '@actiongroup');
 // default action rights level
 define('ACTION_RIGHTS_LEVEL', '7');
 
+/**
+ * @return bool Whether or not we're running the site in development.
+ */
+function isStaged()
+{
+	return file_exists(dirname(__FILE__) . '/globals_stage.php');
+}
 
 /**
  * Path configuration
- *
- * Depends on the server layout
  */
-// path to the website itself
-define('PATH_WWW', '/Users/woutersioen/Sites/fork.personal');
-// path to the library
-define('PATH_LIBRARY', '/Users/woutersioen/Sites/fork.personal/library');
+define('PATH_WWW', dirname(__FILE__) . '/..');
+define('PATH_LIBRARY', dirname(__FILE__));
