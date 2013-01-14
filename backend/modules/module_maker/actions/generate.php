@@ -84,7 +84,11 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		
 
 		// generate delete
-		
+		BackendModuleMakerModel::generateFile(
+			BACKEND_MODULE_PATH . '/layout/templates/backend/action/delete.base.php',
+			$this->variables,
+			$this->backendPath . 'actions/delete.php'
+		);
 	}
 
 	/**

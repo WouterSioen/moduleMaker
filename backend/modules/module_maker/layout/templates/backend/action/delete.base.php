@@ -10,9 +10,9 @@
 /**
  * This is the delete-action, it deletes an item
  *
- * @author authorname
+ * @author {$author_name} <{$author_email}>
  */
-class Backendmodulenameactionname extends BackendBaseActionDelete
+class Backend{$camel_case_name}Delete extends BackendBaseActionDelete
 {
 	/**
 	 * Execute the action
@@ -22,12 +22,13 @@ class Backendmodulenameactionname extends BackendBaseActionDelete
 		$this->id = $this->getParameter('id', 'int');
 
 		// does the item exist
-		if($this->id !== null && BackendmodulenameModel::exists($this->id))
+		if($this->id !== null && Backend{$camel_case_name}Model::exists($this->id))
 		{
 			parent::execute();
-			$this->record = (array) BackendmodulenameModel::get($this->id);
+			$this->record = (array) Backend{$camel_case_name}Model::get($this->id);
 
-			BackendmodulenameModel::delete($this->id);
+			Backend{$camel_case_name}Model::delete($this->id);
+
 			BackendSearchModel::removeIndex(
 				$this->getModule(), $this->id
 			);
@@ -37,9 +38,7 @@ class Backendmodulenameactionname extends BackendBaseActionDelete
 				array('id' => $this->id)
 			);
 
-			$this->redirect(
-				BackendModel::createURLForAction('index') . '&report=deleted&var=' . urlencode($this->record['title'])
-			);
+			$this->redirect(BackendModel::createURLForAction('index') . '&report=deleted&var=' . urlencode($this->record['title']));
 		}
 		else $this->redirect(BackendModel::createURLForAction('index') . '&error=non-existing');
 	}
