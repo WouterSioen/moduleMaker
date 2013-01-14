@@ -6,11 +6,11 @@
  */
 
 /**
- * Interaction for the subname module
+ * Interaction for the {$title} module
  *
- * @author authorname
+ * @author {$author_name} <{$author_email}>
  */
-jsBackend.subname =
+jsBackend.{$underscored_name} =
 {
 	// constructor
 	init: function()
@@ -20,4 +20,4 @@ jsBackend.subname =
 	}
 }
 
-$(jsBackend.subname.init);
+$(jsBackend.{$underscored_name}.init);

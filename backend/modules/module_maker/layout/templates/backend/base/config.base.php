@@ -8,11 +8,11 @@
  */
 
 /**
- * This is the configuration-object for the {$name} module
+ * This is the configuration-object for the {$title} module
  *
- * @author authorname
+ * @author {$author_name} <{$author_email}>
  */
-final class Backend{$CamelCaseName}Config extends BackendBaseConfig
+final class Backend{$camel_case_name}Config extends BackendBaseConfig
 {
 	/**
 	 * The default action

@@ -65,6 +65,28 @@ class BackendModuleMakerModel
 	}
 
 	/**
+	 * Generates (and writes) a file based on a certain template
+	 * 
+	 * @param string $template				The path to the template
+	 * @param array $variables				The variables to assign to the template
+	 * @param string $path					The path to the file
+	 */
+	public static function generateFile($template, $variables, $path)
+	{
+		// get the content of the file
+		$content = self::readFile($template);
+
+		// replace the variables
+		foreach($variables AS $key => $value)
+		{
+			$content = str_replace('{$' . $key . '}', $value, $content);
+		}
+		Spoon::dump($content);
+		// write the file
+		self::makeFile($path, $content);
+	}
+
+	/**
 	 * Generates the SQL for the new module based on the fields
 	 * 
 	 * @param string $moduleName This should be the underscored version
@@ -145,7 +167,7 @@ class BackendModuleMakerModel
 	 * @param	string $file				The file name.
 	 * @param	string[optional] $input		The input for the file.
 	 */
-	protected function makeFile($file, $input = null)
+	public static function makeFile($file, $input = null)
 	{
 		// create the file
 		$oFile = fopen($file, 'w');
@@ -155,5 +177,29 @@ class BackendModuleMakerModel
 
 		// close the file
 		fclose($oFile);
+	}
+
+	/**
+	 * Reads the content of a file
+	 *
+	 * @return	string
+	 * @param	string $file		The file path.
+	 */
+	public static function readFile($file)
+	{
+		// file exists?
+		if(!file_exists($file)) throw new Exception('The given file(' . $file .') does not exist.');
+
+		// open the file
+		$oFile = fopen($file, 'r');
+
+		// read the file
+		$rFile = fread($oFile, filesize($file));
+
+		// close the file
+		fclose($oFile);
+
+		// return
+		return $rFile;
 	}
 }

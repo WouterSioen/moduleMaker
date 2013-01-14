@@ -8,12 +8,17 @@
  */
 
 /**
- * In this file we store all generic functions that we will be using in the subname module
+ * In this file we store all generic functions that we will be using in the {$title} module
  *
- * @author authorname
+ * @author {$author_name} <{$author_email}>
  */
-class BackendclassnameModel
+class Backend{$camel_case_name}Model
 {
+	const QRY_DATAGRID_BROWSE =
+		'SELECT i.id, i.created_on
+		 FROM {$underscored_name} AS i
+		 WHERE AND i.language = ?';
+
 	/**
 	 * Delete a certain item
 	 *
@@ -21,7 +26,7 @@ class BackendclassnameModel
 	 */
 	public static function delete($id)
 	{
-		BackendModel::getDB(true)->delete('subname', 'id = ?', (int) $id);
+		BackendModel::getDB(true)->delete('{$underscored_name}', 'id = ?', (int) $id);
 	}
 
 	/**
@@ -34,7 +39,7 @@ class BackendclassnameModel
 	{
 		return (bool) BackendModel::getDB()->getVar(
 			'SELECT 1
-			 FROM subname AS i
+			 FROM {$underscored_name} AS i
 			 WHERE i.id = ?
 			 LIMIT 1',
 			array((int) $id)
@@ -51,7 +56,7 @@ class BackendclassnameModel
 	{
 		return (array) BackendModel::getDB()->getRecord(
 			'SELECT i.*
-			 FROM subname AS i
+			 FROM {$underscored_name} AS i
 			 WHERE i.id = ?',
 			array((int) $id)
 		);
@@ -77,7 +82,7 @@ class BackendclassnameModel
 		{
 			$numberOfItems = (int) $db->getVar(
 				'SELECT 1
-				 FROM subname AS i
+				 FROM {$underscored_name} AS i
 				 INNER JOIN meta AS m ON i.meta_id = m.id
 				 WHERE i.language = ? AND m.url = ?
 				 LIMIT 1',
@@ -98,7 +103,7 @@ class BackendclassnameModel
 		{
 			$numberOfItems = (int) $db->getVar(
 				'SELECT 1
-				 FROM subname AS i
+				 FROM {$underscored_name} AS i
 				 INNER JOIN meta AS m ON i.meta_id = m.id
 				 WHERE i.language = ? AND m.url = ? AND i.id != ?
 				 LIMIT 1',
@@ -115,7 +120,7 @@ class BackendclassnameModel
 			}
 		}
 
-		// return the unique Url!
+		// return the unique url
 		return $url;
 	}
 
@@ -129,7 +134,7 @@ class BackendclassnameModel
 	{
 		$data['created_on'] = BackendModel::getUTCDate();
 
-		return (int) BackendModel::getDB(true)->insert('subname', $data);
+		return (int) BackendModel::getDB(true)->insert('{$underscored_name}', $data);
 	}
 
 	/**
@@ -143,7 +148,7 @@ class BackendclassnameModel
 		$data['edited_on'] = BackendModel::getUTCDate();
 
 		BackendModel::getDB(true)->update(
-			'subname', $data, 'id = ?', (int) $id
+			'{$underscored_name}', $data, 'id = ?', (int) $id
 		);
 	}
 }

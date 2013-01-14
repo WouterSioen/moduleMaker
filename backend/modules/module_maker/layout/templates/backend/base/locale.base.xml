@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locale>
+	<backend>
+		<{$underscored_name}>
+			<item type="label" name="Add{$camel_case_name}">
+				<translation language="nl"><![CDATA[{$title} toevoegen]]></translation>
+				<translation language="en"><![CDATA[add {$title}]]></translation>
+			</item>
+		</{$underscored_name}>
+		<core>
+			<item type="label" name="{$camel_case_name}">
+				<translation language="nl"><![CDATA[{$title}]]></translation>
+				<translation language="en"><![CDATA[{$title}]]></translation>
+			</item>
+		</core>
+	</backend>
+	<frontend>
+		<core>
+		</core>
+	</frontend>
+</locale>

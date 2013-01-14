@@ -78,7 +78,7 @@ class BackendModuleMakerAdd extends BackendBaseActionAdd
 			if($this->frm->isCorrect())
 			{
 				$this->record['title'] = $fields['title']->getValue();
-				$this->record['description'] = $fields['description']->getValue();
+				$this->record['description'] = trim($fields['description']->getValue());
 				$this->record['author_name'] = $fields['author_name']->getValue();
 				$this->record['author_url'] = $fields['author_url']->getValue();
 				$this->record['author_email'] = $fields['author_email']->getValue();
