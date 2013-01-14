@@ -8,11 +8,11 @@
  */
 
 /**
- * This is the index-action (default), it will display the overview of subname posts
+ * This is the index-action (default), it will display the overview of {$title} posts
  *
- * @author authorname
+ * @author {$author_name} <{$author_email}>
  */
-class BackendmodulenameIndex extends BackendBaseActionIndex
+class Backend{$camel_case_name}Index extends BackendBaseActionIndex
 {
 	/**
 	 * Execute the action
@@ -32,7 +32,8 @@ class BackendmodulenameIndex extends BackendBaseActionIndex
 	protected function loadDataGrid()
 	{
 		$this->dataGrid = new BackendDataGridDB(
-			QUERY, PARAMETERS
+			Backend{$camel_case_name}Model::QRY_DATAGRID_BROWSE,
+			BL::getWorkingLanguage()
 		);
 
 		// check if this action is allowed

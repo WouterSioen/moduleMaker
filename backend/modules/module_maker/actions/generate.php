@@ -65,7 +65,17 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	protected function generateBackendActions()
 	{
 		// generate index
-		
+		BackendModuleMakerModel::generateFile(
+			BACKEND_MODULE_PATH . '/layout/templates/backend/action/index.base.php',
+			$this->variables,
+			$this->backendPath . 'actions/index.php'
+		);
+
+		BackendModuleMakerModel::generateFile(
+			BACKEND_MODULE_PATH . '/layout/templates/backend/action/index.base.tpl',
+			$this->variables,
+			$this->backendPath . 'layout/templates/index.tpl'
+		);
 
 		// generate add
 		
@@ -73,7 +83,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		// generate edit
 		
 
-		// generate add delete
+		// generate delete
 		
 	}
 

@@ -3,11 +3,11 @@
 
 <div class="pageTitle">
 	<h2>
-		{$lblmodulename|ucfirst}
+		{$lbl{$camel_case_name}|ucfirst}
 	</h2>
 	<div class="buttonHolderRight">
-		<a href="{$var|geturl:'add'}" class="button icon iconAdd" title="{$lblAdd|ucfirst}">
-			<span>{$lblAdd|ucfirst}</span>
+		<a href="{$var|geturl:'add'}" class="button icon iconAdd" title="{$lblAdd{$camel_case_name}|ucfirst}">
+			<span>{$lblAdd{$camel_case_name}|ucfirst}</span>
 		</a>
 	</div>
 </div>
