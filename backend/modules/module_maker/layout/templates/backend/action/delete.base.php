@@ -29,10 +29,6 @@ class Backend{$camel_case_name}Delete extends BackendBaseActionDelete
 
 			Backend{$camel_case_name}Model::delete($this->id);
 
-			BackendSearchModel::removeIndex(
-				$this->getModule(), $this->id
-			);
-
 			BackendModel::triggerEvent(
 				$this->getModule(), 'after_delete',
 				array('id' => $this->id)

@@ -65,6 +65,60 @@ class BackendModuleMakerModel
 	}
 
 	/**
+	 * Generates a part of the add/edit action that builds the item
+	 * 
+	 * @param array $module				The array containing all info about the module
+	 * @param boolean $isEdit			Should we generate it for the edit action?
+	 * @return string
+	 */
+	public static function generateBuildItem($module, $isEdit)
+	{
+		$return = '';
+
+		// loop through fields
+		foreach($module['fields'] as $field)
+		{
+			if($field['type'] == 'checkbox')
+			{
+				$return .= "\t\t\t\t\$item['" . $field['underscored_label'] . "'] = \$fields['" . $field['underscored_label'] . "']->getChecked() ? 'Y' : 'N';\n";
+			}
+			elseif($field['type'] == 'image')
+			{
+				$return .= "\n\t\t\t\t// the image path\n";
+				$return .= "\t\t\t\t\$imagePath = FRONTEND_FILES_PATH . '/' . \$this->getModule()' . '/images';\n\n";
+				$return .= "\t\t\t\t// create folders if needed\n";
+
+				// loop through the options, they contain the image sizes
+				$options = explode(',', $field['options']);
+				foreach($options as $option)
+				{
+					$return .= "\t\t\t\tif(!SpoonDirectory::exists(\$imagePath . '/" . $option . "')) SpoonDirectory::create(\$imagePath . '/" . $option . "');\n";
+				}
+				$return .= "\t\t\t\tif(!SpoonDirectory::exists(\$imagePath . '/source')) SpoonDirectory::create(\$imagePath . '/source');\n\n";
+
+				$return .= "\t\t\t\t// image provided?\n";
+				$return .= "\t\t\t\tif(\$this->frm->getField('" . $field['underscored_label'] . "')->isFilled())\n\t\t\t\t{\n";
+				$return .= "\t\t\t\t\t// build the image name\n";
+
+				/**
+				 * @TODO when meta is added, use the meta in the image name
+				 */
+				$return .= "\t\t\t\t\t\$item['" . $field['underscored_label'] . "'] = time() . '.' . \$this->frm->getField('" . $field['underscored_label'] . "')->getExtension();\n\n";
+				$return .= "\t\t\t\t\t// upload the image & generate thumbnails\n";
+				$return .= "\t\t\t\t\t\$this->frm->getField('" . $field['underscored_label'] . "')->generateThumbnails(\$imagePath, \$item['" . $field['underscored_label'] . "']);\n";
+				$return .= "\t\t\t\t}\n\n";
+			}
+			else
+			{
+				$return .= "\t\t\t\t\$item['" . $field['underscored_label'] . "'] = \$fields['" . $field['underscored_label'] . "']->getValue();\n";
+			}
+		}
+
+		// return the string we build up
+		return $return;
+	}
+
+	/**
 	 * Generates (and writes) a file based on a certain template
 	 * 
 	 * @param string $template				The path to the template
@@ -84,6 +138,86 @@ class BackendModuleMakerModel
 		Spoon::dump($content);
 		// write the file
 		self::makeFile($path, $content);
+	}
+
+	/**
+	 * Generates a part of the loadForm() function for the backend add/edit actions
+	 * 
+	 * @param array $module				The array containing all info about the module
+	 * @param boolean $isEdit			Should we generate it for the edit action?
+	 * @return string
+	 */
+	public static function generateLoadForm($module, $isEdit)
+	{
+		$return = '';
+
+		// loop through fields and create and addField statement for each field
+		foreach($module['fields'] as $field)
+		{
+			// for fields with multiple options: add them
+			if($field['type'] == 'multicheckbox' || $field['type'] == 'radiobutton' || $field['type'] == 'dropdown')
+			{
+				$return .= "\n\t\t// build array with options for the " . $field['label'] . ' ' . $field['type'] . "\n";
+
+				// split the options on the comma and add them to an array
+				$options = explode(',', $field['options']);
+				foreach($options as $option)
+				{
+					$return .= "\t\t\$" . $field['type'] . $field['camel_cased_label'] . "Values[] = array('label' => BL::lbl('" . self::buildCamelCasedName($option) . "'), 'value' => '" . $option . "');\n";
+				}
+			}
+
+			// create the default value
+			$default = '';
+			if($isEdit)
+			{
+				$default = " ,\$this->record['" . $field['underscored_label'] . "']";
+			}
+			elseif($field['default'] !== '')
+			{
+				if($field['type'] == 'number') $default = ' ,' . $field['default'];
+				else $default = " ,'" . $field['default'] . "'";
+			}
+
+			// create the add statements
+			switch ($field['type'])
+			{
+				case 'editor':
+					$return .= "\t\t\$this->frm->addEditor('" . $field['underscored_label'] . "'" . $default . ");\n";
+					break;
+				case 'datetime':
+					$return .= "\t\t\$this->frm->addDate('" . $field['underscored_label'] . "_date'" . $default . ");\n";
+					$return .= "\t\t\$this->frm->addTime('" . $field['underscored_label'] . "_time'" . $default . ");\n";
+					break;
+				case 'password':
+					$return .= "\t\t\$this->frm->addPassword('" . $field['underscored_label'] . "'" . $default . ")->setAttributes(array('autocomplete' => 'off');\n";
+					break;
+				case 'checkbox':
+					$return .= "\t\t\$this->frm->addCheckbox('" . $field['underscored_label'] . "'" . $default . ");\n";
+					break;
+				case 'multicheckbox':
+					$return .= "\t\t\$this->frm->addMultiCheckbox('" . $field['underscored_label'] . "', $" . $field['type'] . $field['camel_cased_label'] . 'Values' . $default . ");\n";
+					break;
+				case 'radiobutton':
+					$return .= "\t\t\$this->frm->addRadioButton('" . $field['underscored_label'] . "', $" . $field['type'] . $field['camel_cased_label'] . 'Values' . $default . ");\n";
+					break;
+				case 'dropdown':
+					$return .= "\t\t\$this->frm->addDropdown('" . $field['underscored_label'] . "', $" . $field['type'] . $field['camel_cased_label'] . 'Values' . $default . ");\n";
+					break;
+				case 'file':
+					$return .= "\t\t\$this->frm->addFile('" . $field['underscored_label'] . "');\n";
+					break;
+				case 'image':
+					$return .= "\t\t\$this->frm->addImage('" . $field['underscored_label'] . "');\n";
+					break;
+				default:
+					$return .= "\t\t\$this->frm->addText('" . $field['underscored_label'] . "'" . $default . ");\n";
+					break;
+			}
+		}
+
+		// return the string we build up
+		return $return;
 	}
 
 	/**
@@ -116,6 +250,63 @@ class BackendModuleMakerModel
 		$return .= " PRIMARY KEY (`id`)\n";
 		$return .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;";
 
+		return $return;
+	}
+
+	/**
+	 * Generates a part of the validateForm() function for the backend add/edit actions
+	 * 
+	 * @param array $module				The array containing all info about the module
+	 * @param boolean $isEdit			Should we generate it for the edit action?
+	 * @return string
+	 */
+	public static function generateValidateForm($module, $isEdit)
+	{
+		$return = '';
+
+		// loop through fields and create and addField statement for each field
+		foreach($module['fields'] as $field)
+		{
+			// check if required fields are filled
+			if($field['required'] == true)
+			{
+				if($field['type'] == 'datetime')
+				{
+					$return .= "\t\t\t\$fields('" . $field['underscored_label'] . "_date')->isFilled(BL::err('FieldIsRequired'));\n";
+					$return .= "\t\t\t\$fields('" . $field['underscored_label'] . "_time')->isFilled(BL::err('FieldIsRequired'));\n";
+				}
+				elseif(!($field['type'] == 'image' || $field['type'] == 'file') && !$isEdit)
+				{
+					$return .= "\t\t\t\$fields('" . $field['underscored_label'] . "')->isFilled(BL::err('FieldIsRequired'));\n";
+				}
+			}
+
+			// check if fields are valid
+			switch ($field['type'])
+			{
+				case 'datetime':
+					$return .= "\t\t\t\$fields('" . $field['underscored_label'] . "_date')->isValid(BL::err('DateIsInvalid'));\n";
+					$return .= "\t\t\t\$fields('" . $field['underscored_label'] . "_time')->isValid(BL::err('TimeIsInvalid'));\n";
+					break;
+				case 'number':
+					$return .= "\t\t\t\$fields('" . $field['underscored_label'] . "')->isInteger(BL::err('InvalidInteger'));\n";
+					break;
+				case 'file':
+					$return .= "\n\t\t\t\// you probably should add some validation to the file type\n";
+					break;
+				case 'image':
+					/**
+					 * @TODO add validation to image size
+					 */
+					$return .= "\t\t\tif(\$this->frm->getField('" . $field['underscored_label'] . "'" . ')->isFilled())' . "\n\t\t\t{\n\t\t\t\t";
+					$return .= "\$this->frm->getField('" . $field['underscored_label'] . "'" . ")->isAllowedExtension(array('jpg', 'png', 'gif', 'jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t\t";
+					$return .= "\$this->frm->getField('" . $field['underscored_label'] . "'" . ")->isAllowedMimeType(array('image/jpg', 'image/png', 'image/gif', 'image/jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t{\n\n";
+					$return .= "";
+					break;
+			}
+		}
+
+		// return the string we build up
 		return $return;
 	}
 

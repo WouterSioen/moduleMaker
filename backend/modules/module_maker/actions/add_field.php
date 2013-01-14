@@ -183,12 +183,16 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 				}
 			}
 
-			// if the type is images, the options should be in the form 200x200
+			// if the type is images, the options should be in the form 200x200 seperated by a comma
 			if($type == 'image')
 			{
 				$fields['tags']->isFilled(BL::err('FieldIsRequired'));
 				$fields['tags']->isValidAgainstRegexp('\'([1-9][0-9]*x[1-9][0-9]*[,])+([1-9][0-9]*x[1-9][0-9]*)\'', BL::err('ImageSizeNotWellFormed'));
 			}
+
+			/**
+			 * @TODO validate the default option to the chosen datatype
+			 */
 
 			if($this->frm->isCorrect())
 			{

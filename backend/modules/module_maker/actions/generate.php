@@ -77,8 +77,37 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			$this->backendPath . 'layout/templates/index.tpl'
 		);
 
-		// generate add
-		
+		// generate add action
+		// create some custom variables
+		$this->variables['load_form_add'] = BackendModuleMakerModel::generateLoadForm($this->record, false);
+		$this->variables['validate_form_add'] = BackendModuleMakerModel::generateValidateForm($this->record, false);
+		$this->variables['build_item_add'] = BackendModuleMakerModel::generateBuildItem($this->record, false);
+
+		// build and save the file
+		BackendModuleMakerModel::generateFile(
+			BACKEND_MODULE_PATH . '/layout/templates/backend/action/add.base.php',
+			$this->variables,
+			$this->backendPath . 'actions/add.php'
+		);
+
+		// unset the custom variables
+		unset($this->variables['load_form_add']);
+		unset($this->variables['validate_form_add']);
+		unset($this->variables['build_item_add']);
+
+		// generate add template
+		// create a variables
+		/*$this->variables['template_add'] = BackendModuleMakerModel::generateTemplate($this->record, false);
+
+		// build and save the file
+		BackendModuleMakerModel::generateFile(
+			BACKEND_MODULE_PATH . '/layout/templates/backend/action/add.base.tpl',
+			$this->variables,
+			$this->backendPath . 'layout/templates/add.tpl'
+		);
+
+		// unset the custom variable
+		unset($this->variables['template_add']);*/
 
 		// generate edit
 		
