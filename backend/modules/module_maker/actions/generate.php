@@ -97,7 +97,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		// generate add template
 		// create a variables
-		/*$this->variables['template_add'] = BackendModuleMakerModel::generateTemplate($this->record, false);
+		list($this->variables['template'], $this->variables['template_side']) = BackendModuleMakerModel::generateTemplate($this->record, false);
 
 		// build and save the file
 		BackendModuleMakerModel::generateFile(
@@ -106,11 +106,35 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			$this->backendPath . 'layout/templates/add.tpl'
 		);
 
-		// unset the custom variable
-		unset($this->variables['template_add']);*/
+		// generate edit action
+		// create some custom variables
+		$this->variables['load_form_edit'] = BackendModuleMakerModel::generateLoadForm($this->record, true);
+		$this->variables['validate_form_edit'] = BackendModuleMakerModel::generateValidateForm($this->record, true);
+		$this->variables['build_item_edit'] = BackendModuleMakerModel::generateBuildItem($this->record, true);
 
-		// generate edit
-		
+		// build and save the file
+		BackendModuleMakerModel::generateFile(
+			BACKEND_MODULE_PATH . '/layout/templates/backend/action/edit.base.php',
+			$this->variables,
+			$this->backendPath . 'actions/edit.php'
+		);
+
+		// unset the custom variables
+		unset($this->variables['load_form_edit']);
+		unset($this->variables['validate_form_edit']);
+		unset($this->variables['build_item_edit']);
+
+		// generate edit template
+		// build and save the file
+		BackendModuleMakerModel::generateFile(
+			BACKEND_MODULE_PATH . '/layout/templates/backend/action/edit.base.tpl',
+			$this->variables,
+			$this->backendPath . 'layout/templates/edit.tpl'
+		);
+
+		// unset the custom variables
+		unset($this->variables['template']);
+		unset($this->variables['template_side']);
 
 		// generate delete
 		BackendModuleMakerModel::generateFile(
@@ -171,7 +195,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			'sub' => array(
 				'actions', 'js',
 				'engine' => array('cronjobs'),
-				'installer',
+				'installer' => array('data'),
 				'layout' => array('templates')
 			)
 		);

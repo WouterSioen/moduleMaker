@@ -8,15 +8,15 @@
  */
 
 /**
- * In this file we store all generic functions that we will be using in the {$title} module
+ * In this file we store all generic functions that we will be using in the awesome module module
  *
- * @author {$author_name} <{$author_email}>
+ * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
-class Backend{$camel_case_name}Model
+class BackendAwesomeModuleModel
 {
 	const QRY_DATAGRID_BROWSE =
 		'SELECT i.id, i.created_on
-		 FROM {$underscored_name} AS i
+		 FROM awesome_module AS i
 		 WHERE i.language = ?';
 
 	/**
@@ -26,7 +26,7 @@ class Backend{$camel_case_name}Model
 	 */
 	public static function delete($id)
 	{
-		BackendModel::getDB(true)->delete('{$underscored_name}', 'id = ?', (int) $id);
+		BackendModel::getDB(true)->delete('awesome_module', 'id = ?', (int) $id);
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Backend{$camel_case_name}Model
 	{
 		return (bool) BackendModel::getDB()->getVar(
 			'SELECT 1
-			 FROM {$underscored_name} AS i
+			 FROM awesome_module AS i
 			 WHERE i.id = ?
 			 LIMIT 1',
 			array((int) $id)
@@ -56,7 +56,7 @@ class Backend{$camel_case_name}Model
 	{
 		return (array) BackendModel::getDB()->getRecord(
 			'SELECT i.*
-			 FROM {$underscored_name} AS i
+			 FROM awesome_module AS i
 			 WHERE i.id = ?',
 			array((int) $id)
 		);
@@ -82,7 +82,7 @@ class Backend{$camel_case_name}Model
 		{
 			$numberOfItems = (int) $db->getVar(
 				'SELECT 1
-				 FROM {$underscored_name} AS i
+				 FROM awesome_module AS i
 				 INNER JOIN meta AS m ON i.meta_id = m.id
 				 WHERE i.language = ? AND m.url = ?
 				 LIMIT 1',
@@ -103,7 +103,7 @@ class Backend{$camel_case_name}Model
 		{
 			$numberOfItems = (int) $db->getVar(
 				'SELECT 1
-				 FROM {$underscored_name} AS i
+				 FROM awesome_module AS i
 				 INNER JOIN meta AS m ON i.meta_id = m.id
 				 WHERE i.language = ? AND m.url = ? AND i.id != ?
 				 LIMIT 1',
@@ -134,7 +134,7 @@ class Backend{$camel_case_name}Model
 	{
 		$data['created_on'] = BackendModel::getUTCDate();
 
-		return (int) BackendModel::getDB(true)->insert('{$underscored_name}', $data);
+		return (int) BackendModel::getDB(true)->insert('awesome_module', $data);
 	}
 
 	/**
@@ -148,7 +148,7 @@ class Backend{$camel_case_name}Model
 		$data['edited_on'] = BackendModel::getUTCDate();
 
 		BackendModel::getDB(true)->update(
-			'{$underscored_name}', $data, 'id = ?', (int) $id
+			'awesome_module', $data, 'id = ?', (int) $id
 		);
 	}
 }

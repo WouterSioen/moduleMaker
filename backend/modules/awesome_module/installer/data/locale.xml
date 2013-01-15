@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locale>
+	<backend>
+		<awesome_module>
+			<item type="label" name="AddAwesomeModule">
+				<translation language="nl"><![CDATA[awesome module toevoegen]]></translation>
+				<translation language="en"><![CDATA[add awesome module]]></translation>
+			</item>
+		</awesome_module>
+		<core>
+			<item type="label" name="AwesomeModule">
+				<translation language="nl"><![CDATA[awesome module]]></translation>
+				<translation language="en"><![CDATA[awesome module]]></translation>
+			</item>
+		</core>
+	</backend>
+	<frontend>
+		<core>
+		</core>
+	</frontend>
+</locale>

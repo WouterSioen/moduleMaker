@@ -10,9 +10,9 @@
 /**
  * This is the edit-action, it will display a form with the item data to edit
  *
- * @author authorname
+ * @author {$author_name} <{$author_email}>
  */
-class Backendmodulenameactionname extends BackendBaseActionEdit
+class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
 {
 	/**
 	 * Execute the action
@@ -50,34 +50,10 @@ class Backendmodulenameactionname extends BackendBaseActionEdit
 	 */
 	protected function loadForm()
 	{
-		// set hidden values
-		$rbtVisibleValues[] = array(
-			'label' => BL::lbl('Hidden'),
-			'value' => 'N'
-		);
-		$rbtVisibleValues[] = array(
-			'label' => BL::lbl('Published'),
-			'value' => 'Y'
-		);
-
 		// create form
 		$this->frm = new BackendForm('edit');
-		$this->frm->addText(
-			'title', $this->record['title'], null,
-			'inputText title', 'inputTextError title'
-		);
-		$this->frm->addRadiobutton(
-			'visible', $rbtVisibleValues, $this->record['visible']
-		);
 
-		// meta
-		$this->meta = new BackendMeta(
-			$this->frm, $this->record['meta_id'], 'title', true
-		);
-		$this->meta->setUrlCallback(
-			'BackendmodulenameModel', 'getUrl',
-			array($this->record['id'])
-		);
+{$load_form_edit}
 	}
 
 	/**
@@ -87,11 +63,6 @@ class Backendmodulenameactionname extends BackendBaseActionEdit
 	{
 		parent::parse();
 		$this->tpl->assign('item', $this->record);
-
-		// get url
-		$url = BackendModel::getURLForBlock($this->URL->getModule(), 'detail');
-		$url404 = BackendModel::getURL(404);
-		if($url404 != $url) $this->tpl->assign('detailURL', SITE_URL . $url);
 	}
 
 	/**
@@ -105,24 +76,15 @@ class Backendmodulenameactionname extends BackendBaseActionEdit
 
 			// validation
 			$fields = $this->frm->getFields();
-			$fields['title']->isFilled(BL::err('FieldIsRequired'));
-			$this->meta->validate();
 
+{$validate_form_edit}
 			if($this->frm->isCorrect())
 			{
-				$item['meta_id'] = $this->meta->save(true);
-				$item['title'] = $fields['title']->getValue();
 				$item['language'] = BL::getWorkingLanguage();
-				$item['visible'] = $fields['visible']->getValue();
 
+{$build_item_edit}
 				BackendmodulenameModel::update($this->id, $item);
 				$item['id'] = $this->id;
-
-				BackendSearchModel::saveIndex(
-					$this->getModule(),
-					$item['id'],
-					array('title' => $item['title'], 'text' => $item['title'])
-				);
 
 				BackendModel::triggerEvent(
 					$this->getModule(), 'after_edit', $item

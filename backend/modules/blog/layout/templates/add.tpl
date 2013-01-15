@@ -91,19 +91,16 @@
 									{/iteration:hidden}
 								</ul>
 							</div>
-
+						</div>
+						<div class="box">
+							<div class="heading">
+								<h3><label for="publish_on_date">{$lblPublishOn|ucfirst}</label></h3>
+							</div>
 							<div class="options">
-								<p class="p0"><label for="publishOnDate">{$lblPublishOn|ucfirst}</label></p>
 								<div class="oneLiner">
-									<p>
-										{$txtPublishOnDate} {$txtPublishOnDateError}
-									</p>
-									<p>
-										<label for="publishOnTime">{$lblAt}</label>
-									</p>
-									<p>
-										{$txtPublishOnTime} {$txtPublishOnTimeError}
-									</p>
+									<p>{$txtPublishOnDate} {$txtPublishOnDateError}</p>
+									<p><label for="publishOnTime">{$lblAt}</label></p>
+									<p>{$txtPublishOnTime} {$txtPublishOnTimeError}</p>
 								</div>
 							</div>
 						</div>
