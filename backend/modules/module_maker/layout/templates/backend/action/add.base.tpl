@@ -16,12 +16,12 @@
 				<tr>
 					<td id="leftColumn">
 
-{$template_add}
+{$template}
 					</td>
 
 					<td id="sidebar">
 
-{$template_add_side}
+{$template_side}
 					</td>
 				</tr>
 			</table>

@@ -85,7 +85,7 @@ class BackendModuleMakerModel
 			elseif($field['type'] == 'image')
 			{
 				$return .= "\n\t\t\t\t// the image path\n";
-				$return .= "\t\t\t\t\$imagePath = FRONTEND_FILES_PATH . '/' . \$this->getModule()' . '/images';\n\n";
+				$return .= "\t\t\t\t\$imagePath = FRONTEND_FILES_PATH . '/' . \$this->getModule() . '/images';\n\n";
 				$return .= "\t\t\t\t// create folders if needed\n";
 
 				// loop through the options, they contain the image sizes
@@ -271,7 +271,7 @@ class BackendModuleMakerModel
 			if($field['type'] == 'editor' || $field['type'] == 'text' || $field['type'] == 'number' || $field['type'] == 'password')
 			{
 				$return .= "\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$return .= "\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '"">';
+				$return .= "\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '">';
 				$return .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
 				if($field['required']) $return .= '<abbr title="{$lblRequiredField}">*</abbr>';
 				$return .= "</label>\n\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"options" . (($field['type'] == 'editor') ? 'RTE' : '') . "\">\n";
@@ -281,7 +281,7 @@ class BackendModuleMakerModel
 			elseif($field['type'] == 'image' || $field['type'] == 'file')
 			{
 				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '"">';
+				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '">';
 				$returnSide .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
 				if($field['required']) $returnSide .= '<abbr title="{$lblRequiredField}">*</abbr>';
 				$returnSide .= "</label>\n\t\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
@@ -302,7 +302,7 @@ class BackendModuleMakerModel
 			elseif($field['type'] == 'dropdown')
 			{
 				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '"">';
+				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '">';
 				$returnSide .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
 				if($field['required']) $returnSide .= '<abbr title="{$lblRequiredField}">*</abbr>';
 				$returnSide .= "</label>\n\t\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
@@ -312,7 +312,7 @@ class BackendModuleMakerModel
 			elseif($field['type'] == 'datetime')
 			{
 				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '_date"">';
+				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '_date">';
 				$returnSide .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
 				if($field['required']) $returnSide .= '<abbr title="{$lblRequiredField}">*</abbr>';
 				$returnSide .= "</label>\n\t\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
@@ -385,7 +385,7 @@ class BackendModuleMakerModel
 					 */
 					$return .= "\t\t\tif(\$this->frm->getField('" . $field['underscored_label'] . "'" . ')->isFilled())' . "\n\t\t\t{\n\t\t\t\t";
 					$return .= "\$this->frm->getField('" . $field['underscored_label'] . "'" . ")->isAllowedExtension(array('jpg', 'png', 'gif', 'jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t\t";
-					$return .= "\$this->frm->getField('" . $field['underscored_label'] . "'" . ")->isAllowedMimeType(array('image/jpg', 'image/png', 'image/gif', 'image/jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t{\n\n";
+					$return .= "\$this->frm->getField('" . $field['underscored_label'] . "'" . ")->isAllowedMimeType(array('image/jpg', 'image/png', 'image/gif', 'image/jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t}\n\n";
 					$return .= "";
 					break;
 			}
