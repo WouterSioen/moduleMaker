@@ -35,14 +35,14 @@ class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
 	protected function loadData()
 	{
 		$this->id = $this->getParameter('id', 'int', null);
-		if($this->id == null || !BackendmodulenameModel::exists($this->id))
+		if($this->id == null || !Backend{$camel_case_name}Model::exists($this->id))
 		{
 			$this->redirect(
 				BackendModel::createURLForAction('index') . '&error=non-existing'
 			);
 		}
 
-		$this->record = BackendmodulenameModel::get($this->id);
+		$this->record = Backend{$camel_case_name}Model::get($this->id);
 	}
 
 	/**
@@ -83,7 +83,7 @@ class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
 				$item['language'] = BL::getWorkingLanguage();
 
 {$build_item_edit}
-				BackendmodulenameModel::update($this->id, $item);
+				Backend{$camel_case_name}Model::update($this->id, $item);
 				$item['id'] = $this->id;
 
 				BackendModel::triggerEvent(

@@ -43,6 +43,41 @@ class BackendModuleMakerModel
 		// return
 		return $newName;
 	}
+
+	/**
+	 * Creates a lower Camel Cased Name
+	 *
+	 * @return	string
+	 * @param	string $name		The given name.
+	 */
+	public static function buildLowerCamelCasedName($name)
+	{
+		// replace spaces by underscores
+		$name = str_replace(' ', '_', $name);
+
+		// lowercase
+		$name = strtolower($name);
+
+		// remove all non alphabetical or underscore characters
+		$name = preg_replace("/[^a-zA-Z0-9_\s]/", "", $name);
+
+		// split the name on _
+		$parts = explode('_', $name);
+
+		// the new name
+		$newName = '';
+
+		// loop trough the parts to ucfirst it
+		foreach($parts as $key => $part)
+		{
+			if($key) $newName.= ucfirst($part);
+			else $newName .= $part;
+		}
+
+		// return
+		return $newName;
+	}
+
 	/**
 	 * Creates an underscored version off the classname
 	 *
@@ -97,15 +132,15 @@ class BackendModuleMakerModel
 				$return .= "\t\t\t\tif(!SpoonDirectory::exists(\$imagePath . '/source')) SpoonDirectory::create(\$imagePath . '/source');\n\n";
 
 				$return .= "\t\t\t\t// image provided?\n";
-				$return .= "\t\t\t\tif(\$this->frm->getField('" . $field['underscored_label'] . "')->isFilled())\n\t\t\t\t{\n";
+				$return .= "\t\t\t\tif(\$fields['" . $field['underscored_label'] . "']->isFilled())\n\t\t\t\t{\n";
 				$return .= "\t\t\t\t\t// build the image name\n";
 
 				/**
 				 * @TODO when meta is added, use the meta in the image name
 				 */
-				$return .= "\t\t\t\t\t\$item['" . $field['underscored_label'] . "'] = time() . '.' . \$this->frm->getField('" . $field['underscored_label'] . "')->getExtension();\n\n";
+				$return .= "\t\t\t\t\t\$item['" . $field['underscored_label'] . "'] = time() . '.' . \$fields['" . $field['underscored_label'] . "']->getExtension();\n\n";
 				$return .= "\t\t\t\t\t// upload the image & generate thumbnails\n";
-				$return .= "\t\t\t\t\t\$this->frm->getField('" . $field['underscored_label'] . "')->generateThumbnails(\$imagePath, \$item['" . $field['underscored_label'] . "']);\n";
+				$return .= "\t\t\t\t\t\$fields['" . $field['underscored_label'] . "']->generateThumbnails(\$imagePath, \$item['" . $field['underscored_label'] . "']);\n";
 				$return .= "\t\t\t\t}\n\n";
 			}
 			else
@@ -155,7 +190,7 @@ class BackendModuleMakerModel
 		foreach($module['fields'] as $field)
 		{
 			// for fields with multiple options: add them
-			if($field['type'] == 'multicheckbox' || $field['type'] == 'radiobutton' || $field['type'] == 'dropdown')
+			if($field['type'] == 'multicheckbox' || $field['type'] == 'radiobutton')
 			{
 				$return .= "\n\t\t// build array with options for the " . $field['label'] . ' ' . $field['type'] . "\n";
 
@@ -165,6 +200,20 @@ class BackendModuleMakerModel
 				{
 					$return .= "\t\t\$" . $field['type'] . $field['camel_cased_label'] . "Values[] = array('label' => BL::lbl('" . self::buildCamelCasedName($option) . "'), 'value' => '" . $option . "');\n";
 				}
+			}
+			elseif($field['type'] == 'dropdown')
+			{
+				$return .= "\n\t\t// build array with options for the " . $field['label'] . ' ' . $field['type'] . "\n";
+
+				// split the options on the comma and add them to an array
+				$options = explode(',', $field['options']);
+				$return .= "\t\t\$" . $field['type'] . $field['camel_cased_label'] . 'Values = array(';
+				foreach($options as $option)
+				{
+					$return .= "BL::lbl('" . self::buildCamelCasedName($option) . "'), ";
+				}
+				$return = rtrim($return, ', ');
+				$return .= ");\n";
 			}
 
 			// create the default value
@@ -176,6 +225,7 @@ class BackendModuleMakerModel
 			elseif($field['default'] !== '')
 			{
 				if($field['type'] == 'number') $default = ' ,' . $field['default'];
+				elseif($field['type'] == 'dropdown') $default = ", BL::lbl('" . self::buildCamelCasedName($field['default']) . "')";
 				else $default = " ,'" . $field['default'] . "'";
 			}
 
@@ -271,7 +321,7 @@ class BackendModuleMakerModel
 			if($field['type'] == 'editor' || $field['type'] == 'text' || $field['type'] == 'number' || $field['type'] == 'password')
 			{
 				$return .= "\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$return .= "\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '">';
+				$return .= "\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t<label for=\"" . $field['lower_ccased_label'] . '">';
 				$return .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
 				if($field['required']) $return .= '<abbr title="{$lblRequiredField}">*</abbr>';
 				$return .= "</label>\n\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"options" . (($field['type'] == 'editor') ? 'RTE' : '') . "\">\n";
@@ -281,7 +331,7 @@ class BackendModuleMakerModel
 			elseif($field['type'] == 'image' || $field['type'] == 'file')
 			{
 				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '">';
+				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['lower_ccased_label'] . '">';
 				$returnSide .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
 				if($field['required']) $returnSide .= '<abbr title="{$lblRequiredField}">*</abbr>';
 				$returnSide .= "</label>\n\t\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
@@ -293,16 +343,16 @@ class BackendModuleMakerModel
 				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
 				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t{\$lbl" . $field['camel_cased_label'] . "|ucfirst}\n";
 				$returnSide .= "\t\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<ul class=\"inputList\">\n\t\t\t\t\t\t\t\t\t\t{iteration." . $field['underscored_label'] . "}\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t\t\t{\$" . $field['underscored_label'] . '.' . (($field['type'] == 'radiobuttion') ? 'rbt' : 'chk') . $field['camel_cased_label'] . "}\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t\t\t<label for={\$" . $field['underscored_label'] . '.id}">{$' . $field['underscored_label'] . ".label}</label>\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t{/iteration." . $field['underscored_label'] . "}\n";
+				$returnSide .= "\t\t\t\t\t\t\t\t\t<ul class=\"inputList\">\n\t\t\t\t\t\t\t\t\t\t{iteration:" . $field['underscored_label'] . "}\n";
+				$returnSide .= "\t\t\t\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t\t\t{\$" . $field['underscored_label'] . '.' . (($field['type'] == 'radiobutton') ? 'rbt' : 'chk') . $field['camel_cased_label'] . "}\n";
+				$returnSide .= "\t\t\t\t\t\t\t\t\t\t\t<label for=\"{\$" . $field['lower_ccased_label'] . '.id}">{$' . $field['underscored_label'] . ".label}</label>\n";
+				$returnSide .= "\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t{/iteration:" . $field['underscored_label'] . "}\n";
 				$returnSide .= "\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n";
 			}
 			elseif($field['type'] == 'dropdown')
 			{
 				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '">';
+				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['lower_ccased_label'] . '">';
 				$returnSide .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
 				if($field['required']) $returnSide .= '<abbr title="{$lblRequiredField}">*</abbr>';
 				$returnSide .= "</label>\n\t\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
@@ -312,13 +362,13 @@ class BackendModuleMakerModel
 			elseif($field['type'] == 'datetime')
 			{
 				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '_date">';
+				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['lower_ccased_label'] . 'Date">';
 				$returnSide .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
 				if($field['required']) $returnSide .= '<abbr title="{$lblRequiredField}">*</abbr>';
 				$returnSide .= "</label>\n\t\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
 				$returnSide .= "\t\t\t\t\t\t\t\t\t<div class=\"oneLiner\">\n";
 				$returnSide .= "\t\t\t\t\t\t\t\t\t\t<p>{\$txt" . $field['camel_cased_label'] . "Date} {\$txt" . $field['camel_cased_label'] . "DateError}</p>\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t\t<p><label for=\"" . $field['underscored_label'] . "_time\">{\$lblAt}</label></p>\n";
+				$returnSide .= "\t\t\t\t\t\t\t\t\t\t<p><label for=\"" . $field['lower_ccased_label'] . "Time\">{\$lblAt}</label></p>\n";
 				$returnSide .= "\t\t\t\t\t\t\t\t\t\t<p>{\$txt" . $field['camel_cased_label'] . "Time} {\$txt" . $field['camel_cased_label'] . "TimeError}</p>\n";
 				$returnSide .= "\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n";
 			}
@@ -327,9 +377,10 @@ class BackendModuleMakerModel
 				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
 				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t{\$lbl" . $field['camel_cased_label'] . "|ucfirst}</h3>\n";
 				$returnSide .= "\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<label for=\"" . $field['underscored_label'] . '">';
+				$returnSide .= "\t\t\t\t\t\t\t\t\t{\$chk" . $field['camel_cased_label'] . "} <label for=\"" . $field['lower_ccased_label'] . '">';
+				$returnSide .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
 				if($field['required']) $returnSide .= '<abbr title="{$lblRequiredField}">*</abbr>';
-				$returnSide .= "{\$chk" . $field['camel_cased_label'] . "}</label> {\$chk" . $field['camel_cased_label'] . "Error}\n";
+				$returnSide .= "</label> {\$chk" . $field['camel_cased_label'] . "Error}\n";
 				$returnSide .= "\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n";
 			}
 		}
@@ -357,12 +408,12 @@ class BackendModuleMakerModel
 			{
 				if($field['type'] == 'datetime')
 				{
-					$return .= "\t\t\t\$fields('" . $field['underscored_label'] . "_date')->isFilled(BL::err('FieldIsRequired'));\n";
-					$return .= "\t\t\t\$fields('" . $field['underscored_label'] . "_time')->isFilled(BL::err('FieldIsRequired'));\n";
+					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "_date']->isFilled(BL::err('FieldIsRequired'));\n";
+					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "_time']->isFilled(BL::err('FieldIsRequired'));\n";
 				}
 				elseif(!($field['type'] == 'image' || $field['type'] == 'file') && !$isEdit)
 				{
-					$return .= "\t\t\t\$fields('" . $field['underscored_label'] . "')->isFilled(BL::err('FieldIsRequired'));\n";
+					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "']->isFilled(BL::err('FieldIsRequired'));\n";
 				}
 			}
 
@@ -370,22 +421,22 @@ class BackendModuleMakerModel
 			switch ($field['type'])
 			{
 				case 'datetime':
-					$return .= "\t\t\t\$fields('" . $field['underscored_label'] . "_date')->isValid(BL::err('DateIsInvalid'));\n";
-					$return .= "\t\t\t\$fields('" . $field['underscored_label'] . "_time')->isValid(BL::err('TimeIsInvalid'));\n";
+					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "_date']->isValid(BL::err('DateIsInvalid'));\n";
+					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "_time']->isValid(BL::err('TimeIsInvalid'));\n";
 					break;
 				case 'number':
-					$return .= "\t\t\t\$fields('" . $field['underscored_label'] . "')->isInteger(BL::err('InvalidInteger'));\n";
+					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "']->isInteger(BL::err('InvalidInteger'));\n";
 					break;
 				case 'file':
-					$return .= "\n\t\t\t\// you probably should add some validation to the file type\n";
+					$return .= "\n\t\t\t// you probably should add some validation to the file type\n";
 					break;
 				case 'image':
 					/**
 					 * @TODO add validation to image size
 					 */
-					$return .= "\t\t\tif(\$this->frm->getField('" . $field['underscored_label'] . "'" . ')->isFilled())' . "\n\t\t\t{\n\t\t\t\t";
-					$return .= "\$this->frm->getField('" . $field['underscored_label'] . "'" . ")->isAllowedExtension(array('jpg', 'png', 'gif', 'jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t\t";
-					$return .= "\$this->frm->getField('" . $field['underscored_label'] . "'" . ")->isAllowedMimeType(array('image/jpg', 'image/png', 'image/gif', 'image/jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t}\n\n";
+					$return .= "\t\t\tif(\$fields['" . $field['underscored_label'] . "'" . ']->isFilled())' . "\n\t\t\t{\n\t\t\t\t";
+					$return .= "\$fields['" . $field['underscored_label'] . "'" . "]->isAllowedExtension(array('jpg', 'png', 'gif', 'jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t\t";
+					$return .= "\$fields['" . $field['underscored_label'] . "'" . "]->isAllowedMimeType(array('image/jpg', 'image/png', 'image/gif', 'image/jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t}\n\n";
 					$return .= "";
 					break;
 			}

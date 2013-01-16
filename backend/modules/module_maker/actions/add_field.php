@@ -106,13 +106,7 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 				break;
 			case 'checkbox':
 				$options = explode(',', $field['options']);
-				$type = 'ENUM(';
-				foreach($options AS $option)
-				{
-					$type .= "'" . $option . "',";
-				}
-				$type = rtrim($type, ',');
-				$type .= ')';
+				$type = "ENUM('Y','N')";
 				break;
 			case 'multicheckbox':
 				$options = explode(',', $field['options']);
@@ -204,6 +198,7 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 				$item['default'] = $fields['default']->getValue();
 				$item['camel_cased_label'] = BackendModuleMakerModel::buildCamelCasedName($item['label']);
 				$item['underscored_label'] = BackendModuleMakerModel::buildUnderscoredName($item['label']);
+				$item['lower_ccased_label'] = BackendModuleMakerModel::buildLowerCamelCasedName($item['label']);
 
 				// generate the SQL for the field
 				$item['sql'] = $this->parseSQL($item);
