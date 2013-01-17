@@ -8,3 +8,4 @@
 									<label for="{$lower_ccased_label}">{$chk{$camel_cased_label}}{$required_html}</label> {$chk{$camel_cased_label}Error}
 								</div>
 							</div>
+
