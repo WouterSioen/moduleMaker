@@ -287,7 +287,7 @@ class BackendModuleMakerModel
 		{
 			$content = str_replace('{$' . $key . '}', $value, $content);
 		}
-Spoon::dump($content);
+
 		return $content;
 	}
 
