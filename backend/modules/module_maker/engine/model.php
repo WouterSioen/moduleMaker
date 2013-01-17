@@ -271,6 +271,27 @@ class BackendModuleMakerModel
 	}
 
 	/**
+	 * Generates (and writes) a file based on a certain template
+	 * 
+	 * @param string $template				The path to the template
+	 * @param array $variables				The variables to assign to the template
+	 * @return string						The generated snippet
+	 */
+	public static function generateSnippet($template, $variables)
+	{
+		// get the content of the file
+		$content = self::readFile($template);
+
+		// replace the variables
+		foreach($variables AS $key => $value)
+		{
+			$content = str_replace('{$' . $key . '}', $value, $content);
+		}
+Spoon::dump($content);
+		return $content;
+	}
+
+	/**
 	 * Generates the SQL for the new module based on the fields
 	 * 
 	 * @param string $moduleName This should be the underscored version
@@ -316,73 +337,20 @@ class BackendModuleMakerModel
 		$returnSide = '';
 
 		// loop through fields and add items
-		foreach($module['fields'] as $field)
+		foreach($module['fields'] as &$field)
 		{
+			$field['required_html'] = ($field['required']) ? '<abbr title="{$lblRequiredField}">*</abbr>' : '';
+
 			if($field['type'] == 'editor' || $field['type'] == 'text' || $field['type'] == 'number' || $field['type'] == 'password')
 			{
-				$return .= "\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$return .= "\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t<label for=\"" . $field['lower_ccased_label'] . '">';
-				$return .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
-				if($field['required']) $return .= '<abbr title="{$lblRequiredField}">*</abbr>';
-				$return .= "</label>\n\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"options" . (($field['type'] == 'editor') ? 'RTE' : '') . "\">\n";
-				$return .= "\t\t\t\t\t\t\t\t{\$txt" . $field['camel_cased_label'] . "} {\$txt" . $field['camel_cased_label'] . "Error}\n";
-				$return .= "\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\n";
+				$return .= self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/templates/snippets/' . $field['type'] . '.base.tpl', $field);
 			}
-			elseif($field['type'] == 'image' || $field['type'] == 'file')
+			else
 			{
-				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['lower_ccased_label'] . '">';
-				$returnSide .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
-				if($field['required']) $returnSide .= '<abbr title="{$lblRequiredField}">*</abbr>';
-				$returnSide .= "</label>\n\t\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t{\$file" . $field['camel_cased_label'] . "} {\$file" . $field['camel_cased_label'] . "Error}\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n";
+				$returnSide .= self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/templates/snippets/' . $field['type'] . '.base.tpl', $field);
 			}
-			elseif($field['type'] == 'radiobutton' || $field['type'] == 'multicheckbox')
-			{
-				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t{\$lbl" . $field['camel_cased_label'] . "|ucfirst}\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<ul class=\"inputList\">\n\t\t\t\t\t\t\t\t\t\t{iteration:" . $field['underscored_label'] . "}\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t\t\t{\$" . $field['underscored_label'] . '.' . (($field['type'] == 'radiobutton') ? 'rbt' : 'chk') . $field['camel_cased_label'] . "}\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t\t\t<label for=\"{\$" . $field['lower_ccased_label'] . '.id}">{$' . $field['underscored_label'] . ".label}</label>\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t{/iteration:" . $field['underscored_label'] . "}\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n";
-			}
-			elseif($field['type'] == 'dropdown')
-			{
-				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['lower_ccased_label'] . '">';
-				$returnSide .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
-				if($field['required']) $returnSide .= '<abbr title="{$lblRequiredField}">*</abbr>';
-				$returnSide .= "</label>\n\t\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t{\$ddm" . $field['camel_cased_label'] . "} {\$ddm" . $field['camel_cased_label'] . "Error}\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n";
-			}
-			elseif($field['type'] == 'datetime')
-			{
-				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t<label for=\"" . $field['lower_ccased_label'] . 'Date">';
-				$returnSide .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
-				if($field['required']) $returnSide .= '<abbr title="{$lblRequiredField}">*</abbr>';
-				$returnSide .= "</label>\n\t\t\t\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<div class=\"oneLiner\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t\t<p>{\$txt" . $field['camel_cased_label'] . "Date} {\$txt" . $field['camel_cased_label'] . "DateError}</p>\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t\t<p><label for=\"" . $field['lower_ccased_label'] . "Time\">{\$lblAt}</label></p>\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t\t<p>{\$txt" . $field['camel_cased_label'] . "Time} {\$txt" . $field['camel_cased_label'] . "TimeError}</p>\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n";
-			}
-			elseif($field['type'] == 'checkbox')
-			{
-				$returnSide .= "\t\t\t\t\t\t\t<div class=\"box\">\n\t\t\t\t\t\t\t\t<div class=\"heading\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t<h3>\n\t\t\t\t\t\t\t\t\t\t{\$lbl" . $field['camel_cased_label'] . "|ucfirst}</h3>\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"options\">\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t\t{\$chk" . $field['camel_cased_label'] . "} <label for=\"" . $field['lower_ccased_label'] . '">';
-				$returnSide .= '{$lbl' . $field['camel_cased_label'] . '|ucfirst}';
-				if($field['required']) $returnSide .= '<abbr title="{$lblRequiredField}">*</abbr>';
-				$returnSide .= "</label> {\$chk" . $field['camel_cased_label'] . "Error}\n";
-				$returnSide .= "\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n";
-			}
+
+			unset($field['required_html']);
 		}
 
 		// return the strings we build up

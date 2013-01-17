@@ -66,13 +66,13 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	{
 		// generate index
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/action/index.base.php',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/actions/index.base.php',
 			$this->variables,
 			$this->backendPath . 'actions/index.php'
 		);
 
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/action/index.base.tpl',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/templates/index.base.tpl',
 			$this->variables,
 			$this->backendPath . 'layout/templates/index.tpl'
 		);
@@ -85,7 +85,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		// build and save the file
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/action/add.base.php',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/actions/add.base.php',
 			$this->variables,
 			$this->backendPath . 'actions/add.php'
 		);
@@ -101,7 +101,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		// build and save the file
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/action/add.base.tpl',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/templates/add.base.tpl',
 			$this->variables,
 			$this->backendPath . 'layout/templates/add.tpl'
 		);
@@ -114,7 +114,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		// build and save the file
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/action/edit.base.php',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/actions/edit.base.php',
 			$this->variables,
 			$this->backendPath . 'actions/edit.php'
 		);
@@ -127,7 +127,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		// generate edit template
 		// build and save the file
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/action/edit.base.tpl',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/templates/edit.base.tpl',
 			$this->variables,
 			$this->backendPath . 'layout/templates/edit.tpl'
 		);
@@ -138,7 +138,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		// generate delete
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/action/delete.base.php',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/actions/delete.base.php',
 			$this->variables,
 			$this->backendPath . 'actions/delete.php'
 		);
@@ -151,14 +151,14 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	{
 		// generate module.js file
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/base/javascript.base.js',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/js/javascript.base.js',
 			$this->variables,
 			$this->backendPath . 'js/' . $this->record['underscored_name'] . '.js'
 		);
 
 		// generate model.php file
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/base/model.base.php',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/engine/model.base.php',
 			$this->variables,
 			$this->backendPath . 'engine/model.php'
 		);
@@ -171,14 +171,14 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	{
 		// generate info.xml file
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/base/info.base.xml',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/info.base.xml',
 			$this->variables,
 			$this->backendPath . 'info.xml'
 		);
 
 		// generate config.php file
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/base/config.base.php',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/config.base.php',
 			$this->variables,
 			$this->backendPath . 'config.php'
 		);
@@ -224,14 +224,14 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	{
 		// generate installer.php
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/base/installer.base.php',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/installer/installer.base.php',
 			$this->variables,
 			$this->backendPath . 'installer/installer.php'
 		);
 
 		// generate locale.xml
 		BackendModuleMakerModel::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/base/locale.base.xml',
+			BACKEND_MODULE_PATH . '/layout/templates/backend/installer/data/locale.base.xml',
 			$this->variables,
 			$this->backendPath . 'installer/data/locale.xml'
 		);
