@@ -113,39 +113,26 @@ class BackendModuleMakerModel
 		// loop through fields
 		foreach($module['fields'] as $field)
 		{
-			if($field['type'] == 'checkbox')
+			// for images, create the code to create folders for each image size
+			if($field['type'] == 'image')
 			{
-				$return .= "\t\t\t\t\$item['" . $field['underscored_label'] . "'] = \$fields['" . $field['underscored_label'] . "']->getChecked() ? 'Y' : 'N';\n";
-			}
-			elseif($field['type'] == 'image')
-			{
-				$return .= "\n\t\t\t\t// the image path\n";
-				$return .= "\t\t\t\t\$imagePath = FRONTEND_FILES_PATH . '/' . \$this->getModule() . '/images';\n\n";
-				$return .= "\t\t\t\t// create folders if needed\n";
-
 				// loop through the options, they contain the image sizes
 				$options = explode(',', $field['options']);
+				$field['create_folders'] = '';
 				foreach($options as $option)
 				{
-					$return .= "\t\t\t\tif(!SpoonDirectory::exists(\$imagePath . '/" . $option . "')) SpoonDirectory::create(\$imagePath . '/" . $option . "');\n";
+					$field['create_folders'] .= "\t\t\t\tif(!SpoonDirectory::exists(\$imagePath . '/" . $option . "')) SpoonDirectory::create(\$imagePath . '/" . $option . "');\n";
 				}
-				$return .= "\t\t\t\tif(!SpoonDirectory::exists(\$imagePath . '/source')) SpoonDirectory::create(\$imagePath . '/source');\n\n";
+			}
 
-				$return .= "\t\t\t\t// image provided?\n";
-				$return .= "\t\t\t\tif(\$fields['" . $field['underscored_label'] . "']->isFilled())\n\t\t\t\t{\n";
-				$return .= "\t\t\t\t\t// build the image name\n";
-
-				/**
-				 * @TODO when meta is added, use the meta in the image name
-				 */
-				$return .= "\t\t\t\t\t\$item['" . $field['underscored_label'] . "'] = time() . '.' . \$fields['" . $field['underscored_label'] . "']->getExtension();\n\n";
-				$return .= "\t\t\t\t\t// upload the image & generate thumbnails\n";
-				$return .= "\t\t\t\t\t\$fields['" . $field['underscored_label'] . "']->generateThumbnails(\$imagePath, \$item['" . $field['underscored_label'] . "']);\n";
-				$return .= "\t\t\t\t}\n\n";
+			// when there is a snippet provided for the datatype, use it. This falls back to a default snippet
+			if(file_exists(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/build_' . $field['type'] . '.base.php'))
+			{
+				$return .= self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/build_' . $field['type'] . '.base.php', $field);
 			}
 			else
 			{
-				$return .= "\t\t\t\t\$item['" . $field['underscored_label'] . "'] = \$fields['" . $field['underscored_label'] . "']->getValue();\n";
+				$return .= self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/build_simple.base.php', $field);
 			}
 		}
 
@@ -372,7 +359,7 @@ class BackendModuleMakerModel
 		foreach($module['fields'] as $field)
 		{
 			// check if required fields are filled
-			if($field['required'] == true)
+			if($field['required'])
 			{
 				if($field['type'] == 'datetime')
 				{
@@ -386,7 +373,7 @@ class BackendModuleMakerModel
 			}
 
 			// check if fields are valid
-			switch ($field['type'])
+			switch($field['type'])
 			{
 				case 'datetime':
 					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "_date']->isValid(BL::err('DateIsInvalid'));\n";
@@ -396,7 +383,7 @@ class BackendModuleMakerModel
 					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "']->isInteger(BL::err('InvalidInteger'));\n";
 					break;
 				case 'file':
-					$return .= "\n\t\t\t// you probably should add some validation to the file type\n";
+					$return .= "\n\t\t\t// you probably should add some validation to the file type\n\n";
 					break;
 				case 'image':
 					/**
@@ -404,8 +391,9 @@ class BackendModuleMakerModel
 					 */
 					$return .= "\t\t\tif(\$fields['" . $field['underscored_label'] . "'" . ']->isFilled())' . "\n\t\t\t{\n\t\t\t\t";
 					$return .= "\$fields['" . $field['underscored_label'] . "'" . "]->isAllowedExtension(array('jpg', 'png', 'gif', 'jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t\t";
-					$return .= "\$fields['" . $field['underscored_label'] . "'" . "]->isAllowedMimeType(array('image/jpg', 'image/png', 'image/gif', 'image/jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t}\n\n";
-					$return .= "";
+					$return .= "\$fields['" . $field['underscored_label'] . "'" . "]->isAllowedMimeType(array('image/jpg', 'image/png', 'image/gif', 'image/jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t}\n";
+					if($field['required']) $return .= "\t\t\telse \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
+					$return .= "\n";
 					break;
 			}
 		}
