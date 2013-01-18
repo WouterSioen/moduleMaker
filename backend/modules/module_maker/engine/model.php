@@ -240,7 +240,7 @@ class BackendModuleMakerModel
 					$return .= "\t\t\$this->frm->addTime('" . $field['underscored_label'] . "_time'" . $default . ");\n";
 					break;
 				case 'password':
-					$return .= "\t\t\$this->frm->addPassword('" . $field['underscored_label'] . "'" . $default . ")->setAttributes(array('autocomplete' => 'off');\n";
+					$return .= "\t\t\$this->frm->addPassword('" . $field['underscored_label'] . "'" . $default . ")->setAttributes(array('autocomplete' => 'off'));\n";
 					break;
 				case 'checkbox':
 					$return .= "\t\t\$this->frm->addCheckbox('" . $field['underscored_label'] . "'" . $default . ");\n";
