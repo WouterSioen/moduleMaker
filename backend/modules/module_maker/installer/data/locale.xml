@@ -22,6 +22,10 @@
 				<translation language="en"><![CDATA[fields]]></translation>
 				<translation language="nl"><![CDATA[velden]]></translation>
 			</item>
+			<item type="label" name="ImageSizes">
+				<translation language="en"><![CDATA[groottes (voorbeeld: 300x300)]]></translation>
+				<translation language="nl"><![CDATA[sizes (formatted as 300x300)]]></translation>
+			</item>
 			<item type="label" name="Options">
 				<translation language="en"><![CDATA[options]]></translation>
 				<translation language="nl"><![CDATA[opties]]></translation>

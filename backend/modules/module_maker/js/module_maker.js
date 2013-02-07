@@ -27,11 +27,13 @@ jsBackend.modulemaker =
 	{
 		$ddmType = $('#type');
 		$options = $('#jsToggleOptions');
+		$optionsLabel = $("label[for='addValue-tags']");
 
 		if($ddmType.length > 0 && $options.length > 0)
 		{
 			$value = $ddmType.val();
 
+			// initialize the options if necessary
 			if($value == 'dropdown' || $value == 'multicheckbox' || $value == 'radiobutton' || $value == 'image')
 			{
 				$options.show();
@@ -40,14 +42,13 @@ jsBackend.modulemaker =
 			$ddmType.on('change', function() {
 				$value = $ddmType.val();
 
-				if($value == 'dropdown' || $value == 'multicheckbox' || $value == 'radiobutton' || $value == 'image')
-				{
-					$options.slideDown(200);
-				}
-				else
-				{
-					$options.slideUp(200);
-				}
+				// show or hide it on change
+				if($value == 'dropdown' || $value == 'multicheckbox' || $value == 'radiobutton' || $value == 'image') $options.slideDown(200);
+				else $options.slideUp(200);
+
+				// change label to imagesizes when the type is image
+				if($value == 'image') $optionsLabel.text(utils.string.ucfirst(jsBackend.locale.lbl('ImageSizes')) + '*');
+				else $optionsLabel.text(utils.string.ucfirst(jsBackend.locale.lbl('Options')) + '*');
 			})
 		}
 	},
