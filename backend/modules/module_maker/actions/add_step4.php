@@ -34,7 +34,7 @@ class BackendModuleMakerAddStep4 extends BackendBaseActionAdd
 
 		// If there are no fields added, redirect back to the second step of the wizard
 		if(!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(BackendModel::createURLForAction('add_step2'));
-Spoon::dump($this->record);
+
 		// $this->loadForm();
 		// $this->validateForm();
 
@@ -55,6 +55,8 @@ Spoon::dump($this->record);
 	 */
 	protected function parse()
 	{
+		$this->tpl->assign('item', $this->record);
+
 		parent::parse();
 	}
 
