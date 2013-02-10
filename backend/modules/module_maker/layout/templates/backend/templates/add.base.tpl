@@ -6,6 +6,7 @@
 </div>
 
 {form:add}
+{$template_title}
 	<div class="tabs">
 		<ul>
 			<li><a href="#tabContent">{$lblContent|ucfirst}</a></li>

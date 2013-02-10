@@ -136,6 +136,12 @@ class BackendModuleMakerModel
 			}
 		}
 
+		// add meta if necessary
+		if($module['metaField'] !== false)
+		{
+			$return .= "\n\t\t\t\t\$item['meta_id'] = \$this->meta->save();\n";
+		}
+
 		// return the string we build up
 		return $return;
 	}
@@ -173,9 +179,33 @@ class BackendModuleMakerModel
 	{
 		$return = '';
 
+		// Add the meta field as a title field
+		if($module['metaField'] !== false)
+		{
+			$metaField = $module['fields'][$module['metaField']];
+
+			// create the default value
+			$default = '';
+			if($isEdit)
+			{
+				$default = " ,\$this->record['" . $metaField['underscored_label'] . "']";
+			}
+			elseif($metaField['default'] !== '')
+			{
+				if($metaField['type'] == 'number') $default = ' ,' . $metaField['default'];
+				elseif($metaField['type'] == 'dropdown') $default = ", BL::lbl('" . self::buildCamelCasedName($metaField['default']) . "')";
+				else $default = " ,'" . $metaField['default'] . "'";
+			}
+
+			$return .= "\t\t\$this->frm->addText('" . $metaField['underscored_label'] . "'" . $default . (($default) ? '' : ', null') . ", null, 'inputText title', 'inputTextError title');\n";
+		}
+
 		// loop through fields and create and addField statement for each field
 		foreach($module['fields'] as $field)
 		{
+			//don't add the metafield, it's already added
+			if($field['meta']) continue;
+
 			// for fields with multiple options: add them
 			if($field['type'] == 'multicheckbox' || $field['type'] == 'radiobutton')
 			{
@@ -253,6 +283,14 @@ class BackendModuleMakerModel
 			}
 		}
 
+		// Add the meta if necessary
+		if($module['metaField'] !== false)
+		{
+			$metaField = $module['fields'][$module['metaField']];
+
+			$return .= "\n\t\t// meta\n\t\t\$this->meta = new BackendMeta(\$this->frm, " . (($isEdit) ? "\$this->record['meta_id']" : 'null') . ", '" . $metaField['underscored_label'] . "', true);";
+		}
+
 		// return the string we build up
 		return $return;
 	}
@@ -282,20 +320,23 @@ class BackendModuleMakerModel
 	 * Generates the SQL for the new module based on the fields
 	 * 
 	 * @param string $moduleName This should be the underscored version
-	 * @param array $fields
+	 * @param array $module
 	 * @return array
 	 */
-	public static function generateSQL($moduleName, $fields)
+	public static function generateSQL($moduleName, $module)
 	{
 		// add create table statement
 		$return = 'CREATE TABLE IF NOT EXISTS `' . $moduleName . "` (\n";
 
 		// add basic field
 		$return .= " `id` int(11) NOT NULL auto_increment,\n";
+
+		if($module['metaField'] !== false) $return .= " `meta_id` int(11) NOT NULL,\n";
+
 		$return .= " `language` varchar(5) NOT NULL,\n";
 
 		// add the fields to the sql
-		foreach($fields as $field)
+		foreach($module['fields'] as $field)
 		{
 			$return .= ' ' . $field['sql'] . "\n";
 		}
@@ -322,10 +363,21 @@ class BackendModuleMakerModel
 	{
 		$return = '';
 		$returnSide = '';
+		$returnTitle = '';
+
+		// first add the meta field (if necessary)
+		if($module['metaField'] !== false)
+		{
+			$metaField = $module['fields'][$module['metaField']];
+
+			$returnTitle = self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/templates/snippets/meta.base.tpl', $metaField);
+		}
 
 		// loop through fields and add items
 		foreach($module['fields'] as &$field)
 		{
+			if($field['meta']) continue;
+
 			$field['required_html'] = ($field['required']) ? '<abbr title="{$lblRequiredField}">*</abbr>' : '';
 
 			if($field['type'] == 'editor' || $field['type'] == 'text' || $field['type'] == 'number' || $field['type'] == 'password')
@@ -341,7 +393,7 @@ class BackendModuleMakerModel
 		}
 
 		// return the strings we build up
-		return array($return, $returnSide);
+		return array($returnTitle, $return, $returnSide);
 	}
 
 	/**
@@ -396,6 +448,12 @@ class BackendModuleMakerModel
 					$return .= "\n";
 					break;
 			}
+		}
+
+		// add validate meta if necessary
+		if($module['metaField'] !== false)
+		{
+			$return .= "\t\t\t// validate meta\n\t\t\t\$this->meta->validate();\n";
 		}
 
 		// return the string we build up

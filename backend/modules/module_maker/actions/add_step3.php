@@ -22,6 +22,13 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 	private $record;
 
 	/**
+	 * The selected meta field
+	 * 
+	 * @var int
+	 */
+	private $selectedMeta;
+
+	/**
 	 * Execute the actions
 	 */
 	public function execute()
@@ -35,8 +42,8 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 		// If there are no fields added, redirect back to the second step of the wizard
 		if(!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(BackendModel::createURLForAction('add_step2'));
 
-		// $this->loadForm();
-		// $this->validateForm();
+		$this->loadForm();
+		$this->validateForm();
 
 		$this->parse();
 		$this->display();
@@ -47,7 +54,19 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 	 */
 	protected function loadForm()
 	{
+		$fields = array();
+		$this->selectedMeta = false;
 
+		// create an array with all text type fields
+		foreach($this->record['fields'] as $key => $field)
+		{
+			if($field['type'] == 'text') $fields[$key] = $field['label'];
+			if(array_key_exists('meta', $field) && $field['meta'] == true) $this->selectedMeta = $key;
+		}
+
+		$this->frm = new BackendForm('add_step3');
+		$this->frm->addCheckbox('meta', ($this->selectedMeta !== false));
+		$this->frm->addDropDown('field', $fields, $this->selectedMeta);
 	}
 
 	/**
@@ -56,6 +75,8 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 	protected function parse()
 	{
 		parent::parse();
+
+		$this->tpl->assign('meta', ($this->selectedMeta !== false));
 	}
 
 	/**
@@ -63,6 +84,33 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 	 */
 	protected function validateForm()
 	{
+		if($this->frm->isSubmitted())
+		{
+			$this->frm->cleanupFields();
 
+			$frmFields = $this->frm->getFields();
+
+			if($this->frm->isCorrect())
+			{
+				// set all fields to meta false
+				foreach($this->record['fields'] as &$field)
+				{
+					$field['meta'] = false;
+				}
+
+				// if this field is checked, let's add a boolean meta true to the chosen field
+				if($frmFields['meta']->isChecked())
+				{
+					$metaField = $frmFields['field']->getValue();
+					$this->record['fields'][$metaField]['meta'] = true;
+					$this->record['metaField'] = $metaField;
+				}
+				else $this->record['metaField'] = false;
+
+				// save the object in our session
+				SpoonSession::set('module', $this->record);
+				$this->redirect(BackendModel::createURLForAction('add_step4'));
+			}
+		}
 	}
 }

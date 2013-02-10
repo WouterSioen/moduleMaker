@@ -82,6 +82,14 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->variables['load_form_add'] = BackendModuleMakerModel::generateLoadForm($this->record, false);
 		$this->variables['validate_form_add'] = BackendModuleMakerModel::generateValidateForm($this->record, false);
 		$this->variables['build_item_add'] = BackendModuleMakerModel::generateBuildItem($this->record, false);
+		if($this->record['metaField'] !== false)
+		{
+			$this->variables['parse_meta'] = BackendModuleMakerModel::generateSnippet(
+				BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/parse_meta.base.php',
+				array()
+			);
+		}
+		else $this->variables['parse_meta'] = '';
 
 		// build and save the file
 		BackendModuleMakerModel::generateFile(
@@ -97,7 +105,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		// generate add template
 		// create a variables
-		list($this->variables['template'], $this->variables['template_side']) = BackendModuleMakerModel::generateTemplate($this->record, false);
+		list($this->variables['template_title'], $this->variables['template'], $this->variables['template_side']) = BackendModuleMakerModel::generateTemplate($this->record, false);
 
 		// build and save the file
 		BackendModuleMakerModel::generateFile(
@@ -123,6 +131,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		unset($this->variables['load_form_edit']);
 		unset($this->variables['validate_form_edit']);
 		unset($this->variables['build_item_edit']);
+		unset($this->variables['parse_meta']);
 
 		// generate edit template
 		// build and save the file
@@ -133,6 +142,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		);
 
 		// unset the custom variables
+		unset($this->variables['template']);
 		unset($this->variables['template']);
 		unset($this->variables['template_side']);
 
@@ -156,12 +166,27 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			$this->backendPath . 'js/' . $this->record['underscored_name'] . '.js'
 		);
 
+		// add the createURL function if there is a meta field
+		if($this->record['metaField'] !== false)
+		{
+			$this->variables['getUrl'] = BackendModuleMakerModel::generateSnippet(
+				BACKEND_MODULE_PATH . '/layout/templates/backend/engine/snippets/getUrl.base.php',
+				$this->variables
+			);
+		}
+		else
+		{
+			$this->variables['getUrl'] == '';
+		}
+
 		// generate model.php file
 		BackendModuleMakerModel::generateFile(
 			BACKEND_MODULE_PATH . '/layout/templates/backend/engine/model.base.php',
 			$this->variables,
 			$this->backendPath . 'engine/model.php'
 		);
+
+		unset($this->variables['getUrl']);
 	}
 
 	/**
@@ -237,7 +262,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		);
 
 		// generate install.sql
-		$sql = BackendModuleMakerModel::generateSQL($this->record['underscored_name'], $this->record['fields']);
+		$sql = BackendModuleMakerModel::generateSQL($this->record['underscored_name'], $this->record);
 		BackendModuleMakerModel::makeFile($this->backendPath . 'installer/data/install.sql', $sql);
 	}
 }

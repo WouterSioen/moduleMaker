@@ -61,7 +61,8 @@ class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
 	 */
 	protected function parse()
 	{
-		parent::parse();
+		parent::parse();{$parse_meta}
+
 		$this->tpl->assign('item', $this->record);
 	}
 

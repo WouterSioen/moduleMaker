@@ -43,7 +43,7 @@ class Backend{$camel_case_name}Add extends BackendBaseActionAdd
 	 */
 	protected function parse()
 	{
-		parent::parse();
+		parent::parse();{$parse_meta}
 	}
 
 	/**

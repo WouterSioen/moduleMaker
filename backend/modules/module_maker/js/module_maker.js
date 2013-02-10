@@ -20,6 +20,42 @@ jsBackend.modulemaker =
 
 		jsBackend.modulemaker.tagBoxes();
 		jsBackend.modulemaker.toggleOptions();
+		jsBackend.modulemaker.toggleMeta();
+	},
+
+	// initializes tagBox
+	tagBoxes: function()
+	{
+		if($('input.tagBox').length > 0)
+		{
+			$('input.tagBox').tagBox(
+			{
+				emptyMessage: jsBackend.locale.msg('NoOptions'),
+				errorMessage: jsBackend.locale.err('AddOptionsBeforeSubmitting'),
+				addLabel: utils.string.ucfirst(jsBackend.locale.lbl('Add')),
+				removeLabel: utils.string.ucfirst(jsBackend.locale.lbl('DeleteThisOption'))
+			});
+
+			$('input.tagBox').on('change', function() { 
+				console.log($('input.tagBox').val());
+			});
+		}
+	},
+
+	// toggles the visibility of the field dropdown for meta
+	toggleMeta: function()
+	{
+		$chkMeta = $('#meta');
+		$ddmFieldDiv = $('.showOnMeta');
+
+		if($chkMeta.length > 0 && $ddmFieldDiv.length > 0)
+		{
+			$chkMeta.on('change', function(){
+				($chkMeta.attr('checked') === 'checked')
+					? $ddmFieldDiv.slideDown(200)
+					: $ddmFieldDiv.slideUp(200);
+			});
+		}
 	},
 
 	// toggles the options tagbox on the add field page
@@ -50,25 +86,6 @@ jsBackend.modulemaker =
 				if($value == 'image') $optionsLabel.text(utils.string.ucfirst(jsBackend.locale.lbl('ImageSizes')) + '*');
 				else $optionsLabel.text(utils.string.ucfirst(jsBackend.locale.lbl('Options')) + '*');
 			})
-		}
-	},
-
-	// initializes tagBox
-	tagBoxes: function()
-	{
-		if($('input.tagBox').length > 0)
-		{
-			$('input.tagBox').tagBox(
-			{
-				emptyMessage: jsBackend.locale.msg('NoOptions'),
-				errorMessage: jsBackend.locale.err('AddOptionsBeforeSubmitting'),
-				addLabel: utils.string.ucfirst(jsBackend.locale.lbl('Add')),
-				removeLabel: utils.string.ucfirst(jsBackend.locale.lbl('DeleteThisOption'))
-			});
-
-			$('input.tagBox').on('change', function() { 
-				console.log($('input.tagBox').val());
-			});
 		}
 	}
 }

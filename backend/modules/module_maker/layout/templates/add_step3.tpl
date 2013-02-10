@@ -33,11 +33,28 @@ Hier komen speciale velden zoals
 	</div>
 </div>
 
-<div class="fullwidthOptions">
-	<div class="buttonHolderRight">
-		<a id="toStep4" class="inputButton button mainButton" href="{$var|geturl:'add_step4'}" >{$lblToStep|ucfirst} 4</a>
+{form:add_step3}
+	<div id="options" class="box">
+		<div class="heading">
+			<h3>{$lblOptions|ucfirst}</h3>
+		</div>
+		<div class="options horizontal">
+			<p>
+				<label for="meta">{$chkMeta} {$lblMeta|ucfirst}</label>
+				<span class="showOnMeta"{option:!meta} style="display: none;"{/option:!meta}>
+					<label for="field">{$lblField|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
+					{$ddmField} {$ddmFieldError}
+				</span>
+			</p>
+		</div>
 	</div>
-</div>
+
+	<div class="fullwidthOptions">
+		<div class="buttonHolderRight">
+			<input id="addStep3" class="inputButton button mainButton" type="submit" name="add_step_3" value="{$lblToStep|ucfirst} 4" />
+		</div>
+	</div>
+{/form:add_step3}
 
 {include:{$BACKEND_CORE_PATH}/layout/templates/structure_end_module.tpl}
 {include:{$BACKEND_CORE_PATH}/layout/templates/footer.tpl}
