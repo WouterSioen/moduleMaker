@@ -1,6 +1,6 @@
 
 				// the image path
-				$imagePath = FRONTEND_FILES_PATH . '/' . $this->getModule() . '/images';
+				$imagePath = FRONTEND_FILES_PATH . '/' . $this->getModule() . '/{$underscored_label}';
 
 				// create folders if needed
 {$create_folders}				if(!SpoonDirectory::exists($imagePath . '/source')) SpoonDirectory::create($imagePath . '/source');
