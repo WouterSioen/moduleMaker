@@ -123,6 +123,10 @@ class BackendModuleMakerModel
 				{
 					$field['create_folders'] .= "\t\t\t\tif(!SpoonDirectory::exists(\$imagePath . '/" . $option . "')) SpoonDirectory::create(\$imagePath . '/" . $option . "');\n";
 				}
+
+				// add the function used to create the filename
+				if($module['metaField'] !== false) $field['file_name_function'] = '$this->meta->getUrl()';
+				else $field['file_name_function'] = 'time()';
 			}
 
 			// when there is a snippet provided for the datatype, use it. This falls back to a default snippet
