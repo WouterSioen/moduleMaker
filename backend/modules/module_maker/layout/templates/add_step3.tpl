@@ -22,12 +22,10 @@
 	<div class="options">
 		<pre>
 Hier komen speciale velden zoals
-- meta
 - categorieën
 - extra afbeeldingen tabel
 - extra settings tabel (key => value)
 - Tags
-- Search Index
 - Sequence
 		</pre>
 	</div>
@@ -42,10 +40,28 @@ Hier komen speciale velden zoals
 			<p>
 				<label for="meta">{$chkMeta} {$lblMeta|ucfirst}</label>
 				<span class="showOnMeta"{option:!meta} style="display: none;"{/option:!meta}>
-					<label for="field">{$lblField|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
-					{$ddmField} {$ddmFieldError}
+					<label for="meta_field">{$lblMetaField|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
+					{$ddmMetaField} {$ddmMetaFieldError}
 				</span>
 			</p>
+		</div>
+		<div class="options horizontal">
+			<p>
+				<label for="search">{$chkSearch} {$lblSearch|ucfirst}</label>
+			</p>
+			<span class="showOnSearch"{option:!search} style="display: none;"{/option:!search}>
+				{option:searchFields}
+					<p>
+						<label>{$lblSearchFields|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
+					</p>
+					<ul id="searchFieldsList" class="inputList">
+						{iteration:searchFields}
+							<li>{$searchFields.chkSearchFields} <label for="{$searchFields.id}">{$searchFields.label}</label></li>
+						{/iteration:searchFields}
+					</ul>
+					{$chkSearchFieldsError}
+				{/option:searchFields}
+			</span>
 		</div>
 	</div>
 

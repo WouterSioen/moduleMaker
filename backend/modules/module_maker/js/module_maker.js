@@ -21,6 +21,7 @@ jsBackend.modulemaker =
 		jsBackend.modulemaker.tagBoxes();
 		jsBackend.modulemaker.toggleOptions();
 		jsBackend.modulemaker.toggleMeta();
+		jsBackend.modulemaker.toggleSearch();
 	},
 
 	// initializes tagBox
@@ -46,14 +47,14 @@ jsBackend.modulemaker =
 	toggleMeta: function()
 	{
 		$chkMeta = $('#meta');
-		$ddmFieldDiv = $('.showOnMeta');
+		$ddmMetaFieldDiv = $('.showOnMeta');
 
-		if($chkMeta.length > 0 && $ddmFieldDiv.length > 0)
+		if($chkMeta.length > 0 && $ddmMetaFieldDiv.length > 0)
 		{
 			$chkMeta.on('change', function(){
 				($chkMeta.attr('checked') === 'checked')
-					? $ddmFieldDiv.slideDown(200)
-					: $ddmFieldDiv.slideUp(200);
+					? $ddmMetaFieldDiv.slideDown(200)
+					: $ddmMetaFieldDiv.slideUp(200);
 			});
 		}
 	},
@@ -86,6 +87,22 @@ jsBackend.modulemaker =
 				if($value == 'image') $optionsLabel.text(utils.string.ucfirst(jsBackend.locale.lbl('ImageSizes')) + '*');
 				else $optionsLabel.text(utils.string.ucfirst(jsBackend.locale.lbl('Options')) + '*');
 			})
+		}
+	},
+
+	// toggles the visibility of the fields multicheckbox for the search field
+	toggleSearch: function()
+	{
+		$chkSearch = $('#search');
+		$ddmSearchFieldsDiv = $('.showOnSearch');
+
+		if($chkSearch.length > 0 && $ddmSearchFieldsDiv.length > 0)
+		{
+			$chkSearch.on('change', function(){
+				($chkSearch.attr('checked') === 'checked')
+					? $ddmSearchFieldsDiv.slideDown(200)
+					: $ddmSearchFieldsDiv.slideUp(200);
+			});
 		}
 	}
 }

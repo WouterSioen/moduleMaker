@@ -300,6 +300,29 @@ class BackendModuleMakerModel
 	}
 
 	/**
+	 * Generates the searchindex code
+	 * 
+	 * @param array $module
+	 * @return string
+	 */
+	public static function generateSearchIndex($module)
+	{
+		if($module['searchFields'] === false) return '';
+
+		$searchFields = explode(',', $module['searchFields']);
+		$searchString = '';
+
+		foreach($searchFields as $key)
+		{
+			$searchString .= '\'' . $module['fields'][$key]['underscored_label'] . '\' => $item[\'' . $module['fields'][$key]['underscored_label'] . '\'], ';
+		}
+
+		$searchString = rtrim($searchString, ', ');
+
+		return self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/search_index.base.php', array('fields' => $searchString));
+	}
+
+	/**
 	 * Generates (and writes) a file based on a certain template
 	 * 
 	 * @param string $template				The path to the template

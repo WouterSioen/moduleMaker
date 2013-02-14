@@ -22,11 +22,11 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 	private $record;
 
 	/**
-	 * The selected meta field
+	 * The selected meta field, The selected search fields
 	 * 
 	 * @var int
 	 */
-	private $selectedMeta;
+	private $selectedMeta, $selectedSearch;
 
 	/**
 	 * Execute the actions
@@ -54,19 +54,39 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 	 */
 	protected function loadForm()
 	{
+		// create all variables needed for meta
 		$fields = array();
 		$this->selectedMeta = false;
 
-		// create an array with all text type fields
 		foreach($this->record['fields'] as $key => $field)
 		{
 			if($field['type'] == 'text') $fields[$key] = $field['label'];
 			if(array_key_exists('meta', $field) && $field['meta'] == true) $this->selectedMeta = $key;
 		}
 
+		// create all variables needed for searchindex
+		$searchFields = array();
+		$this->selectedSearch = false;
+
+		foreach($this->record['fields'] as $key => $field)
+		{
+			if($field['type'] == 'text' || $field['type'] == 'editor')
+			{
+				$searchFields[$key] = array(
+					'label' => ucfirst($field['label']),
+					'value' => $key
+				);
+			}
+			if(array_key_exists('searchable', $field) && $field['searchable'] == true) $this->selectedSearch = $key;
+		}
+
+		// create the form
 		$this->frm = new BackendForm('add_step3');
 		$this->frm->addCheckbox('meta', ($this->selectedMeta !== false));
-		$this->frm->addDropDown('field', $fields, $this->selectedMeta);
+		$this->frm->addDropDown('meta_field', $fields, $this->selectedMeta);
+
+		$this->frm->addCheckbox('search', ($this->selectedSearch !== false));
+		$this->frm->addMultiCheckbox('search_fields', $searchFields, $this->selectedSearch);
 	}
 
 	/**
@@ -77,6 +97,7 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 		parent::parse();
 
 		$this->tpl->assign('meta', ($this->selectedMeta !== false));
+		$this->tpl->assign('search', ($this->selectedSearch !== false));
 	}
 
 	/**
@@ -90,22 +111,42 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 
 			$frmFields = $this->frm->getFields();
 
+			// validate form
+			if($frmFields['search']->isChecked())
+			{
+				// we need fields when search is ticked
+				$frmFields['search_fields']->isFilled(BL::err('FieldIsRequired'));
+			}
+
 			if($this->frm->isCorrect())
 			{
 				// set all fields to meta false
 				foreach($this->record['fields'] as &$field)
 				{
 					$field['meta'] = false;
+					$field['searchable'] = false;
 				}
 
 				// if this field is checked, let's add a boolean meta true to the chosen field
 				if($frmFields['meta']->isChecked())
 				{
-					$metaField = $frmFields['field']->getValue();
+					$metaField = $frmFields['meta_field']->getValue();
 					$this->record['fields'][$metaField]['meta'] = true;
 					$this->record['metaField'] = $metaField;
 				}
 				else $this->record['metaField'] = false;
+
+				// if this field is checked, let's add a boolean searchable true to the chosen fields
+				if($frmFields['search']->isChecked())
+				{
+					$searchFields = $frmFields['search_fields']->getValue();
+					foreach($searchFields as $searchField)
+					{
+						$this->record['fields'][$searchField]['searchable'] = true;
+					}
+					$this->record['searchFields'] = implode(',',$searchFields);
+				}
+				else $this->record['searchFields'] = false;
 
 				// save the object in our session
 				SpoonSession::set('module', $this->record);

@@ -82,6 +82,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->variables['load_form_add'] = BackendModuleMakerModel::generateLoadForm($this->record, false);
 		$this->variables['validate_form_add'] = BackendModuleMakerModel::generateValidateForm($this->record, false);
 		$this->variables['build_item_add'] = BackendModuleMakerModel::generateBuildItem($this->record, false);
+		$this->variables['search_index'] = BackendModuleMakerModel::generateSearchIndex($this->record);
 		if($this->record['metaField'] !== false)
 		{
 			$this->variables['parse_meta'] = BackendModuleMakerModel::generateSnippet(
@@ -119,6 +120,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->variables['load_form_edit'] = BackendModuleMakerModel::generateLoadForm($this->record, true);
 		$this->variables['validate_form_edit'] = BackendModuleMakerModel::generateValidateForm($this->record, true);
 		$this->variables['build_item_edit'] = BackendModuleMakerModel::generateBuildItem($this->record, true);
+		$this->variables['search_index'] = BackendModuleMakerModel::generateSearchIndex($this->record);
 
 		// build and save the file
 		BackendModuleMakerModel::generateFile(
@@ -131,6 +133,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		unset($this->variables['load_form_edit']);
 		unset($this->variables['validate_form_edit']);
 		unset($this->variables['build_item_edit']);
+		unset($this->variables['search_index']);
 		unset($this->variables['parse_meta']);
 
 		// generate edit template
