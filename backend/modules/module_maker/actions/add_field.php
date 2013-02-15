@@ -196,9 +196,9 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 				$item['options'] = $fields['tags']->getValue();
 				$item['required'] = $fields['required']->isChecked();
 				$item['default'] = $fields['default']->getValue();
-				$item['camel_cased_label'] = BackendModuleMakerModel::buildCamelCasedName($item['label']);
-				$item['underscored_label'] = BackendModuleMakerModel::buildUnderscoredName($item['label']);
-				$item['lower_ccased_label'] = BackendModuleMakerModel::buildLowerCamelCasedName($item['label']);
+				$item['camel_cased_label'] = BackendModuleMakerHelper::buildCamelCasedName($item['label']);
+				$item['underscored_label'] = BackendModuleMakerHelper::buildUnderscoredName($item['label']);
+				$item['lower_ccased_label'] = BackendModuleMakerHelper::buildLowerCamelCasedName($item['label']);
 
 				// generate the SQL for the field
 				$item['sql'] = $this->parseSQL($item);
