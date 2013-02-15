@@ -58,6 +58,10 @@
 				<translation language="en"><![CDATA[fields]]></translation>
 				<translation language="nl"><![CDATA[velden]]></translation>
 			</item>
+			<item type="label" name="WizardGenerate">
+				<translation language="en"><![CDATA[generate]]></translation>
+				<translation language="nl"><![CDATA[genereer]]></translation>
+			</item>
 			<item type="label" name="WizardInformation">
 				<translation language="en"><![CDATA[information]]></translation>
 				<translation language="nl"><![CDATA[informatie]]></translation>
