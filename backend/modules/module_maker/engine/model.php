@@ -173,6 +173,26 @@ class BackendModuleMakerModel
 	}
 
 	/**
+	 * Generates extra installer code
+	 * 
+	 * @param array $module
+	 * @return string
+	 */
+	public static function generateInstall($module)
+	{
+		$return = '';
+		if($module['searchFields'] !== false)
+		{
+			$return .= self::generateSnippet(
+				BACKEND_MODULE_PATH . '/layout/templates/backend/installer/snippets/search.base.php',
+				array('module_name' => $module['underscored_name'])
+			);
+		}
+
+		return $return;
+	}
+
+	/**
 	 * Generates a part of the loadForm() function for the backend add/edit actions
 	 * 
 	 * @param array $module				The array containing all info about the module

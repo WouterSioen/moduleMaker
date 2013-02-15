@@ -250,12 +250,16 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	 */
 	protected function generateInstallerFiles()
 	{
+		$this->variables['install_extras'] = BackendModuleMakerModel::generateInstall($this->record);
+
 		// generate installer.php
 		BackendModuleMakerModel::generateFile(
 			BACKEND_MODULE_PATH . '/layout/templates/backend/installer/installer.base.php',
 			$this->variables,
 			$this->backendPath . 'installer/installer.php'
 		);
+
+		unset($this->variables['install_extras']);
 
 		// generate locale.xml
 		BackendModuleMakerModel::generateFile(
