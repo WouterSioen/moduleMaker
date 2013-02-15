@@ -199,6 +199,8 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 				$item['camel_cased_label'] = BackendModuleMakerHelper::buildCamelCasedName($item['label']);
 				$item['underscored_label'] = BackendModuleMakerHelper::buildUnderscoredName($item['label']);
 				$item['lower_ccased_label'] = BackendModuleMakerHelper::buildLowerCamelCasedName($item['label']);
+				$item['meta'] = false;
+				$item['searchable'] = false;
 
 				// generate the SQL for the field
 				$item['sql'] = $this->parseSQL($item);
