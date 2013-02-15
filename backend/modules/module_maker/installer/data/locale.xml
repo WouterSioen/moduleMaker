@@ -26,6 +26,10 @@
 				<translation language="en"><![CDATA[groottes (voorbeeld: 300x300)]]></translation>
 				<translation language="nl"><![CDATA[sizes (formatted as 300x300)]]></translation>
 			</item>
+			<item type="label" name="LowerCcasedLabel">
+				<translation language="en"><![CDATA[label]]></translation>
+				<translation language="nl"><![CDATA[label]]></translation>
+			</item>
 			<item type="label" name="MetaField">
 				<translation language="en"><![CDATA[meta field]]></translation>
 				<translation language="nl"><![CDATA[meta veld]]></translation>
@@ -37,6 +41,10 @@
 			<item type="label" name="Required">
 				<translation language="en"><![CDATA[required]]></translation>
 				<translation language="nl"><![CDATA[verplicht]]></translation>
+			</item>
+			<item type="label" name="Searchable">
+				<translation language="en"><![CDATA[Searchable]]></translation>
+				<translation language="nl"><![CDATA[zoekbaar]]></translation>
 			</item>
 			<item type="label" name="SearchFields">
 				<translation language="en"><![CDATA[Search fields]]></translation>
