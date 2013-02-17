@@ -107,6 +107,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		// generate add template
 		// create a variables
 		list($this->variables['template_title'], $this->variables['template'], $this->variables['template_side']) = BackendModuleMakerGenerator::generateTemplate($this->record, false);
+		list($this->variables['template_tabs_top'], $this->variables['template_tabs_bottom']) = BackendModuleMakerGenerator::generateTemplateTabs($this->record);
 
 		// build and save the file
 		BackendModuleMakerGenerator::generateFile(
@@ -145,9 +146,11 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		);
 
 		// unset the custom variables
-		unset($this->variables['template']);
+		unset($this->variables['template_title']);
 		unset($this->variables['template']);
 		unset($this->variables['template_side']);
+		unset($this->variables['template_tabs_top']);
+		unset($this->variables['template_tabs_bottom']);
 
 		// generate delete
 		BackendModuleMakerGenerator::generateFile(

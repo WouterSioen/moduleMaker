@@ -9,7 +9,7 @@
 {$template_title}
 	<div class="tabs">
 		<ul>
-			<li><a href="#tabContent">{$lblContent|ucfirst}</a></li>
+			<li><a href="#tabContent">{$lblContent|ucfirst}</a></li>{$template_tabs_top}
 		</ul>
 
 		<div id="tabContent">
@@ -26,7 +26,7 @@
 					</td>
 				</tr>
 			</table>
-		</div>
+		</div>{$template_tabs_bottom}
 	</div>
 
 	<div class="fullwidthOptions">

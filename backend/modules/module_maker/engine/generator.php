@@ -359,6 +359,26 @@ class BackendModuleMakerGenerator
 	}
 
 	/**
+	 * Generates a part of the backend add/edit templates
+	 * 
+	 * @param array $module				The array containing all info about the module
+	 * @return array of strings
+	 */
+	public static function generateTemplateTabs($module)
+	{
+		$returnTop = '';
+		$returnBottom = '';
+
+		if($module['metaField'] !== false)
+		{
+			$returnTop .= "\n\t\t\t<li><a href=\"#tabSEO\">{\$lblSEO|ucfirst}</a></li>";
+			$returnBottom .= self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/templates/snippets/seo.base.tpl', array());
+		}
+
+		return array($returnTop, $returnBottom);
+	}
+
+	/**
 	 * Generates a part of the validateForm() function for the backend add/edit actions
 	 * 
 	 * @param array $module				The array containing all info about the module
