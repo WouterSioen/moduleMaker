@@ -76,6 +76,7 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 
 	/**
 	 * Parses the SQL for a field
+	 * @TODO: Don't save multicheckbox as ENUM (multiple options can be checked)
 	 * 
 	 * @param array $field
 	 * @return string
