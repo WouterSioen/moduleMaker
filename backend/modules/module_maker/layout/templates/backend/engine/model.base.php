@@ -26,7 +26,7 @@ class Backend{$camel_case_name}Model
 	 */
 	public static function delete($id)
 	{
-		BackendModel::getDB(true)->delete('{$underscored_name}', 'id = ?', (int) $id);
+		BackendModel::getContainer()->get('database')->delete('{$underscored_name}', 'id = ?', (int) $id);
 	}
 
 	/**
@@ -37,7 +37,7 @@ class Backend{$camel_case_name}Model
 	 */
 	public static function exists($id)
 	{
-		return (bool) BackendModel::getDB()->getVar(
+		return (bool) BackendModel::getContainer()->get('database')->getVar(
 			'SELECT 1
 			 FROM {$underscored_name} AS i
 			 WHERE i.id = ?
@@ -54,7 +54,7 @@ class Backend{$camel_case_name}Model
 	 */
 	public static function get($id)
 	{
-		return (array) BackendModel::getDB()->getRecord(
+		return (array) BackendModel::getContainer()->get('database')->getRecord(
 			'SELECT i.*
 			 FROM {$underscored_name} AS i
 			 WHERE i.id = ?',
@@ -72,7 +72,7 @@ class Backend{$camel_case_name}Model
 	{
 		$data['created_on'] = BackendModel::getUTCDate();
 
-		return (int) BackendModel::getDB(true)->insert('{$underscored_name}', $data);
+		return (int) BackendModel::getContainer()->get('database')->insert('{$underscored_name}', $data);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Backend{$camel_case_name}Model
 	{
 		$data['edited_on'] = BackendModel::getUTCDate();
 
-		BackendModel::getDB(true)->update(
+		BackendModel::getContainer()->get('database')->update(
 			'{$underscored_name}', $data, 'id = ?', (int) $id
 		);
 	}

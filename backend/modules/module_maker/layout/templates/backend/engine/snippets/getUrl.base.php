@@ -10,7 +10,7 @@
 	public static function getURL($url, $id = null)
 	{
 		$url = SpoonFilter::urlise((string) $url);
-		$db = BackendModel::getDB();
+		$db = BackendModel::getContainer()->get('database');
 
 		// new item
 		if($id === null)
