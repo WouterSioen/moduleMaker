@@ -2,8 +2,8 @@
 /*
  * CKFinder
  * ========
- * http://ckfinder.com
- * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
+ * http://cksource.com/ckfinder
+ * Copyright (C) 2007-2013, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -221,7 +221,7 @@ class CKFinder_Connector_Core_ResourceTypeConfig
      * If allowed extensions are defined, return false if extension isn't on allowed list.
      *
      * @access public
-     * @param string $extension extension
+     * @param string $fileName extension
      * @param boolean $renameIfRequired whether try to rename file or not
      * @return boolean
      */
@@ -234,8 +234,6 @@ class CKFinder_Connector_Core_ResourceTypeConfig
         if (is_null($this->_config)) {
             $this->_config =& CKFinder_Connector_Core_Factory::getInstance("Core_Config");
         }
-
-        $toCheck = array();
 
         if ($this->_config->getCheckDoubleExtension()) {
             $pieces = explode('.', $fileName);
@@ -314,7 +312,7 @@ class CKFinder_Connector_Core_ResourceTypeConfig
      * Check given path
      * Return true if path contains folder name that matches hidden folder names list
      *
-     * @param string $folderName
+     * @param string $path
      * @access public
      * @return boolean
      */

@@ -44,10 +44,10 @@ class Autoloader
 		elseif(substr($unifiedClassName, 0, 11) == 'backendbase') $pathToLoad = __DIR__ . '/backend/core/engine/base.php';
 		elseif(substr($unifiedClassName, 0, 15) == 'backenddatagrid') $pathToLoad = __DIR__ . '/backend/core/engine/datagrid.php';
 		elseif(substr($unifiedClassName, 0, 7) == 'backend') $pathToLoad = __DIR__ . '/backend/core/engine/' . str_replace('backend', '', $unifiedClassName) . '.php';
-		elseif(substr($unifiedClassName, 0, 6) == 'common') $pathToLoad = PATH_LIBRARY . '/base/' . str_replace('common', '', $unifiedClassName) . '.php';
+		elseif(substr($unifiedClassName, 0, 6) == 'common') $pathToLoad = __DIR__ . '/library/base/' . str_replace('common', '', $unifiedClassName) . '.php';
 
 		// file check in core
-		if($pathToLoad != '' && SpoonFile::exists($pathToLoad)) require_once $pathToLoad;
+		if($pathToLoad != '' && file_exists($pathToLoad)) require_once $pathToLoad;
 
 		// check if module file exists
 		else
@@ -85,7 +85,7 @@ class Autoloader
 					$pathToLoad = $root . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . $action . '.php';
 
 					// if it exists, load it!
-					if($pathToLoad != '' && SpoonFile::exists($pathToLoad))
+					if($pathToLoad != '' && file_exists($pathToLoad))
 					{
 						require_once $pathToLoad;
 						break;
@@ -99,5 +99,9 @@ class Autoloader
 // register the autoloader
 spl_autoload_register(array(new Autoloader(), 'load'));
 
-// require the composer autoloader
+// use vender generated autoloader
 require_once 'vendor/autoload.php';
+
+// Spoon is not autoloaded via Composer but uses its own oldskool autoloader
+set_include_path(__DIR__ . '/vendor/spoon/library' . PATH_SEPARATOR . get_include_path());
+require_once 'spoon/spoon.php';

@@ -1,7 +1,7 @@
 /**
  * Interaction for the locale module
  *
- * @author	Thomas Deceuninck <thomasdeceuninck@netlash.com>
+ * @author	Thomas Deceuninck <thomas@fronto.be>
  */
 jsBackend.translations =
 {
@@ -55,7 +55,7 @@ jsBackend.translations.controls =
 			$('select#module option[value=core]').prop('disabled', false).prop('selected', true);
 		}
 
-		// remove the disbaled stuff
+		// remove the disabled stuff
 		else
 		{
 			$('select#module option').prop('disabled', false);

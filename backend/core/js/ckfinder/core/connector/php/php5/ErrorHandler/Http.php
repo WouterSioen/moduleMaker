@@ -2,8 +2,8 @@
 /*
  * CKFinder
  * ========
- * http://ckfinder.com
- * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
+ * http://cksource.com/ckfinder
+ * Copyright (C) 2007-2013, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -35,8 +35,9 @@ class CKFinder_Connector_ErrorHandler_Http extends CKFinder_Connector_ErrorHandl
     /**
      * Throw file upload error, return true if error has been thrown, false if error has been catched
      *
-     * @param int $number
-     * @param string $text
+     * @param int     $number
+     * @param boolean $uploaded
+     * @param boolean $exit
      * @access public
      */
     public function throwError($number, $text = false, $exit = true)

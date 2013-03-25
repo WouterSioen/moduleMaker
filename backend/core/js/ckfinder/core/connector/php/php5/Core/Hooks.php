@@ -2,8 +2,8 @@
 /*
  * CKFinder
  * ========
- * http://ckfinder.com
- * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
+ * http://cksource.com/ckfinder
+ * Copyright (C) 2007-2013, CKSource - Frederico Knabben. All rights reserved.
  *
  * The software, this file and its contents are subject to the CKFinder
  * License. Please read the license.txt file before using, installing, copying,
@@ -24,7 +24,6 @@ class CKFinder_Connector_Core_Hooks
      * Run user defined hooks
      *
      * @param string $event
-     * @param object $errorHandler
      * @param array $args
      * @return boolean (true to continue processing, false otherwise)
      */

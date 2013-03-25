@@ -352,6 +352,7 @@ class ModuleInstaller
 			if($xml !== false)
 			{
 				// import locale
+				require_once BACKEND_CORE_PATH . '/engine/model.php';
 				require_once BACKEND_MODULES_PATH . '/locale/engine/model.php';
 				BackendLocaleModel::importXML($xml, $overwriteConflicts, $this->getLanguages(), $this->getInterfaceLanguages(), $this->getDefaultUserID(), gmdate('Y-m-d H:i:s'));
 			}
@@ -1027,6 +1028,6 @@ class CoreInstaller extends ModuleInstaller
 
 		// ckfinder
 		$this->setSetting('core', 'ckfinder_license_name', 'Fork CMS');
-		$this->setSetting('core', 'ckfinder_license_key', 'QJH2-32UV-6VRM-V6Y7-A91J-W26Z-3F8R');
+		$this->setSetting('core', 'ckfinder_license_key', 'VNA6-BP17-T7D3-CP1B-EMJF-X7Q3-5THF');
 	}
 }

@@ -8,7 +8,7 @@
  */
 
 /**
- * This class will handle the incomming URL.
+ * This class will handle the incoming URL.
  *
  * @author 	Tijs Verkoyen <tijs@sumocoders.be>
  * @author 	Davy Hellemans <davy.hellemans@netlash.com>
@@ -148,7 +148,7 @@ class FrontendURL
 	 */
 	public function getParameters($includeGET = true)
 	{
-		return ($includeGET) ? $this->parameters : array_diff($this->parameters, $_GET);
+		return ($includeGET) ? $this->parameters : array_diff_assoc($this->parameters, $_GET);
 	}
 
 	/**
@@ -284,8 +284,12 @@ class FrontendURL
 				// build URL
 				$URL = rtrim('/' . $language . '/' . $this->getQueryString(), '/');
 
+				// when we are just adding the language to the domain, it's a temporary redirect because
+				// Safari keeps the 301 in cache, so the cookie to switch language doesn't work any more
+				$redirectCode = ($URL == '/' . $language ? 302 : 301);
+
 				// set header & redirect
-				SpoonHTTP::redirect($URL, 301);
+				SpoonHTTP::redirect($URL, $redirectCode);
 			}
 		}
 

@@ -3,7 +3,7 @@
  *
  * @author	Annelies Van Extergem <annelies@netlash.com>
  * @author	Jelmer Snoeck <jelmer.snoeck@netlash.com>
- * @author	Thomas Deceuninck <thomasdeceuninck@netlash.com>
+ * @author	Thomas Deceuninck <thomas@fronto.be>
  */
 jsFrontend.faq =
 {
@@ -26,8 +26,16 @@ jsFrontend.faq.feedback =
 			var useful = ($('#usefulY').attr('checked') ? true : false);
 
 			// show or hide the form
-			if(useful) { $('form#feedback').submit(); }
-			else { $('#feedbackNoInfo').show(); }
+			if(useful)
+			{
+				$('#message').prop('required', false);
+				$('form#feedback').submit();
+			}
+			else
+			{
+				$('#feedbackNoInfo').show();
+				$('#message').prop('required', true);
+			}
 		});
 	}
 }

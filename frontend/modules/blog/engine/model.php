@@ -27,7 +27,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 	 */
 	public static function get($URL)
 	{
-		$return = (array) FrontendModel::getDB()->getRecord(
+		$return = (array) FrontendModel::getContainer()->get('database')->getRecord(
 			'SELECT i.id, i.revision_id, i.language, i.title, i.introduction, i.text,
 			 c.title AS category_title, m2.url AS category_url, i.image,
 			 UNIX_TIMESTAMP(i.publish_on) AS publish_on, i.user_id,
@@ -54,7 +54,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 		{
 			$folders = FrontendModel::getThumbnailFolders(FRONTEND_FILES_PATH . '/blog/images', true);
 
-			foreach($folders as $folder) $return['image_' . $folder['dirname']] = $folder['url'] . '/' . $folder['dirname'] . '/' . $return['image'];
+			foreach($folders as $folder) $return['image_' . $folder['dirname']] = $folder['url'] . '/' . $return['image'];
 		}
 
 		// return
@@ -70,10 +70,10 @@ class FrontendBlogModel implements FrontendTagsInterface
 	 */
 	public static function getAll($limit = 10, $offset = 0)
 	{
-		$items = (array) FrontendModel::getDB()->getRecords(
+		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT i.id, i.revision_id, i.language, i.title, i.introduction, i.text, i.num_comments AS comments_count,
 			 c.title AS category_title, m2.url AS category_url, i.image,
-			 UNIX_TIMESTAMP(i.publish_on) AS publish_on, i.user_id,
+			 UNIX_TIMESTAMP(i.publish_on) AS publish_on, i.user_id, i.allow_comments,
 			 m.url
 			 FROM blog_posts AS i
 			 INNER JOIN blog_categories AS c ON i.category_id = c.id
@@ -104,10 +104,16 @@ class FrontendBlogModel implements FrontendTagsInterface
 			if($row['comments_count'] > 0) $items[$key]['comments'] = true;
 			if($row['comments_count'] > 1) $items[$key]['comments_multiple'] = true;
 
+			// allow comments as boolean
+			$items[$key]['allow_comments'] = ($row['allow_comments'] == 'Y');
+
+			// reset allow comments
+			if(!FrontendModel::getModuleSetting('blog', 'allow_comments')) $items[$key]['allow_comments'] = false;
+
 			// image?
 			if(isset($row['image']))
 			{
-				foreach($folders as $folder) $items[$key]['image_' . $folder['dirname']] = $folder['url'] . '/' . $folder['dirname'] . '/' . $row['image'];
+				foreach($folders as $folder) $items[$key]['image_' . $folder['dirname']] = $folder['url'] . '/' . $row['image'];
 			}
 		}
 
@@ -131,7 +137,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 	 */
 	public static function getAllCategories()
 	{
-		$return = (array) FrontendModel::getDB()->getRecords(
+		$return = (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT c.id, c.title AS label, m.url, COUNT(c.id) AS total, m.data AS meta_data
 			 FROM blog_categories AS c
 			 INNER JOIN blog_posts AS i ON c.id = i.category_id AND c.language = i.language
@@ -159,7 +165,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 	 */
 	public static function getAllComments($limit = 10, $offset = 0)
 	{
-		return (array) FrontendModel::getDB()->getRecords(
+		return (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT i.id, UNIX_TIMESTAMP(i.created_on) AS created_on, i.author, i.text,
 			 p.id AS post_id, p.title AS post_title, m.url AS post_url
 			 FROM blog_comments AS i
@@ -180,7 +186,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 	 */
 	public static function getAllCount()
 	{
-		return (int) FrontendModel::getDB()->getVar(
+		return (int) FrontendModel::getContainer()->get('database')->getVar(
 			'SELECT COUNT(i.id) AS count
 			 FROM blog_posts AS i
 			 WHERE i.status = ? AND i.language = ? AND i.hidden = ? AND i.publish_on <= ?',
@@ -198,10 +204,10 @@ class FrontendBlogModel implements FrontendTagsInterface
 	 */
 	public static function getAllForCategory($categoryURL, $limit = 10, $offset = 0)
 	{
-		$items = (array) FrontendModel::getDB()->getRecords(
+		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT i.id, i.revision_id, i.language, i.title, i.introduction, i.text, i.num_comments AS comments_count,
 			 c.title AS category_title, m2.url AS category_url, i.image,
-			 UNIX_TIMESTAMP(i.publish_on) AS publish_on, i.user_id,
+			 UNIX_TIMESTAMP(i.publish_on) AS publish_on, i.user_id, i.allow_comments,
 			 m.url
 			 FROM blog_posts AS i
 			 INNER JOIN blog_categories AS c ON i.category_id = c.id
@@ -232,6 +238,12 @@ class FrontendBlogModel implements FrontendTagsInterface
 			if($row['comments_count'] > 0) $items[$key]['comments'] = true;
 			if($row['comments_count'] > 1) $items[$key]['comments_multiple'] = true;
 
+			// allow comments as boolean
+			$items[$key]['allow_comments'] = ($row['allow_comments'] == 'Y');
+
+			// reset allow comments
+			if(!FrontendModel::getModuleSetting('blog', 'allow_comments')) $items[$key]['allow_comments'] = false;
+
 			// image?
 			if(isset($row['image']))
 			{
@@ -257,7 +269,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 	 */
 	public static function getAllForCategoryCount($URL)
 	{
-		return (int) FrontendModel::getDB()->getVar(
+		return (int) FrontendModel::getContainer()->get('database')->getVar(
 			'SELECT COUNT(i.id) AS count
 			 FROM blog_posts AS i
 			 INNER JOIN blog_categories AS c ON i.category_id = c.id
@@ -284,10 +296,10 @@ class FrontendBlogModel implements FrontendTagsInterface
 		$offset = (int) $offset;
 
 		// get the items
-		$items = (array) FrontendModel::getDB()->getRecords(
+		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT i.id, i.revision_id, i.language, i.title, i.introduction, i.text, i.num_comments AS comments_count,
 			 c.title AS category_title, m2.url AS category_url, i.image,
-			 UNIX_TIMESTAMP(i.publish_on) AS publish_on, i.user_id,
+			 UNIX_TIMESTAMP(i.publish_on) AS publish_on, i.user_id, i.allow_comments,
 			 m.url
 			 FROM blog_posts AS i
 			 INNER JOIN blog_categories AS c ON i.category_id = c.id
@@ -315,6 +327,12 @@ class FrontendBlogModel implements FrontendTagsInterface
 			// comments
 			if($row['comments_count'] > 0) $items[$key]['comments'] = true;
 			if($row['comments_count'] > 1) $items[$key]['comments_multiple'] = true;
+
+			// allow comments as boolean
+			$items[$key]['allow_comments'] = ($row['allow_comments'] == 'Y');
+
+			// reset allow comments
+			if(!FrontendModel::getModuleSetting('blog', 'allow_comments')) $items[$key]['allow_comments'] = false;
 
 			// image?
 			if(isset($row['image']))
@@ -346,7 +364,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 		$end = (int) $end;
 
 		// return the number of items
-		return (int) FrontendModel::getDB()->getVar(
+		return (int) FrontendModel::getContainer()->get('database')->getVar(
 			'SELECT COUNT(i.id)
 			 FROM blog_posts AS i
 			 WHERE i.status = ? AND i.language = ? AND i.hidden = ? AND i.publish_on BETWEEN ? AND ?',
@@ -363,7 +381,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 	public static function getArchiveNumbers()
 	{
 		// grab stats
-		$numbers = FrontendModel::getDB()->getPairs(
+		$numbers = FrontendModel::getContainer()->get('database')->getPairs(
 			'SELECT DATE_FORMAT(i.publish_on, "%Y%m") AS month, COUNT(i.id)
 			 FROM blog_posts AS i
 			 INNER JOIN meta AS m ON i.meta_id = m.id
@@ -437,7 +455,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 	public static function getComments($id)
 	{
 		// get the comments
-		$comments = (array) FrontendModel::getDB()->getRecords(
+		$comments = (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT c.id, UNIX_TIMESTAMP(c.created_on) AS created_on, c.text, c.data,
 			 c.author, c.email, c.website
 			 FROM blog_comments AS c
@@ -462,7 +480,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 	public static function getForTags(array $ids)
 	{
 		// fetch items
-		$items = (array) FrontendModel::getDB()->getRecords(
+		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT i.title, m.url
 			 FROM blog_posts AS i
 			 INNER JOIN meta AS m ON m.id = i.meta_id
@@ -481,11 +499,15 @@ class FrontendBlogModel implements FrontendTagsInterface
 			// reset url
 			foreach($items as &$row)
 			{
-				$row['full_url'] = $link . '/' . $row['url'] . '?gn=' . str_pad($row['id'], 3, '0', STR_PAD_LEFT);
-							// image?
+				$row['full_url'] = $link . '/' . $row['url'];
+
+				// image?
 				if(isset($row['image']))
 				{
-					foreach($folders as $folder) $row['image_' . $folder['dirname']] = $folder['url'] . '/' . $folder['dirname'] . '/' . $row['image'];
+					foreach($folders as $folder)
+					{
+						$row['image_' . $folder['dirname']] = $folder['url'] . '/' . $folder['dirname'] . '/' . $row['image'];
+					}
 				}
 			}
 		}
@@ -522,7 +544,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 		$id = (int) $id;
 
 		// get db
-		$db = FrontendModel::getDB();
+		$db = FrontendModel::getContainer()->get('database');
 
 		// get date for current item
 		$date = (string) $db->getVar(
@@ -537,27 +559,28 @@ class FrontendBlogModel implements FrontendTagsInterface
 
 		// init var
 		$navigation = array();
+		$detailLink = FrontendNavigation::getURLForBlock('blog', 'detail') . '/';
 
 		// get previous post
 		$navigation['previous'] = $db->getRecord(
-			'SELECT i.id, i.title, m.url
+			'SELECT i.id, i.title, CONCAT(?, m.url) AS url
 			 FROM blog_posts AS i
 			 INNER JOIN meta AS m ON i.meta_id = m.id
-			 WHERE i.id != ? AND i.status = ? AND i.hidden = ? AND i.language = ? AND i.publish_on <= ?
-			 ORDER BY i.publish_on DESC
+			 WHERE i.id != ? AND i.status = ? AND i.hidden = ? AND i.language = ? AND ((i.publish_on = ? AND i.id < ?) OR i.publish_on < ?)
+			 ORDER BY i.publish_on DESC, i.id DESC
 			 LIMIT 1',
-			array($id, 'active', 'N', FRONTEND_LANGUAGE, $date)
+			array($detailLink, $id, 'active', 'N', FRONTEND_LANGUAGE, $date, $id, $date)
 		);
 
 		// get next post
 		$navigation['next'] = $db->getRecord(
-			'SELECT i.id, i.title, m.url
+			'SELECT i.id, i.title, CONCAT(?, m.url) AS url
 			 FROM blog_posts AS i
 			 INNER JOIN meta AS m ON i.meta_id = m.id
-			 WHERE i.id != ? AND i.status = ? AND i.hidden = ? AND i.language = ? AND i.publish_on > ?
-			 ORDER BY i.publish_on ASC
+			 WHERE i.id != ? AND i.status = ? AND i.hidden = ? AND i.language = ? AND ((i.publish_on = ? AND i.id > ?) OR i.publish_on > ?)
+			 ORDER BY i.publish_on ASC, i.id ASC
 			 LIMIT 1',
-			array($id, 'active', 'N', FRONTEND_LANGUAGE, $date)
+			array($detailLink, $id, 'active', 'N', FRONTEND_LANGUAGE, $date, $id, $date)
 		);
 
 		return $navigation;
@@ -577,7 +600,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 		$return = array();
 
 		// get comments
-		$comments = (array) FrontendModel::getDB()->getRecords(
+		$comments = (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT c.id, c.author, c.website, c.email, UNIX_TIMESTAMP(c.created_on) AS created_on, c.text,
 			 i.id AS post_id, i.title AS post_title,
 			 m.url AS post_url
@@ -630,7 +653,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 		$link = FrontendNavigation::getURLForBlock('blog', 'detail');
 
 		// get items
-		$items = (array) FrontendModel::getDB()->getRecords(
+		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT i.id, i.title, m.url
 			 FROM blog_posts AS i
 			 INNER JOIN meta AS m ON i.meta_id = m.id
@@ -658,7 +681,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 	 */
 	public static function getRevision($URL, $revision)
 	{
-		$return = (array) FrontendModel::getDB()->getRecord(
+		$return = (array) FrontendModel::getContainer()->get('database')->getRecord(
 			'SELECT i.id, i.revision_id, i.language, i.title, i.introduction, i.text,
 			 c.title AS category_title, m2.url AS category_url,
 			 UNIX_TIMESTAMP(i.publish_on) AS publish_on, i.user_id,
@@ -693,7 +716,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 	public static function insertComment(array $comment)
 	{
 		// get db
-		$db = FrontendModel::getDB(true);
+		$db = FrontendModel::getContainer()->get('database');
 
 		// insert comment
 		$comment['id'] = (int) $db->insert('blog_comments', $comment);
@@ -702,7 +725,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 		if($comment['status'] == 'published')
 		{
 			// num comments
-			$numComments = (int) FrontendModel::getDB()->getVar(
+			$numComments = (int) FrontendModel::getContainer()->get('database')->getVar(
 				'SELECT COUNT(i.id) AS comment_count
 				 FROM blog_comments AS i
 				 INNER JOIN blog_posts AS p ON i.post_id = p.id AND i.language = p.language
@@ -727,7 +750,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 	 */
 	public static function isModerated($author, $email)
 	{
-		return (bool) FrontendModel::getDB()->getVar(
+		return (bool) FrontendModel::getContainer()->get('database')->getVar(
 			'SELECT 1
 			 FROM blog_comments AS c
 			 WHERE c.status = ? AND c.author = ? AND c.email = ?
@@ -747,27 +770,30 @@ class FrontendBlogModel implements FrontendTagsInterface
 		if($comment['status'] == 'spam') return;
 
 		// build data for pushnotification
-		if($comment['status'] == 'moderation') $alert = array('loc-key' => 'NEW_COMMENT_TO_MODERATE');
-		else $alert = array('loc-key' => 'NEW_COMMENT');
+		if($comment['status'] == 'moderation') $key = 'BLOG_COMMENT_MOD';
+		else $key = 'BLOG_COMMENT';
 
-		// get count of unmoderated items
-		$badge = (int) FrontendModel::getDB()->getVar(
-			'SELECT COUNT(i.id)
-			 FROM blog_comments AS i
-			 WHERE i.status = ? AND i.language = ?
-			 GROUP BY i.status',
-			array('moderation', FRONTEND_LANGUAGE)
+		$author = $comment['author'];
+		if(mb_strlen($author) > 20) $author = mb_substr($author, 0, 19) . '…';
+		$text = $comment['text'];
+		if(mb_strlen($text) > 50) $text = mb_substr($text, 0, 49) . '…';
+
+		$alert = array(
+			'loc-key' => $key,
+			'loc-args' => array(
+				$author,
+				$text
+			)
 		);
 
-		// reset if needed
-		if($badge == 0) $badge = null;
-
 		// build data
-		$data = array('data' => array('endpoint' => SITE_URL . '/api/1.0', 'comment_id' => $comment['id']));
+		$data = array(
+			'api' => SITE_URL . '/api/1.0',
+			'id' => $comment['id']
+		);
 
 		// push it
-		FrontendModel::pushToAppleApp($alert, $badge, null, $data);
-		FrontendModel::pushToMicrosoftApp('NEW_COMMENT', $badge, null, null, null, null, '/MainPage.xaml?website=' . SITE_URL, null); // @todo: clean this up
+		FrontendModel::pushToAppleApp($alert, null, 'default', $data);
 
 		// get settings
 		$notifyByMailOnComment = FrontendModel::getModuleSetting('blog', 'notify_by_email_on_new_comment', false);
@@ -822,7 +848,7 @@ class FrontendBlogModel implements FrontendTagsInterface
 	 */
 	public static function search(array $ids)
 	{
-		$items = (array) FrontendModel::getDB()->getRecords(
+		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT i.id, i.title, i.introduction, i.text, m.url
 			 FROM blog_posts AS i
 			 INNER JOIN meta AS m ON i.meta_id = m.id

@@ -2,7 +2,7 @@
  * Interaction for the faq categories
  *
  * @author	Lester Lievens <lester.lievens@netlash.com>
- * @author	Thomas Deceuninck <thomasdeceuninck@netlash.com>
+ * @author	Thomas Deceuninck <thomas@fronto.be>
  * @author	Annelies Van Extergem <annelies@netlash.com>
  * @author	Davy Van Vooren <davy.vanvooren@netlash.com>
  */
@@ -98,7 +98,7 @@ jsBackend.faq =
 						},
 						success: function(data, textStatus)
 						{
-							// not a succes so revert the changes
+							// not a success so revert the changes
 							if(data.code == 200)
 							{
 								// change count in title (if any)

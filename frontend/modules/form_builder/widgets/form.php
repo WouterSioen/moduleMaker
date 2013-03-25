@@ -74,7 +74,7 @@ class FrontendFormBuilderWidgetForm extends FrontendBaseWidget
 		$action = rtrim($action, '/');
 
 		// cough up action
-		return SITE_URL . '/' . $action;
+		return '/' . $action;
 	}
 
 	/**
@@ -151,6 +151,9 @@ class FrontendFormBuilderWidgetForm extends FrontendBaseWidget
 					// empty default element
 					$ddm->setDefaultElement('');
 
+					// add required attribute
+					if($item['required']) $ddm->setAttribute('required', null);
+
 					// get content
 					$item['html'] = $ddm->parse();
 				}
@@ -193,6 +196,10 @@ class FrontendFormBuilderWidgetForm extends FrontendBaseWidget
 					// create element
 					$txt = $this->frm->addText($item['name'], $defaultValues);
 
+					// add required attribute
+					if($item['required']) $txt->setAttribute('required', null);
+					if(isset($field['validations']['email'])) $txt->setAttribute('type', 'email');
+
 					// get content
 					$item['html'] = $txt->parse();
 				}
@@ -203,6 +210,9 @@ class FrontendFormBuilderWidgetForm extends FrontendBaseWidget
 					// create element
 					$txt = $this->frm->addTextarea($item['name'], $defaultValues);
 					$txt->setAttribute('cols', 30);
+
+					// add required attribute
+					if($item['required']) $txt->setAttribute('required', null);
 
 					// get content
 					$item['html'] = $txt->parse();
@@ -400,6 +410,14 @@ class FrontendFormBuilderWidgetForm extends FrontendBaseWidget
 					FrontendFormBuilderModel::insertDataField($fieldData);
 				}
 
+				// notify the admin
+				FrontendFormBuilderModel::notifyAdmin(
+					array(
+					     'form_id' => $this->item['id'],
+					     'entry_id' => $dataId
+					)
+				);
+
 				// need to send mail
 				if($this->item['method'] == 'database_email')
 				{
@@ -419,7 +437,7 @@ class FrontendFormBuilderWidgetForm extends FrontendBaseWidget
 				// trigger event
 				FrontendModel::triggerEvent('form_builder', 'after_submission', array('form_id' => $this->item['id'], 'data_id' => $dataId, 'data' => $data, 'fields' => $fields, 'visitorId' => FrontendModel::getVisitorId()));
 
-				// store timestamp in session so we can block excesive usage
+				// store timestamp in session so we can block excessive usage
 				SpoonSession::set('formbuilder_' . $this->item['id'], time());
 
 				// redirect

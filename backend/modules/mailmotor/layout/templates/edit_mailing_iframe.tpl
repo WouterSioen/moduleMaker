@@ -17,15 +17,27 @@
 	<script type="text/javascript" src="/backend/core/js/jquery/jquery.tools.js"></script>
 
 	<script type="text/javascript" src="/backend/core/js/jquery/jquery.backend.js"></script>
-	<script type="text/javascript" src="/backend/js.php?module=core&amp;file=backend.js&amp;language=nl"></script>
-	<script type="text/javascript" src="/backend/js.php?module=core&amp;file=utils.js&amp;language=nl"></script>
-	<script type="text/javascript" src="/backend/js.php?module=mailmotor&amp;file=mailmotor.js&amp;language=nl"></script>
+	<script type="text/javascript" src="/backend/core/js/backend.js"></script>
+	<script type="text/javascript" src="/backend/core/js/utils.js"></script>
+	<script type="text/javascript" src="/backend/mailmotor/js/mailmotor.js"></script>
 	<script type="text/javascript" src="/backend/core/js/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="/backend/core/js/ckeditor/adapters/jquery.js"></script>
 	<script type="text/javascript" src="/backend/core/js/ckfinder/ckfinder.js"></script>
 	<script type="text/javascript" src="/frontend/cache/navigation/editor_link_list_{$LANGUAGE}.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
+			{$jsData}
+
+			// reports
+			$(function()
+			{
+				{option:formError}jsBackend.messages.add('error', "{$errFormError|addslashes}");{/option:formError}
+				{option:usingRevision}jsBackend.messages.add('notice', "{$msgUsingARevision|addslashes}");{/option:usingRevision}
+				{option:usingDraft}jsBackend.messages.add('notice', "{$msgUsingADraft|addslashes}");{/option:usingDraft}
+				{option:report}jsBackend.messages.add('success', "{$reportMessage|addslashes}");{/option:report}
+				{option:errorMessage}jsBackend.messages.add('error', "{$errorMessage|addslashes}");{/option:errorMessage}
+			});
+
 			var variables = new Array();
 			variables =
 			{
