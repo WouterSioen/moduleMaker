@@ -22,22 +22,55 @@
 	<div class="options">
 		<pre>
 Hier komen speciale velden zoals
-- meta
 - categorieën
 - extra afbeeldingen tabel
 - extra settings tabel (key => value)
 - Tags
-- Search Index
 - Sequence
 		</pre>
 	</div>
 </div>
 
-<div class="fullwidthOptions">
-	<div class="buttonHolderRight">
-		<a id="toStep4" class="inputButton button mainButton" href="{$var|geturl:'add_step4'}" >{$lblToStep|ucfirst} 4</a>
+{form:add_step3}
+	<div id="options" class="box">
+		<div class="heading">
+			<h3>{$lblOptions|ucfirst}</h3>
+		</div>
+		<div class="options horizontal">
+			<p>
+				<label for="meta">{$chkMeta} {$lblMeta|ucfirst}</label>
+				<span class="showOnMeta"{option:!meta} style="display: none;"{/option:!meta}>
+					<label for="meta_field">{$lblMetaField|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
+					{$ddmMetaField} {$ddmMetaFieldError}
+				</span>
+			</p>
+		</div>
+		<div class="options horizontal">
+			<p>
+				<label for="search">{$chkSearch} {$lblSearch|ucfirst}</label>
+			</p>
+			<span class="showOnSearch"{option:!search} style="display: none;"{/option:!search}>
+				{option:searchFields}
+					<p>
+						<label>{$lblSearchFields|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
+					</p>
+					<ul id="searchFieldsList" class="inputList">
+						{iteration:searchFields}
+							<li>{$searchFields.chkSearchFields} <label for="{$searchFields.id}">{$searchFields.label}</label></li>
+						{/iteration:searchFields}
+					</ul>
+					{$chkSearchFieldsError}
+				{/option:searchFields}
+			</span>
+		</div>
 	</div>
-</div>
+
+	<div class="fullwidthOptions">
+		<div class="buttonHolderRight">
+			<input id="addStep3" class="inputButton button mainButton" type="submit" name="add_step_3" value="{$lblToStep|ucfirst} 4" />
+		</div>
+	</div>
+{/form:add_step3}
 
 {include:{$BACKEND_CORE_PATH}/layout/templates/structure_end_module.tpl}
 {include:{$BACKEND_CORE_PATH}/layout/templates/footer.tpl}

@@ -60,69 +60,7 @@ class Backend{$camel_case_name}Model
 			 WHERE i.id = ?',
 			array((int) $id)
 		);
-	}
-
-	/**
-	 * Retrieve the unique url for an item
-	 *
-	 * @param string $url
-	 * @param int[optional] $id
-	 * @return string
-	 */
-	public static function getUrl($url, $id = null)
-	{
-		// redefine Url
-		$url = SpoonFilter::urlise((string) $url);
-
-		// get db
-		$db = BackendModel::getDB();
-
-		// new item
-		if($id === null)
-		{
-			$numberOfItems = (int) $db->getVar(
-				'SELECT 1
-				 FROM {$underscored_name} AS i
-				 INNER JOIN meta AS m ON i.meta_id = m.id
-				 WHERE i.language = ? AND m.url = ?
-				 LIMIT 1',
-				array(BL::getWorkingLanguage(), $url));
-
-			// already exists
-			if($numberOfItems != 0)
-			{
-				// add number
-				$url = BackendModel::addNumber($url);
-
-				// try again
-				return self::getUrl($url);
-			}
-		}
-		// current item should be excluded
-		else
-		{
-			$numberOfItems = (int) $db->getVar(
-				'SELECT 1
-				 FROM {$underscored_name} AS i
-				 INNER JOIN meta AS m ON i.meta_id = m.id
-				 WHERE i.language = ? AND m.url = ? AND i.id != ?
-				 LIMIT 1',
-				array(BL::getWorkingLanguage(), $url, $id));
-
-			// already exists
-			if($numberOfItems != 0)
-			{
-				// add number
-				$url = BackendModel::addNumber($url);
-
-				// try again
-				return self::getUrl($url, $id);
-			}
-		}
-
-		// return the unique url
-		return $url;
-	}
+	}{$getUrl}
 
 	/**
 	 * Insert an item in the database

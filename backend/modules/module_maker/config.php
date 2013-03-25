@@ -27,4 +27,25 @@ final class BackendModuleMakerConfig extends BackendBaseConfig
 	 * @var array
 	 */
 	protected $disabledActions = array();
+
+	/**
+	 * Check if all required settings have been set
+	 *
+	 * @param string $module The module.
+	 */
+	public function __construct($module)
+	{
+		parent::__construct($module);
+
+		$this->loadEngineFiles();
+	}
+
+	/**
+	 * Loads additional engine files
+	 */
+	private function loadEngineFiles()
+	{
+		require_once 'engine/helper.php';
+		require_once 'engine/generator.php';
+	}
 }

@@ -2,3 +2,5 @@ globals*.php
 !*.base.php
 !*.example.php
 !globals.php
+!globals_backend.php
+!globals_frontend.php

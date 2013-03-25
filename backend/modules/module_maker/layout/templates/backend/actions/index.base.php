@@ -53,9 +53,6 @@ class Backend{$camel_case_name}Index extends BackendBaseActionIndex
 	protected function parse()
 	{
 		// parse the dataGrid if there are results
-		$this->tpl->assign(
-			'dataGrid',
-			($this->dataGrid->getNumResults() != 0) ? $this->dataGrid->getContent() : false
-		);
+		$this->tpl->assign('dataGrid', (string) $this->dataGrid->getContent());
 	}
 }

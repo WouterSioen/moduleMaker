@@ -1,6 +1,6 @@
 
 				// the image path
-				$imagePath = FRONTEND_FILES_PATH . '/' . $this->getModule() . '/images';
+				$imagePath = FRONTEND_FILES_PATH . '/' . $this->getModule() . '/{$underscored_label}';
 
 				// create folders if needed
 {$create_folders}				if(!SpoonDirectory::exists($imagePath . '/source')) SpoonDirectory::create($imagePath . '/source');
@@ -9,11 +9,7 @@
 				if($fields['{$underscored_label}']->isFilled())
 				{
 					// build the image name
-
-					/**
-					 * @TODO when meta is added, use the meta in the image name
-					 */
-					$item['{$underscored_label}'] = time() . '.' . $fields['{$underscored_label}']->getExtension();
+					$item['{$underscored_label}'] = {$file_name_function} . '.' . $fields['{$underscored_label}']->getExtension();
 
 					// upload the image & generate thumbnails
 					$fields['{$underscored_label}']->generateThumbnails($imagePath, $item['{$underscored_label}']);

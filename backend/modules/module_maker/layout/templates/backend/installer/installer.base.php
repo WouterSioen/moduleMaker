@@ -30,7 +30,7 @@ class {$camel_case_name}Installer extends ModuleInstaller
 		$this->setActionRights(1, '{$underscored_name}', 'index');
 		$this->setActionRights(1, '{$underscored_name}', 'add');
 		$this->setActionRights(1, '{$underscored_name}', 'edit');
-		$this->setActionRights(1, '{$underscored_name}', 'delete');
+		$this->setActionRights(1, '{$underscored_name}', 'delete');{$install_extras}
 
 		// add extra's
 		$subnameID = $this->insertExtra('{$underscored_name}', 'block', '{$camel_case_name}', null, null, 'N', 1000);

@@ -35,6 +35,9 @@ Widgets: mogelijkheid om parameters mee te geven
 	- ...
 		</pre>
 	</div>
+	<div class="options">
+		{$item|dump}
+	</div>
 </div>
 
 <div class="fullwidthOptions">

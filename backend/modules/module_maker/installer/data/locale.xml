@@ -22,6 +22,18 @@
 				<translation language="en"><![CDATA[fields]]></translation>
 				<translation language="nl"><![CDATA[velden]]></translation>
 			</item>
+			<item type="label" name="ImageSizes">
+				<translation language="en"><![CDATA[groottes (voorbeeld: 300x300)]]></translation>
+				<translation language="nl"><![CDATA[sizes (formatted as 300x300)]]></translation>
+			</item>
+			<item type="label" name="LowerCcasedLabel">
+				<translation language="en"><![CDATA[label]]></translation>
+				<translation language="nl"><![CDATA[label]]></translation>
+			</item>
+			<item type="label" name="MetaField">
+				<translation language="en"><![CDATA[meta field]]></translation>
+				<translation language="nl"><![CDATA[meta veld]]></translation>
+			</item>
 			<item type="label" name="Options">
 				<translation language="en"><![CDATA[options]]></translation>
 				<translation language="nl"><![CDATA[opties]]></translation>
@@ -30,6 +42,14 @@
 				<translation language="en"><![CDATA[required]]></translation>
 				<translation language="nl"><![CDATA[verplicht]]></translation>
 			</item>
+			<item type="label" name="Searchable">
+				<translation language="en"><![CDATA[Searchable]]></translation>
+				<translation language="nl"><![CDATA[zoekbaar]]></translation>
+			</item>
+			<item type="label" name="SearchFields">
+				<translation language="en"><![CDATA[Search fields]]></translation>
+				<translation language="nl"><![CDATA[zoekvelden]]></translation>
+			</item>
 			<item type="label" name="WizardBlocks">
 				<translation language="en"><![CDATA[blocks]]></translation>
 				<translation language="nl"><![CDATA[blocks]]></translation>
@@ -37,6 +57,10 @@
 			<item type="label" name="WizardFields">
 				<translation language="en"><![CDATA[fields]]></translation>
 				<translation language="nl"><![CDATA[velden]]></translation>
+			</item>
+			<item type="label" name="WizardGenerate">
+				<translation language="en"><![CDATA[generate]]></translation>
+				<translation language="nl"><![CDATA[genereer]]></translation>
 			</item>
 			<item type="label" name="WizardInformation">
 				<translation language="en"><![CDATA[information]]></translation>

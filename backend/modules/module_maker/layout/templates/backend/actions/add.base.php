@@ -43,7 +43,7 @@ class Backend{$camel_case_name}Add extends BackendBaseActionAdd
 	 */
 	protected function parse()
 	{
-		parent::parse();
+		parent::parse();{$parse_meta}
 	}
 
 	/**
@@ -66,7 +66,7 @@ class Backend{$camel_case_name}Add extends BackendBaseActionAdd
 {$build_item_add}
 				// insert it
 				$item['id'] = Backend{$camel_case_name}Model::insert($item);
-
+{$search_index}
 				BackendModel::triggerEvent(
 					$this->getModule(), 'after_add', $item
 				);

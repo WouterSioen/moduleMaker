@@ -82,8 +82,8 @@ class BackendModuleMakerAdd extends BackendBaseActionAdd
 				$this->record['author_name'] = $fields['author_name']->getValue();
 				$this->record['author_url'] = $fields['author_url']->getValue();
 				$this->record['author_email'] = $fields['author_email']->getValue();
-				$this->record['camel_case_name'] = BackendModuleMakerModel::buildCamelCasedName($this->record['title']);
-				$this->record['underscored_name'] = BackendModuleMakerModel::buildUnderscoredName($this->record['title']);
+				$this->record['camel_case_name'] = BackendModuleMakerHelper::buildCamelCasedName($this->record['title']);
+				$this->record['underscored_name'] = BackendModuleMakerHelper::buildUnderscoredName($this->record['title']);
 
 				SpoonSession::set('module', $this->record);
 
