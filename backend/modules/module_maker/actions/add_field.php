@@ -36,52 +36,13 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 	}
 
 	/**
-	 * Load the form
-	 */
-	protected function loadForm()
-	{
-		// If step 1 isn't entered, redirect back to the first step of the wizard
-		$this->record = SpoonSession::get('module');
-		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('add'));
-
-		$types = array(
-			'text' => 'text',
-			'editor' => 'editor',
-			'number' => 'number',
-			'datetime' => 'datetime',
-			'password' => 'password',
-			'checkbox' => 'checkbox',
-			'multicheckbox' => 'multicheckbox',
-			'radiobutton' => 'radiobutton',
-			'dropdown' => 'dropdown',
-			'file' => 'file',
-			'image' => 'image'
-		);
-
-		$this->frm = new BackendForm('add_field');
-		$this->frm->addText('label', null, null, 'inputText title', 'inputTextError title');
-		$this->frm->addDropDown('type', $types, null);
-		$this->frm->addText('tags', null, null, 'inputText tagBox', 'inputTextError tagBox');
-		$this->frm->addCheckbox('required');
-		$this->frm->addText('default');
-	}
-
-	/**
-	 * Parse the page
-	 */
-	protected function parse()
-	{
-		parent::parse();
-	}
-
-	/**
 	 * Parses the SQL for a field
 	 * @TODO: Don't save multicheckbox as ENUM (multiple options can be checked)
 	 * 
 	 * @param array $field
 	 * @return string
 	 */
-	protected function parseSQL($field)
+	protected function generateSQL($field)
 	{
 		$required = $field['required'] ? ' NOT NULL' : '';
 		$default = '';
@@ -149,6 +110,45 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 	}
 
 	/**
+	 * Load the form
+	 */
+	protected function loadForm()
+	{
+		// If step 1 isn't entered, redirect back to the first step of the wizard
+		$this->record = SpoonSession::get('module');
+		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('add'));
+
+		$types = array(
+			'text' => 'text',
+			'editor' => 'editor',
+			'number' => 'number',
+			'datetime' => 'datetime',
+			'password' => 'password',
+			'checkbox' => 'checkbox',
+			'multicheckbox' => 'multicheckbox',
+			'radiobutton' => 'radiobutton',
+			'dropdown' => 'dropdown',
+			'file' => 'file',
+			'image' => 'image'
+		);
+
+		$this->frm = new BackendForm('add_field');
+		$this->frm->addText('label', null, null, 'inputText title', 'inputTextError title');
+		$this->frm->addDropDown('type', $types, null);
+		$this->frm->addText('tags', null, null, 'inputText tagBox', 'inputTextError tagBox');
+		$this->frm->addCheckbox('required');
+		$this->frm->addText('default');
+	}
+
+	/**
+	 * Parse the page
+	 */
+	protected function parse()
+	{
+		parent::parse();
+	}
+
+	/**
 	 * Validate the form
 	 */
 	protected function validateForm()
@@ -204,7 +204,7 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 				$item['searchable'] = false;
 
 				// generate the SQL for the field
-				$item['sql'] = $this->parseSQL($item);
+				$item['sql'] = $this->generateSQL($item);
 
 				// if the record has no fields key yet, add it
 				if(!array_key_exists('fields', $this->record)) $this->record['fields'] = array();

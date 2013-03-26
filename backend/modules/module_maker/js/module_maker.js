@@ -22,6 +22,7 @@ jsBackend.modulemaker =
 		jsBackend.modulemaker.toggleOptions();
 		jsBackend.modulemaker.toggleMeta();
 		jsBackend.modulemaker.toggleSearch();
+		jsBackend.modulemaker.renderInit();
 	},
 
 	// initializes tagBox
@@ -104,6 +105,46 @@ jsBackend.modulemaker =
 					: $ddmSearchFieldsDiv.slideUp(200);
 			});
 		}
+	},
+
+	// checks if a field changes
+	renderInit: function()
+	{
+		$txtLabel = $('#label');
+		$ddmType = $('#type');
+		$chkRequired = $('#required');
+
+		if($txtLabel.length > 0 && $ddmType.length > 0 && $chkRequired.length > 0)
+		{
+			$txtLabel.on('change', jsBackend.modulemaker.render);
+			$ddmType.on('change', jsBackend.modulemaker.render);
+			$('#addValue-tags').live('keyup', function(e) {
+				if(e.which == '13') jsBackend.modulemaker.render;
+			});
+			$('.deleteButton-tags').live('click', jsBackend.modulemaker.render);
+			$('#addValue-tags').live('change', jsBackend.modulemaker.render);
+			$chkRequired.on('change', jsBackend.modulemaker.render);
+		}
+	},
+
+	render: function()
+	{
+		// get values
+		$label = $('#label').val();
+		$type = $('#type').val();
+		$required = ($chkRequired.attr('checked') === 'checked');
+		$tags = $('#tags').val();
+
+		// append input in tags field to the tags
+		$tags = ($tags) ? $tags + ',' + $('#addValue-tags').val() : $('#addValue-tags').val();
+
+		// do ajax call to render the field
+
+
+		console.log($label);
+		console.log($type);
+		console.log($required);
+		console.log($tags);
 	}
 }
 
