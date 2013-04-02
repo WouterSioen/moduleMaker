@@ -223,6 +223,13 @@ class BackendModuleMakerGenerator
 			}
 		}
 
+		// add the tags field if necessary
+		if($module['useTags'])
+		{
+			if($isEdit) $return .= "\t\t\$this->frm->addText('tags', BackendTagsModel::getTags(\$this->URL->getModule(), \$this->record['id']), null, 'inputText tagBox', 'inputTextError tagBox');\n";
+			else $return .= "\t\t\$this->frm->addText('tags', null, null, 'inputText tagBox', 'inputTextError tagBox');\n";
+		}
+
 		// Add the meta if necessary
 		if($module['metaField'] !== false)
 		{
@@ -234,6 +241,19 @@ class BackendModuleMakerGenerator
 
 		// return the string we build up
 		return $return;
+	}
+
+	/**
+	 * Generates the save tags code
+	 * 
+	 * @param array $module
+	 * @return string
+	 */
+	public static function generateSaveTags($module)
+	{
+		if(!$module['useTags']) return '';
+
+		return self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/save_tags.base.php', array());
 	}
 
 	/**
@@ -354,6 +374,12 @@ class BackendModuleMakerGenerator
 			}
 
 			unset($field['required_html']);
+		}
+
+		// add tags if necessary
+		if($module['useTags'])
+		{
+			$returnSide .= self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/templates/snippets/tags.base.tpl', array());
 		}
 
 		// return the strings we build up

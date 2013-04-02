@@ -83,6 +83,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->variables['validate_form_add'] = BackendModuleMakerGenerator::generateValidateForm($this->record, false);
 		$this->variables['build_item_add'] = BackendModuleMakerGenerator::generateBuildItem($this->record, false);
 		$this->variables['search_index'] = BackendModuleMakerGenerator::generateSearchIndex($this->record);
+		$this->variables['save_tags'] = BackendModuleMakerGenerator::generateSaveTags($this->record);
 		if($this->record['metaField'] !== false)
 		{
 			$this->variables['parse_meta'] = BackendModuleMakerGenerator::generateSnippet(

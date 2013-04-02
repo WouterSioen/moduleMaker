@@ -66,7 +66,7 @@ class Backend{$camel_case_name}Add extends BackendBaseActionAdd
 {$build_item_add}
 				// insert it
 				$item['id'] = Backend{$camel_case_name}Model::insert($item);
-{$search_index}
+{$save_tags}{$search_index}
 				BackendModel::triggerEvent(
 					$this->getModule(), 'after_add', $item
 				);
