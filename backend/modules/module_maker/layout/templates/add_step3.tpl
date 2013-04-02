@@ -25,7 +25,6 @@ Hier komen speciale velden zoals
 - categorieën
 - extra afbeeldingen tabel
 - extra settings tabel (key => value)
-- Sequence
 		</pre>
 	</div>
 </div>
@@ -65,6 +64,11 @@ Hier komen speciale velden zoals
 		<div class="options horizontal">
 			<p>
 				<label for="tags">{$chkTags} {$lblTags|ucfirst}</label>
+			</p>
+		</div>
+		<div class="options horizontal">
+			<p>
+				<label for="sequence">{$chkSequence} {$lblSequence|ucfirst}</label>
 			</p>
 		</div>
 	</div>

@@ -15,9 +15,9 @@
 class Backend{$camel_case_name}Model
 {
 	const QRY_DATAGRID_BROWSE =
-		'SELECT i.id, i.created_on
+		'SELECT i.id, i.created_on{$datagrid_extra}
 		 FROM {$underscored_name} AS i
-		 WHERE i.language = ?';
+		 WHERE i.language = ?{$datagrid_order}';
 
 	/**
 	 * Delete a certain item
@@ -60,8 +60,8 @@ class Backend{$camel_case_name}Model
 			 WHERE i.id = ?',
 			array((int) $id)
 		);
-	}{$getUrl}
-
+	}
+{$getMaxSequence}{$getUrl}
 	/**
 	 * Insert an item in the database
 	 *

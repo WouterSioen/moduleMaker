@@ -55,6 +55,12 @@ class BackendModuleMakerGenerator
 			}
 		}
 
+		// add sequence if necessary
+		if($module['useSequence'] !== false)
+		{
+			$return .= "\t\t\t\t\$item['sequence'] = \Backend" . $module['camel_case_name'] . "Model::getMaximumSequence();\n";
+		}
+
 		// add meta if necessary
 		if($module['metaField'] !== false)
 		{
@@ -328,6 +334,8 @@ class BackendModuleMakerGenerator
 		// add some more basic fields
 		$return .= " `created_on` datetime NOT NULL,\n";
 		$return .= " `edited_on` datetime NOT NULL,\n";
+
+		if($module['useSequence']) $return .= " `sequence` int(11) NOT NULL,\n";
 
 		// add primary key and row settings
 		$return .= " PRIMARY KEY (`id`)\n";

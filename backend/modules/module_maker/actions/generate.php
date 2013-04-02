@@ -64,6 +64,15 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	 */
 	protected function generateBackendActions()
 	{
+		$this->variables['sequence_extra'] = '';
+		if($this->record['useSequence'])
+		{
+			$this->variables['sequence_extra'] = BackendModuleMakerGenerator::generateSnippet(
+				BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/sequence.base.php',
+				array()
+			);
+		}
+
 		// generate index
 		BackendModuleMakerGenerator::generateFile(
 			BACKEND_MODULE_PATH . '/layout/templates/backend/actions/index.base.php',
@@ -76,6 +85,8 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			$this->variables,
 			$this->backendPath . 'layout/templates/index.tpl'
 		);
+
+		unset($this->variables['sequence_extra']);
 
 		// generate add action
 		// create some custom variables
@@ -137,6 +148,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		unset($this->variables['build_item_edit']);
 		unset($this->variables['search_index']);
 		unset($this->variables['parse_meta']);
+		unset($this->variables['save_tags']);
 
 		// generate edit template
 		// build and save the file
@@ -162,7 +174,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	}
 
 	/**
-	 * Generates the backend files (module.js & model.php)
+	 * Generates the backend files (module.js & model.php, sequence.php)
 	 */
 	protected function generateBackendFiles()
 	{
@@ -181,10 +193,17 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 				$this->variables
 			);
 		}
-		else
+		else $this->variables['getUrl'] == '';
+
+		// add the getMaximumSequence function if sequencing is used
+		if($this->record['useSequence'])
 		{
-			$this->variables['getUrl'] == '';
+			$this->variables['getMaxSequence'] = BackendModuleMakerGenerator::generateSnippet(
+				BACKEND_MODULE_PATH . '/layout/templates/backend/engine/snippets/getMaxSequence.base.php',
+				$this->variables
+			);
 		}
+		else $this->variables['getMaxSequence'] == '';
 
 		// add the extra parameters in the MySQL SELECT
 		$this->variables['select_extra'] = '';
@@ -194,6 +213,10 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			if($field['type'] == 'datetime') $this->variables['select_extra'] .= ', UNIX_TIMESTAMP(i.' . $field['underscored_label'] . ') AS ' . $field['underscored_label'];
 		}
 
+		// select the sequence for the datagrid if we have sequencing
+		$this->variables['datagrid_extra'] = ($this->record['useSequence']) ? ', i.sequence' : '';
+		$this->variables['datagrid_order'] = ($this->record['useSequence']) ? "\n\t\t ORDER BY i.sequence" : '';
+
 		// generate model.php file
 		BackendModuleMakerGenerator::generateFile(
 			BACKEND_MODULE_PATH . '/layout/templates/backend/engine/model.base.php',
@@ -202,6 +225,19 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		);
 
 		unset($this->variables['getUrl']);
+		unset($this->variables['getMaxSequence']);
+		unset($this->variables['datagrid_extra']);
+		unset($this->variables['datagrid_order']);
+
+		// add a backend ajax folder and sequence action if necessary
+		if($this->record['useSequence'])
+		{
+			BackendModuleMakerGenerator::generateFile(
+				BACKEND_MODULE_PATH . '/layout/templates/backend/ajax/sequence.base.php',
+				$this->variables,
+				$this->backendPath . 'ajax/sequence.php'
+			);
+		}
 	}
 
 	/**
@@ -233,7 +269,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$backendDirs = array(
 			'main' => $this->backendPath,
 			'sub' => array(
-				'actions', 'js',
+				'actions', 'ajax', 'js',
 				'engine' => array('cronjobs'),
 				'installer' => array('data'),
 				'layout' => array('templates')

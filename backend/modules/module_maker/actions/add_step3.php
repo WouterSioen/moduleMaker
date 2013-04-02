@@ -89,6 +89,7 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 		$this->frm->addMultiCheckbox('search_fields', $searchFields, $this->selectedSearch);
 
 		$this->frm->addCheckbox('tags', (array_key_exists('useTags', $this->record) && $this->record['useTags']));
+		$this->frm->addCheckbox('sequence', (array_key_exists('useSequence', $this->record) && $this->record['useSequence']));
 	}
 
 	/**
@@ -151,6 +152,7 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 				else $this->record['searchFields'] = false;
 
 				$this->record['useTags'] = ($frmFields['tags']->isChecked());
+				$this->record['useSequence'] = ($frmFields['sequence']->isChecked());
 
 				// save the object in our session
 				SpoonSession::set('module', $this->record);

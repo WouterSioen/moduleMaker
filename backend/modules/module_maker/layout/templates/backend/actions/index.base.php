@@ -35,7 +35,7 @@ class Backend{$camel_case_name}Index extends BackendBaseActionIndex
 			Backend{$camel_case_name}Model::QRY_DATAGRID_BROWSE,
 			BL::getWorkingLanguage()
 		);
-
+{$sequence_extra}
 		// check if this action is allowed
 		if(BackendAuthentication::isAllowedAction('edit'))
 		{
