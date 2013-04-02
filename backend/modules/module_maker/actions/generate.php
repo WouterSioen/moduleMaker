@@ -185,6 +185,14 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			$this->variables['getUrl'] == '';
 		}
 
+		// add the extra parameters in the MySQL SELECT
+		$this->variables['select_extra'] = '';
+		foreach($this->record['fields'] as $field)
+		{
+			// datetime fields should be fetched as timestamps
+			if($field['type'] == 'datetime') $this->variables['select_extra'] .= ', UNIX_TIMESTAMP(i.' . $field['underscored_label'] . ') AS ' . $field['underscored_label'];
+		}
+
 		// generate model.php file
 		BackendModuleMakerGenerator::generateFile(
 			BACKEND_MODULE_PATH . '/layout/templates/backend/engine/model.base.php',

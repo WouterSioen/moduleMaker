@@ -55,7 +55,7 @@ class Backend{$camel_case_name}Model
 	public static function get($id)
 	{
 		return (array) BackendModel::getContainer()->get('database')->getRecord(
-			'SELECT i.*
+			'SELECT i.*{$select_extra}
 			 FROM {$underscored_name} AS i
 			 WHERE i.id = ?',
 			array((int) $id)

@@ -176,13 +176,13 @@ class BackendModuleMakerGenerator
 			$default = '';
 			if($isEdit)
 			{
-				$default = " ,\$this->record['" . $field['underscored_label'] . "']";
+				$default = ", \$this->record['" . $field['underscored_label'] . "']";
 			}
 			elseif($field['default'] !== '')
 			{
-				if($field['type'] == 'number') $default = ' ,' . $field['default'];
+				if($field['type'] == 'number') $default = ', ' . $field['default'];
 				elseif($field['type'] == 'dropdown') $default = ", BL::lbl('" . BackendModuleMakerHelper::buildCamelCasedName($field['default']) . "')";
-				else $default = " ,'" . $field['default'] . "'";
+				else $default = ", '" . $field['default'] . "'";
 			}
 
 			// create the add statements
@@ -193,6 +193,7 @@ class BackendModuleMakerGenerator
 					break;
 				case 'datetime':
 					$return .= "\t\t\$this->frm->addDate('" . $field['underscored_label'] . "_date'" . $default . ");\n";
+					if($default) $default = ", date('H:i', \$this->record['" . $field['underscored_label'] . "'])";
 					$return .= "\t\t\$this->frm->addTime('" . $field['underscored_label'] . "_time'" . $default . ");\n";
 					break;
 				case 'password':
@@ -228,6 +229,7 @@ class BackendModuleMakerGenerator
 			$metaField = $module['fields'][$module['metaField']];
 
 			$return .= "\n\t\t// meta\n\t\t\$this->meta = new BackendMeta(\$this->frm, " . (($isEdit) ? "\$this->record['meta_id']" : 'null') . ", '" . $metaField['underscored_label'] . "', true);";
+			if($isEdit) $return .= "\n\t\t\$this->meta->setUrlCallBack('Backend" . $module['camel_case_name'] . "Model', 'getUrl', array(\$this->record['id']));";
 		}
 
 		// return the string we build up
@@ -426,7 +428,7 @@ class BackendModuleMakerGenerator
 					$return .= "\t\t\tif(\$fields['" . $field['underscored_label'] . "'" . ']->isFilled())' . "\n\t\t\t{\n\t\t\t\t";
 					$return .= "\$fields['" . $field['underscored_label'] . "'" . "]->isAllowedExtension(array('jpg', 'png', 'gif', 'jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t\t";
 					$return .= "\$fields['" . $field['underscored_label'] . "'" . "]->isAllowedMimeType(array('image/jpg', 'image/png', 'image/gif', 'image/jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t}\n";
-					if($field['required']) $return .= "\t\t\telse \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
+					if($field['required'] && !$isEdit) $return .= "\t\t\telse \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
 					$return .= "\n";
 					break;
 			}
