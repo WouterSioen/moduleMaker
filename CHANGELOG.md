@@ -1,14 +1,29 @@
 3.5.1 (xxxx-xx-xx)
 --
+Improvements:
+
+* Symfony: upgrade components to 2.2.
+* Core: isInstalledModule() added in BackendModel. Thx to Jeroen Desloovere.
+* Core: use remote html5-shiv.
+* Core: mailer supports SSL/TLS from now on. Thx to Gertjan Meire.
+* Analytics: better grouping for Google Analytics profiles.
+* Core: deleteThumbnails() added in BackendModel. Thx to John Poelman.
+
 Bugfixes:
 
-* Core: fault Chinese translations fixed.
+* Core: faulty Chinese translations fixed.
 * Extensions: removed deprecated getDB().
 * FormBuilder: removed deprecated getDB().
 * MailMotor: CampaignMonitor wrapper class could not be loaded due to a faulty include path.
 * Installer: after removing the install folder an errors was throw when accessing the /install url.
 * Installer: after sending Location headers we need to exit to prevent further execution of the application.
 * Core: do not add headers set by Spoon to Response. Otherwise they will be send twice.
+* Core: removed line of code from frontend pagination.
+* Spoon: SPOON_DEBUG level did not reflect the parameters.yml settings.
+* Email: allow null as plain_text value to prevent MySQL errors to be thrown. Fixes #429.
+* Share-widget: fixed the whitespace added by Pinterest. Fixes #392.
+* Core: CKEditor is nov available in Chinese. Fixed #381
+* Extensions: Removed html entities out of header
 
 
 3.5.0 (2013-03-13)
