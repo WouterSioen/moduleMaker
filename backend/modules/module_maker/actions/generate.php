@@ -25,11 +25,12 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	 * Some variables used in multiple functions
 	 * $backendPath:		the path to the backend part of the module (string)
 	 * $frontendPath:		the path to the frontend part of the module (string)
+	 * $templatesPath		The path where our templates and snippets are stored (string)
 	 * $variables:			A part of the records variable used for string replacement (array)
 	 * 
 	 * @var mixed
 	 */
-	private $backendPath, $frontendPath, $variables;
+	private $backendPath, $frontendPath, $templatesPath, $variables;
 
 	/**
 	 * Execute the action
@@ -48,6 +49,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		// initialize some variables
 		$this->backendPath = BACKEND_MODULES_PATH . '/' . $this->record['underscored_name'] . '/';
 		$this->frontendPath = FRONTEND_MODULES_PATH . '/' . $this->record['underscored_name'] . '/';
+		$this->templatesPath = BACKEND_MODULE_PATH . '/layout/templates/';
 		$this->variables = (array) $this->record;
 		unset($this->variables['fields']);
 
@@ -55,7 +57,9 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->generateBaseFiles();
 		$this->generateInstallerFiles();
 		$this->generateBackendFiles();
+		$this->generateBackendModel();
 		$this->generateBackendActions();
+		$this->generateBackendCategoryActions();
 		$this->display();
 	}
 
@@ -68,25 +72,20 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		if($this->record['useSequence'])
 		{
 			$this->variables['sequence_extra'] = BackendModuleMakerGenerator::generateSnippet(
-				BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/sequence.base.php',
-				array()
+				$this->templatesPath . 'backend/actions/snippets/sequence.base.php', array()
 			);
 		}
 
 		// generate index
 		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/actions/index.base.php',
-			$this->variables,
-			$this->backendPath . 'actions/index.php'
+			$this->templatesPath . 'backend/actions/index.base.php',
+			$this->variables, $this->backendPath . 'actions/index.php'
 		);
 
 		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/templates/index.base.tpl',
-			$this->variables,
-			$this->backendPath . 'layout/templates/index.tpl'
+			$this->templatesPath . 'backend/templates/index.base.tpl',
+			$this->variables, $this->backendPath . 'layout/templates/index.tpl'
 		);
-
-		unset($this->variables['sequence_extra']);
 
 		// generate add action
 		// create some custom variables
@@ -98,34 +97,26 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		if($this->record['metaField'] !== false)
 		{
 			$this->variables['parse_meta'] = BackendModuleMakerGenerator::generateSnippet(
-				BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/parse_meta.base.php',
-				array()
+				$this->templatesPath . 'backend/actions/snippets/parse_meta.base.php', array()
 			);
 		}
 		else $this->variables['parse_meta'] = '';
 
 		// build and save the file
 		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/actions/add.base.php',
-			$this->variables,
-			$this->backendPath . 'actions/add.php'
+			$this->templatesPath . 'backend/actions/add.base.php',
+			$this->variables, $this->backendPath . 'actions/add.php'
 		);
 
-		// unset the custom variables
-		unset($this->variables['load_form_add']);
-		unset($this->variables['validate_form_add']);
-		unset($this->variables['build_item_add']);
-
 		// generate add template
-		// create a variables
+		// create variables
 		list($this->variables['template_title'], $this->variables['template'], $this->variables['template_side']) = BackendModuleMakerGenerator::generateTemplate($this->record, false);
 		list($this->variables['template_tabs_top'], $this->variables['template_tabs_bottom']) = BackendModuleMakerGenerator::generateTemplateTabs($this->record);
 
 		// build and save the file
 		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/templates/add.base.tpl',
-			$this->variables,
-			$this->backendPath . 'layout/templates/add.tpl'
+			$this->templatesPath . 'backend/templates/add.base.tpl',
+			$this->variables, $this->backendPath . 'layout/templates/add.tpl'
 		);
 
 		// generate edit action
@@ -137,73 +128,119 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		// build and save the file
 		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/actions/edit.base.php',
-			$this->variables,
-			$this->backendPath . 'actions/edit.php'
+			$this->templatesPath . 'backend/actions/edit.base.php',
+			$this->variables, $this->backendPath . 'actions/edit.php'
 		);
-
-		// unset the custom variables
-		unset($this->variables['load_form_edit']);
-		unset($this->variables['validate_form_edit']);
-		unset($this->variables['build_item_edit']);
-		unset($this->variables['search_index']);
-		unset($this->variables['parse_meta']);
-		unset($this->variables['save_tags']);
 
 		// generate edit template
-		// build and save the file
 		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/templates/edit.base.tpl',
-			$this->variables,
-			$this->backendPath . 'layout/templates/edit.tpl'
+			$this->templatesPath . 'backend/templates/edit.base.tpl',
+			$this->variables, $this->backendPath . 'layout/templates/edit.tpl'
 		);
-
-		// unset the custom variables
-		unset($this->variables['template_title']);
-		unset($this->variables['template']);
-		unset($this->variables['template_side']);
-		unset($this->variables['template_tabs_top']);
-		unset($this->variables['template_tabs_bottom']);
 
 		// generate delete
 		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/actions/delete.base.php',
-			$this->variables,
-			$this->backendPath . 'actions/delete.php'
+			$this->templatesPath . 'backend/actions/delete.base.php',
+			$this->variables, $this->backendPath . 'actions/delete.php'
+		);
+
+		// unset the custom variables
+		unset(
+			$this->variables['sequence_extra'], $this->variables['load_form_add'], $this->variables['validate_form_add'],
+			$this->variables['build_item_add'], $this->variables['load_form_edit'], $this->variables['validate_form_edit'],
+			$this->variables['build_item_edit'], $this->variables['search_index'], $this->variables['parse_meta'],
+			$this->variables['save_tags'], $this->variables['template_title'], $this->variables['template'],
+			$this->variables['template_side'], $this->variables['template_tabs_top'], $this->variables['template_tabs_bottom']
 		);
 	}
 
 	/**
-	 * Generates the backend files (module.js & model.php, sequence.php)
+	 * Generates the backend category actions (and templates) (categories, add_category, edit_category and delete_category)
+	 */
+	protected function generateBackendCategoryActions()
+	{
+		if(!$this->record['useCategories']) return;
+
+		// generate categories
+		BackendModuleMakerGenerator::generateFile(
+			$this->templatesPath . 'backend/actions/categories.base.php',
+			$this->variables, $this->backendPath . 'actions/categories.php'
+		);
+		BackendModuleMakerGenerator::generateFile(
+			$this->templatesPath . 'backend/templates/categories.base.tpl',
+			$this->variables, $this->backendPath . 'layout/templates/categories.tpl'
+		);
+
+		// generate add_category
+		BackendModuleMakerGenerator::generateFile(
+			$this->templatesPath . 'backend/actions/add_category.base.php',
+			$this->variables, $this->backendPath . 'actions/add_category.php'
+		);
+		BackendModuleMakerGenerator::generateFile(
+			$this->templatesPath . 'backend/templates/add_category.base.tpl',
+			$this->variables, $this->backendPath . 'layout/templates/add_category.tpl'
+		);
+
+		// generate edit_category
+		BackendModuleMakerGenerator::generateFile(
+			$this->templatesPath . 'backend/actions/edit_category.base.php',
+			$this->variables, $this->backendPath . 'actions/edit_category.php'
+		);
+		BackendModuleMakerGenerator::generateFile(
+			$this->templatesPath . 'backend/templates/edit_category.base.tpl',
+			$this->variables, $this->backendPath . 'layout/templates/edit_category.tpl'
+		);
+
+		// generate delete_category
+		BackendModuleMakerGenerator::generateFile(
+			$this->templatesPath . 'backend/actions/delete_category.base.php',
+			$this->variables, $this->backendPath . 'actions/delete_category.php'
+		);
+	}
+
+	/**
+	 * Generates the backend files (module.js, sequence.php)
 	 */
 	protected function generateBackendFiles()
 	{
 		// generate module.js file
 		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/js/javascript.base.js',
-			$this->variables,
-			$this->backendPath . 'js/' . $this->record['underscored_name'] . '.js'
+			$this->templatesPath . 'backend/js/javascript.base.js',
+			$this->variables, $this->backendPath . 'js/' . $this->record['underscored_name'] . '.js'
 		);
 
+		// add a sequence ajax action if necessary
+		if($this->record['useSequence'])
+		{
+			BackendModuleMakerGenerator::generateFile(
+				$this->templatesPath . 'backend/ajax/sequence.base.php',
+				$this->variables, $this->backendPath . 'ajax/sequence.php'
+			);
+		}
+	}
+
+	/**
+	 * Generates the backend model.php file
+	 */
+	protected function generateBackendModel()
+	{
 		// add the createURL function if there is a meta field
 		if($this->record['metaField'] !== false)
 		{
 			$this->variables['getUrl'] = BackendModuleMakerGenerator::generateSnippet(
-				BACKEND_MODULE_PATH . '/layout/templates/backend/engine/snippets/getUrl.base.php',
-				$this->variables
+				$this->templatesPath . 'backend/engine/snippets/getUrl.base.php', $this->variables
 			);
 		}
-		else $this->variables['getUrl'] == '';
+		else $this->variables['getUrl'] = '';
 
 		// add the getMaximumSequence function if sequencing is used
 		if($this->record['useSequence'])
 		{
 			$this->variables['getMaxSequence'] = BackendModuleMakerGenerator::generateSnippet(
-				BACKEND_MODULE_PATH . '/layout/templates/backend/engine/snippets/getMaxSequence.base.php',
-				$this->variables
+				$this->templatesPath . 'backend/engine/snippets/getMaxSequence.base.php', $this->variables
 			);
 		}
-		else $this->variables['getMaxSequence'] == '';
+		else $this->variables['getMaxSequence'] = '';
 
 		// add the extra parameters in the MySQL SELECT
 		$this->variables['select_extra'] = '';
@@ -217,27 +254,45 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->variables['datagrid_extra'] = ($this->record['useSequence']) ? ', i.sequence' : '';
 		$this->variables['datagrid_order'] = ($this->record['useSequence']) ? "\n\t\t ORDER BY i.sequence" : '';
 
-		// generate model.php file
-		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/engine/model.base.php',
-			$this->variables,
-			$this->backendPath . 'engine/model.php'
-		);
-
-		unset($this->variables['getUrl']);
-		unset($this->variables['getMaxSequence']);
-		unset($this->variables['datagrid_extra']);
-		unset($this->variables['datagrid_order']);
-
-		// add a backend ajax folder and sequence action if necessary
-		if($this->record['useSequence'])
+		// create custom variables for the categories
+		if($this->record['useCategories'])
 		{
-			BackendModuleMakerGenerator::generateFile(
-				BACKEND_MODULE_PATH . '/layout/templates/backend/ajax/sequence.base.php',
-				$this->variables,
-				$this->backendPath . 'ajax/sequence.php'
+			$this->variables['datagrid_categories'] = BackendModuleMakerGenerator::generateSnippet(
+				$this->templatesPath . 'backend/engine/snippets/datagridCategories.base.php', $this->variables
+			);
+			$this->variables['delete_category'] = BackendModuleMakerGenerator::generateSnippet(
+				$this->templatesPath . 'backend/engine/snippets/deleteCategory.base.php', $this->variables
+			);
+			$this->variables['exists_category'] = BackendModuleMakerGenerator::generateSnippet(
+				$this->templatesPath . 'backend/engine/snippets/existsCategory.base.php', $this->variables
+			);
+			$this->variables['get_category'] = BackendModuleMakerGenerator::generateSnippet(
+				$this->templatesPath . 'backend/engine/snippets/getCategory.base.php', $this->variables
+			);
+			$this->variables['get_url_category'] = BackendModuleMakerGenerator::generateSnippet(
+				$this->templatesPath . 'backend/engine/snippets/getUrlCategory.base.php', $this->variables
+			);
+			$this->variables['insert_category'] = BackendModuleMakerGenerator::generateSnippet(
+				$this->templatesPath . 'backend/engine/snippets/insertCategory.base.php', $this->variables
+			);
+			$this->variables['update_category'] = BackendModuleMakerGenerator::generateSnippet(
+				$this->templatesPath . 'backend/engine/snippets/updateCategory.base.php', $this->variables
 			);
 		}
+		else
+		{
+			$this->variables['datagrid_categories'] = $this->variables['delete_category'] = $this->variables['exists_category'] = '';
+			$this->variables['get_category'] = $this->variables['get_url_category'] = $this->variables['insert_category'] = '';
+			$this->variables['update_category'] = '';
+		}
+
+		// generate the file
+		BackendModuleMakerGenerator::generateFile(
+			$this->templatesPath . 'backend/engine/model.base.php',
+			$this->variables, $this->backendPath . 'engine/model.php'
+		);
+
+		unset($this->variables['getUrl'], $this->variables['getMaxSequence'], $this->variables['datagrid_extra'], $this->variables['datagrid_order']);
 	}
 
 	/**
@@ -247,16 +302,14 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	{
 		// generate info.xml file
 		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/info.base.xml',
-			$this->variables,
-			$this->backendPath . 'info.xml'
+			$this->templatesPath . 'backend/info.base.xml',
+			$this->variables, $this->backendPath . 'info.xml'
 		);
 
 		// generate config.php file
 		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/config.base.php',
-			$this->variables,
-			$this->backendPath . 'config.php'
+			$this->templatesPath . 'backend/config.base.php',
+			$this->variables, $this->backendPath . 'config.php'
 		);
 	}
 
@@ -298,26 +351,30 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	 */
 	protected function generateInstallerFiles()
 	{
-		$this->variables['install_extras'] = BackendModuleMakerGenerator::generateInstall($this->record);
+		list($this->variables['install_extras'], $this->variables['backend_navigation']) = BackendModuleMakerGenerator::generateInstall($this->variables);
 
 		// generate installer.php
 		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/installer/installer.base.php',
-			$this->variables,
-			$this->backendPath . 'installer/installer.php'
+			$this->templatesPath . 'backend/installer/installer.base.php',
+			$this->variables, $this->backendPath . 'installer/installer.php'
 		);
 
-		unset($this->variables['install_extras']);
+		unset($this->variables['install_extras'], $this->variables['backend_navigation']);
 
 		// generate locale.xml
 		BackendModuleMakerGenerator::generateFile(
-			BACKEND_MODULE_PATH . '/layout/templates/backend/installer/data/locale.base.xml',
-			$this->variables,
-			$this->backendPath . 'installer/data/locale.xml'
+			$this->templatesPath . 'backend/installer/data/locale.base.xml',
+			$this->variables, $this->backendPath . 'installer/data/locale.xml'
 		);
 
 		// generate install.sql
 		$sql = BackendModuleMakerGenerator::generateSQL($this->record['underscored_name'], $this->record);
+		if($this->record['useCategories'])
+		{
+			$sql .= BackendModuleMakerGenerator::generateSnippet(
+				$this->templatesPath . 'backend/installer/snippets/categories.base.sql', $this->variables
+			);
+		}
 		BackendModuleMakerModel::makeFile($this->backendPath . 'installer/data/install.sql', $sql);
 	}
 }

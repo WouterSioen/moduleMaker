@@ -18,7 +18,7 @@ class Backend{$camel_case_name}Model
 		'SELECT i.id, i.created_on{$datagrid_extra}
 		 FROM {$underscored_name} AS i
 		 WHERE i.language = ?{$datagrid_order}';
-
+{$datagrid_categories}
 	/**
 	 * Delete a certain item
 	 *
@@ -28,7 +28,7 @@ class Backend{$camel_case_name}Model
 	{
 		BackendModel::getContainer()->get('database')->delete('{$underscored_name}', 'id = ?', (int) $id);
 	}
-
+{$delete_category}
 	/**
 	 * Checks if a certain item exists
 	 *
@@ -45,7 +45,7 @@ class Backend{$camel_case_name}Model
 			array((int) $id)
 		);
 	}
-
+{$exists_category}
 	/**
 	 * Fetches a certain item
 	 *
@@ -61,7 +61,7 @@ class Backend{$camel_case_name}Model
 			array((int) $id)
 		);
 	}
-{$getMaxSequence}{$getUrl}
+{$get_category}{$getMaxSequence}{$getUrl}{$get_url_category}
 	/**
 	 * Insert an item in the database
 	 *
@@ -74,7 +74,7 @@ class Backend{$camel_case_name}Model
 
 		return (int) BackendModel::getContainer()->get('database')->insert('{$underscored_name}', $data);
 	}
-
+{$insert_category}
 	/**
 	 * Updates an item
 	 *
@@ -89,4 +89,4 @@ class Backend{$camel_case_name}Model
 			'{$underscored_name}', $data, 'id = ?', (int) $id
 		);
 	}
-}
+{$update_category}}

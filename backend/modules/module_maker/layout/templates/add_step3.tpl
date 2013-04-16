@@ -22,7 +22,6 @@
 	<div class="options">
 		<pre>
 Hier komen speciale velden zoals
-- categorieën
 - extra afbeeldingen tabel
 - extra settings tabel (key => value)
 		</pre>
@@ -69,6 +68,11 @@ Hier komen speciale velden zoals
 		<div class="options horizontal">
 			<p>
 				<label for="sequence">{$chkSequence} {$lblSequence|ucfirst}</label>
+			</p>
+		</div>
+		<div class="options horizontal">
+			<p>
+				<label for="categories">{$chkCategories} {$lblCategories|ucfirst}</label>
 			</p>
 		</div>
 	</div>

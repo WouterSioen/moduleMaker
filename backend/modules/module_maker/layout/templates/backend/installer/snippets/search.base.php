@@ -1,3 +1,3 @@
 
 
-		$this->makeSearchable('{$module_name}');
+		$this->makeSearchable('{$underscored_name}');

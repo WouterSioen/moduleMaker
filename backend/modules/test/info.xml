@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>Test</name>
+	<version>1.0.0</version>
+	<requirements>
+		<minimum_version>versionname</minimum_version>
+	</requirements>
+	<description>
+		<![CDATA[Dit is een test]]>
+	</description>
+	<authors>
+		<author>
+			<name><![CDATA[Wouter Sioen]]></name>
+			<url><![CDATA[http://woutersioen.be]]></url>
+		</author>
+	</authors>
+	<events>
+		<event application="backend" name="after_add"><![CDATA[Triggered when a Test is added.]]></event>
+		<event application="backend" name="after_delete"><![CDATA[Triggered when a Test is deleted.]]></event>
+		<event application="backend" name="after_edit"><![CDATA[Triggered when a Test is edited.]]></event>
+		<event application="backend" name="after_saved_settings"><![CDATA[Triggered when settings are saved.]]></event>
+	</events>
+</module>

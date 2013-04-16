@@ -101,16 +101,34 @@ class BackendModuleMakerGenerator
 	 */
 	public static function generateInstall($module)
 	{
-		$return = '';
+		$extras =  $navigation = '';
+		if($module['useCategories'])
+		{
+			$extras .= self::generateSnippet(
+				BACKEND_MODULE_PATH . '/layout/templates/backend/installer/snippets/categories.base.php',
+				$module
+			);
+			$navigation = self::generateSnippet(
+				BACKEND_MODULE_PATH . '/layout/templates/backend/installer/snippets/navigation_categories.base.php',
+				$module
+			);
+		}
+		else
+		{
+			$navigation = self::generateSnippet(
+				BACKEND_MODULE_PATH . '/layout/templates/backend/installer/snippets/navigation.base.php',
+				$module
+			);
+		}
 		if($module['searchFields'] !== false)
 		{
-			$return .= self::generateSnippet(
+			$extras .= self::generateSnippet(
 				BACKEND_MODULE_PATH . '/layout/templates/backend/installer/snippets/search.base.php',
-				array('module_name' => $module['underscored_name'])
+				$module
 			);
 		}
 
-		return $return;
+		return array($extras, $navigation);
 	}
 
 	/**
@@ -322,6 +340,7 @@ class BackendModuleMakerGenerator
 		$return .= " `id` int(11) NOT NULL auto_increment,\n";
 
 		if($module['metaField'] !== false) $return .= " `meta_id` int(11) NOT NULL,\n";
+		if($module['useCategories']) $return .= " `category_id` int(11) NOT NULL,\n";
 
 		$return .= " `language` varchar(5) NOT NULL,\n";
 
@@ -339,7 +358,7 @@ class BackendModuleMakerGenerator
 
 		// add primary key and row settings
 		$return .= " PRIMARY KEY (`id`)\n";
-		$return .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;";
+		$return .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
 		return $return;
 	}

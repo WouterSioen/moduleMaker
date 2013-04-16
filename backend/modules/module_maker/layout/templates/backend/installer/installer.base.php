@@ -35,12 +35,6 @@ class {$camel_case_name}Installer extends ModuleInstaller
 		// add extra's
 		$subnameID = $this->insertExtra('{$underscored_name}', 'block', '{$camel_case_name}', null, null, 'N', 1000);
 
-		$navigationModulesId = $this->setNavigation(null, 'Modules');
-		$navigationclassnameId = $this->setNavigation(
-			$navigationModulesId,
-			'{$camel_case_name}',
-			'{$underscored_name}/index',
-			array('{$underscored_name}/add','{$underscored_name}/edit')
-		);
+{$backend_navigation}
 	}
 }

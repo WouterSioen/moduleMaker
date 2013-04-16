@@ -90,6 +90,7 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 
 		$this->frm->addCheckbox('tags', (array_key_exists('useTags', $this->record) && $this->record['useTags']));
 		$this->frm->addCheckbox('sequence', (array_key_exists('useSequence', $this->record) && $this->record['useSequence']));
+		$this->frm->addCheckbox('categories', (array_key_exists('useCategories', $this->record) && $this->record['useCategories']));
 	}
 
 	/**
@@ -153,6 +154,7 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 
 				$this->record['useTags'] = ($frmFields['tags']->isChecked());
 				$this->record['useSequence'] = ($frmFields['sequence']->isChecked());
+				$this->record['useCategories'] = ($frmFields['categories']->isChecked());
 
 				// save the object in our session
 				SpoonSession::set('module', $this->record);

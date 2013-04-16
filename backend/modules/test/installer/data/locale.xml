@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locale>
+	<backend>
+		<test>
+			<item type="label" name="AddTest">
+				<translation language="nl"><![CDATA[Test toevoegen]]></translation>
+				<translation language="en"><![CDATA[add Test]]></translation>
+			</item>
+		</test>
+		<core>
+			<item type="label" name="Test">
+				<translation language="nl"><![CDATA[Test]]></translation>
+				<translation language="en"><![CDATA[Test]]></translation>
+			</item>
+		</core>
+	</backend>
+	<frontend>
+		<core>
+		</core>
+	</frontend>
+</locale>
