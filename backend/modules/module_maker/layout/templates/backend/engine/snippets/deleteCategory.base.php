@@ -13,6 +13,6 @@
 		{
 			$db->delete('meta', 'id = ?', array($item['meta_id']));
 			$db->delete('{$underscored_name}_categories', 'id = ?', array((int) $id));
-			$db->update('{$underscored_name}_questions', array('category_id' => null), 'category_id = ?', array((int) $id));
+			$db->update('{$underscored_name}', array('category_id' => null), 'category_id = ?', array((int) $id));
 		}
 	}
