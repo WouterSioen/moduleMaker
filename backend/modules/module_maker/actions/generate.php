@@ -217,6 +217,15 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 				$this->variables, $this->backendPath . 'ajax/sequence.php'
 			);
 		}
+
+		// add a sequence categories ajax action if necessary
+		if($this->record['useCategories'])
+		{
+			BackendModuleMakerGenerator::generateFile(
+				$this->templatesPath . 'backend/ajax/sequence_categories.base.php',
+				$this->variables, $this->backendPath . 'ajax/sequence_categories.php'
+			);
+		}
 	}
 
 	/**

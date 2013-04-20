@@ -45,6 +45,10 @@ class Backend{$camel_case_name}Categories extends BackendBaseActionIndex
 				BL::lbl('Edit')
 			);
 		}
+
+		// sequence
+		$this->dataGrid->enableSequenceByDragAndDrop();
+		$this->dataGrid->setAttributes(array('data-action' => 'sequence_categories'));
 	}
 
 	/**
