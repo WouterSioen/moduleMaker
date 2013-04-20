@@ -102,6 +102,7 @@ class BackendModuleMakerGenerator
 	public static function generateInstall($module)
 	{
 		$extras =  $navigation = '';
+		if($module['useSequence']) $extras .= "\n\t\t$this->setActionRights(1, '" . $module['underscored_label'] . "', 'sequence');";
 		if($module['useCategories'])
 		{
 			$extras .= self::generateSnippet(
