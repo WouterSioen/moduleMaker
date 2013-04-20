@@ -47,11 +47,11 @@ class BackendModuleMakerGenerator
 			// when there is a snippet provided for the datatype, use it. This falls back to a default snippet
 			if(file_exists(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/build_' . $field['type'] . '.base.php'))
 			{
-				$return .= self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/build_' . $field['type'] . '.base.php', $field);
+				$return .= self::generateSnippet('backend/actions/snippets/build_' . $field['type'] . '.base.php', $field);
 			}
 			else
 			{
-				$return .= self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/build_simple.base.php', $field);
+				$return .= self::generateSnippet('backend/actions/snippets/build_simple.base.php', $field);
 			}
 		}
 
@@ -81,7 +81,7 @@ class BackendModuleMakerGenerator
 	public static function generateFile($template, $variables, $path)
 	{
 		// get the content of the file
-		$content = BackendModuleMakerModel::readFile($template);
+		$content = BackendModuleMakerModel::readFile(BACKEND_MODULE_PATH . '/layout/templates/' . $template);
 
 		// replace the variables
 		foreach($variables AS $key => $value)
@@ -105,28 +105,16 @@ class BackendModuleMakerGenerator
 		if($module['useSequence']) $extras .= "\n\t\t\$this->setActionRights(1, '" . $module['underscored_name'] . "', 'sequence');";
 		if($module['useCategories'])
 		{
-			$extras .= self::generateSnippet(
-				BACKEND_MODULE_PATH . '/layout/templates/backend/installer/snippets/categories.base.php',
-				$module
-			);
-			$navigation = self::generateSnippet(
-				BACKEND_MODULE_PATH . '/layout/templates/backend/installer/snippets/navigation_categories.base.php',
-				$module
-			);
+			$extras .= self::generateSnippet('backend/installer/snippets/categories.base.php', $module);
+			$navigation = self::generateSnippet('backend/installer/snippets/navigation_categories.base.php', $module);
 		}
 		else
 		{
-			$navigation = self::generateSnippet(
-				BACKEND_MODULE_PATH . '/layout/templates/backend/installer/snippets/navigation.base.php',
-				$module
-			);
+			$navigation = self::generateSnippet('backend/installer/snippets/navigation.base.php', $module);
 		}
 		if($module['searchFields'] !== false)
 		{
-			$extras .= self::generateSnippet(
-				BACKEND_MODULE_PATH . '/layout/templates/backend/installer/snippets/search.base.php',
-				$module
-			);
+			$extras .= self::generateSnippet('backend/installer/snippets/search.base.php', $module);
 		}
 
 		return array($extras, $navigation);
@@ -278,7 +266,7 @@ class BackendModuleMakerGenerator
 	{
 		if(!$module['useTags']) return '';
 
-		return self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/save_tags.base.php', array());
+		return self::generateSnippet('backend/actions/snippets/save_tags.base.php', array());
 	}
 
 	/**
@@ -301,7 +289,7 @@ class BackendModuleMakerGenerator
 
 		$searchString = rtrim($searchString, ', ');
 
-		return self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/search_index.base.php', array('fields' => $searchString));
+		return self::generateSnippet('backend/actions/snippets/search_index.base.php', array('fields' => $searchString));
 	}
 
 	/**
@@ -314,7 +302,7 @@ class BackendModuleMakerGenerator
 	public static function generateSnippet($template, $variables)
 	{
 		// get the content of the file
-		$content = BackendModuleMakerModel::readFile($template);
+		$content = BackendModuleMakerModel::readFile(BACKEND_MODULE_PATH . '/layout/templates/' . $template);
 
 		// replace the variables
 		foreach($variables AS $key => $value)
@@ -382,7 +370,7 @@ class BackendModuleMakerGenerator
 		{
 			$metaField = $module['fields'][$module['metaField']];
 
-			$returnTitle = self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/templates/snippets/meta.base.tpl', $metaField);
+			$returnTitle = self::generateSnippet('backend/templates/snippets/meta.base.tpl', $metaField);
 		}
 
 		// loop through fields and add items
@@ -394,11 +382,11 @@ class BackendModuleMakerGenerator
 
 			if($field['type'] == 'editor' || $field['type'] == 'text' || $field['type'] == 'number' || $field['type'] == 'password')
 			{
-				$return .= self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/templates/snippets/' . $field['type'] . '.base.tpl', $field);
+				$return .= self::generateSnippet('backend/templates/snippets/' . $field['type'] . '.base.tpl', $field);
 			}
 			else
 			{
-				$returnSide .= self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/templates/snippets/' . $field['type'] . '.base.tpl', $field);
+				$returnSide .= self::generateSnippet('backend/templates/snippets/' . $field['type'] . '.base.tpl', $field);
 			}
 
 			unset($field['required_html']);
@@ -407,7 +395,7 @@ class BackendModuleMakerGenerator
 		// add tags if necessary
 		if($module['useTags'])
 		{
-			$returnSide .= self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/templates/snippets/tags.base.tpl', array());
+			$returnSide .= self::generateSnippet('backend/templates/snippets/tags.base.tpl', array());
 		}
 
 		// return the strings we build up
@@ -428,7 +416,7 @@ class BackendModuleMakerGenerator
 		if($module['metaField'] !== false)
 		{
 			$returnTop .= "\n\t\t\t<li><a href=\"#tabSEO\">{\$lblSEO|ucfirst}</a></li>";
-			$returnBottom .= self::generateSnippet(BACKEND_MODULE_PATH . '/layout/templates/backend/templates/snippets/seo.base.tpl', array());
+			$returnBottom .= self::generateSnippet('backend/templates/snippets/seo.base.tpl', array());
 		}
 
 		return array($returnTop, $returnBottom);
