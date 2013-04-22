@@ -16,6 +16,7 @@ class BackendModuleMakerGenerator
 {
 	/**
 	 * Generates a part of the add/edit action that builds the item
+	 * @TODO: refactor me, I'm nasty
 	 * 
 	 * @param array $module				The array containing all info about the module
 	 * @param boolean $isEdit			Should we generate it for the edit action?
@@ -55,17 +56,10 @@ class BackendModuleMakerGenerator
 			}
 		}
 
-		// add sequence if necessary
-		if($module['useSequence'] !== false)
-		{
-			$return .= "\t\t\t\t\$item['sequence'] = \Backend" . $module['camel_case_name'] . "Model::getMaximumSequence();\n";
-		}
-
-		// add meta if necessary
-		if($module['metaField'] !== false)
-		{
-			$return .= "\n\t\t\t\t\$item['meta_id'] = \$this->meta->save();\n";
-		}
+		// add sequence, categories or meta if necessary
+		if($module['useSequence']) $return .= "\t\t\t\t\$item['sequence'] = Backend" . $module['camel_case_name'] . "Model::getMaximumSequence() + 1;\n";
+		if($module['useCategories']) $return .= "\t\t\t\t\$item['category_id'] = \$this->frm->getField('category_id')->getValue();\n";
+		if($module['metaField']) $return .= "\n\t\t\t\t\$item['meta_id'] = \$this->meta->save();\n";
 
 		// return the string we build up
 		return $return;
@@ -80,14 +74,7 @@ class BackendModuleMakerGenerator
 	 */
 	public static function generateFile($template, $variables, $path)
 	{
-		// get the content of the file
-		$content = BackendModuleMakerModel::readFile(BACKEND_MODULE_PATH . '/layout/templates/' . $template);
-
-		// replace the variables
-		foreach($variables AS $key => $value)
-		{
-			$content = str_replace('{$' . $key . '}', $value, $content);
-		}
+		$content = self::generateSnippet($template, $variables);
 
 		// write the file
 		BackendModuleMakerModel::makeFile($path, $content);
@@ -122,6 +109,7 @@ class BackendModuleMakerGenerator
 
 	/**
 	 * Generates a part of the loadForm() function for the backend add/edit actions
+	 * @TODO: refactor me, I'm nasty
 	 * 
 	 * @param array $module				The array containing all info about the module
 	 * @param boolean $isEdit			Should we generate it for the edit action?
@@ -243,6 +231,13 @@ class BackendModuleMakerGenerator
 			else $return .= "\t\t\$this->frm->addText('tags', null, null, 'inputText tagBox', 'inputTextError tagBox');\n";
 		}
 
+		// add the categories
+		if($module['useCategories'])
+		{
+			if($isEdit) $return .= self::generateSnippet('backend/actions/snippets/load_categories_edit.base.php', $module);
+			else $return .= self::generateSnippet('backend/actions/snippets/load_categories_add.base.php', $module);
+		}
+
 		// Add the meta if necessary
 		if($module['metaField'] !== false)
 		{
@@ -307,7 +302,7 @@ class BackendModuleMakerGenerator
 		// replace the variables
 		foreach($variables AS $key => $value)
 		{
-			$content = str_replace('{$' . $key . '}', $value, $content);
+			if(!is_array($value)) $content = str_replace('{$' . $key . '}', $value, $content);
 		}
 
 		return $content;
@@ -424,6 +419,7 @@ class BackendModuleMakerGenerator
 
 	/**
 	 * Generates a part of the validateForm() function for the backend add/edit actions
+	 * @TODO: refactor me, I'm nasty
 	 * 
 	 * @param array $module				The array containing all info about the module
 	 * @param boolean $isEdit			Should we generate it for the edit action?
