@@ -65,28 +65,28 @@ class Backend{$camel_case_name}Model
 	/**
 	 * Insert an item in the database
 	 *
-	 * @param array $data
+	 * @param array $item
 	 * @return int
 	 */
-	public static function insert(array $data)
+	public static function insert(array $item)
 	{
-		$data['created_on'] = BackendModel::getUTCDate();
+		$item['created_on'] = BackendModel::getUTCDate();
 
-		return (int) BackendModel::getContainer()->get('database')->insert('{$underscored_name}', $data);
+		return (int) BackendModel::getContainer()->get('database')->insert('{$underscored_name}', $item);
 	}
 {$insert_category}
 	/**
 	 * Updates an item
 	 *
 	 * @param int $id
-	 * @param array $data
+	 * @param array $item
 	 */
-	public static function update($id, array $data)
+	public static function update($id, array $item)
 	{
-		$data['edited_on'] = BackendModel::getUTCDate();
+		$item['edited_on'] = BackendModel::getUTCDate();
 
 		BackendModel::getContainer()->get('database')->update(
-			'{$underscored_name}', $data, 'id = ?', (int) $id
+			'{$underscored_name}', $item, 'id = ?', (int) $id
 		);
 	}
 {$update_category}}
