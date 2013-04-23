@@ -393,6 +393,12 @@ class BackendModuleMakerGenerator
 			$returnSide .= self::generateSnippet('backend/templates/snippets/tags.base.tpl', array());
 		}
 
+		// add category
+		if($module['useCategories'])
+		{
+			$returnSide .= self::generateSnippet('backend/templates/snippets/category.base.tpl', array());
+		}
+
 		// return the strings we build up
 		return array($returnTitle, $return, $returnSide);
 	}
