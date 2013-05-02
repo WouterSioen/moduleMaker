@@ -84,7 +84,7 @@ class BackendModuleMakerGenerator
 	 */
 	public static function generateInstall($module)
 	{
-		$extras =  $navigation = '';
+		$extras = $navigation = '';
 		if($module['useSequence']) $extras .= "\n\t\t\$this->setActionRights(1, '" . $module['underscored_name'] . "', 'sequence');";
 		if($module['useCategories'])
 		{
@@ -328,9 +328,7 @@ class BackendModuleMakerGenerator
 	 */
 	public static function generateTemplate($module, $isEdit)
 	{
-		$return = '';
-		$returnSide = '';
-		$returnTitle = '';
+		$return = $returnSide = $returnTitle = '';
 
 		// first add the meta field (if necessary)
 		if($module['metaField'])
@@ -372,8 +370,7 @@ class BackendModuleMakerGenerator
 	 */
 	public static function generateTemplateTabs($module)
 	{
-		$returnTop = '';
-		$returnBottom = '';
+		$returnTop = $returnBottom = '';
 
 		if($module['metaField'])
 		{
