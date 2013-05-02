@@ -16,7 +16,6 @@ class BackendModuleMakerGenerator
 {
 	/**
 	 * Generates a part of the add/edit action that builds the item
-	 * @TODO: refactor me, I'm nasty
 	 * 
 	 * @param array $module				The array containing all info about the module
 	 * @param boolean $isEdit			Should we generate it for the edit action?
