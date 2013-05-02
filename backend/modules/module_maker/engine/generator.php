@@ -40,7 +40,7 @@ class BackendModuleMakerGenerator
 				}
 
 				// add the function used to create the filename
-				if($module['metaField'] !== false) $field['file_name_function'] = '$this->meta->getUrl()';
+				if($module['metaField']) $field['file_name_function'] = '$this->meta->getUrl()';
 				else $field['file_name_function'] = 'time()';
 			}
 
@@ -95,7 +95,7 @@ class BackendModuleMakerGenerator
 		{
 			$navigation = self::generateSnippet('backend/installer/snippets/navigation.base.php', $module);
 		}
-		if($module['searchFields'] !== false)
+		if($module['searchFields'])
 		{
 			$extras .= self::generateSnippet('backend/installer/snippets/search.base.php', $module);
 		}
@@ -116,7 +116,7 @@ class BackendModuleMakerGenerator
 		$return = '';
 
 		// Add the meta field as a title field
-		if($module['metaField'] !== false)
+		if($module['metaField'])
 		{
 			$metaField = $module['fields'][$module['metaField']];
 
@@ -207,7 +207,7 @@ class BackendModuleMakerGenerator
 		}
 
 		// Add the meta if necessary
-		if($module['metaField'] !== false)
+		if($module['metaField'])
 		{
 			$metaField = $module['fields'][$module['metaField']];
 			$metaField['module'] = $module['camel_case_name'];
@@ -295,7 +295,7 @@ class BackendModuleMakerGenerator
 		// add basic field
 		$return .= " `id` int(11) NOT NULL auto_increment,\n";
 
-		if($module['metaField'] !== false) $return .= " `meta_id` int(11) NOT NULL,\n";
+		if($module['metaField']) $return .= " `meta_id` int(11) NOT NULL,\n";
 		if($module['useCategories']) $return .= " `category_id` int(11) NOT NULL,\n";
 
 		$return .= " `language` varchar(5) NOT NULL,\n";
@@ -333,7 +333,7 @@ class BackendModuleMakerGenerator
 		$returnTitle = '';
 
 		// first add the meta field (if necessary)
-		if($module['metaField'] !== false)
+		if($module['metaField'])
 		{
 			$metaField = $module['fields'][$module['metaField']];
 
@@ -375,7 +375,7 @@ class BackendModuleMakerGenerator
 		$returnTop = '';
 		$returnBottom = '';
 
-		if($module['metaField'] !== false)
+		if($module['metaField'])
 		{
 			$returnTop .= "\n\t\t\t<li><a href=\"#tabSEO\">{\$lblSEO|ucfirst}</a></li>";
 			$returnBottom .= self::generateSnippet('backend/templates/snippets/seo.base.tpl');
@@ -423,7 +423,7 @@ class BackendModuleMakerGenerator
 		}
 
 		// add validate meta if necessary
-		if($module['metaField'] !== false)
+		if($module['metaField'])
 		{
 			$return .= self::generateSnippet('backend/actions/snippets/validate_meta.base.php');
 		}
