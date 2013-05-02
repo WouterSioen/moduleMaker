@@ -37,7 +37,7 @@ class BackendModuleMakerGenerator
 				$field['create_folders'] = '';
 				foreach($options as $option)
 				{
-					$field['create_folders'] .= "\t\t\t\tif(!SpoonDirectory::exists(\$imagePath . '/" . $option . "')) SpoonDirectory::create(\$imagePath . '/" . $option . "');\n";
+					$field['create_folders'] .= self::generateSnippet('/backend/actions/snippets/create_folder.base.php', array('option' => $option));
 				}
 
 				// add the function used to create the filename
@@ -50,16 +50,13 @@ class BackendModuleMakerGenerator
 			{
 				$return .= self::generateSnippet('backend/actions/snippets/build_' . $field['type'] . '.base.php', $field);
 			}
-			else
-			{
-				$return .= self::generateSnippet('backend/actions/snippets/build_simple.base.php', $field);
-			}
+			else $return .= self::generateSnippet('backend/actions/snippets/build_simple.base.php', $field);
 		}
 
 		// add sequence, categories or meta if necessary
-		if($module['useSequence']) $return .= "\t\t\t\t\$item['sequence'] = Backend" . $module['camel_case_name'] . "Model::getMaximumSequence() + 1;\n";
-		if($module['useCategories']) $return .= "\t\t\t\t\$item['category_id'] = \$this->frm->getField('category_id')->getValue();\n";
-		if($module['metaField']) $return .= "\n\t\t\t\t\$item['meta_id'] = \$this->meta->save();\n";
+		if($module['useSequence']) $return .= self::generateSnippet('backend/actions/snippets/build_sequence.base.php', $module);
+		if($module['useCategories']) $return .= self::generateSnippet('backend/actions/snippets/build_category.base.php');
+		if($module['metaField']) $return .= self::generateSnippet('backend/actions/snippets/build_meta.base.php');
 
 		// return the string we build up
 		return $return;
@@ -193,10 +190,7 @@ class BackendModuleMakerGenerator
 			{
 				$return .= self::generateSnippet('backend/actions/snippets/add_' . $field['type'] . '.base.php', $field);
 			}
-			else
-			{
-				$return .= self::generateSnippet('backend/actions/snippets/add_simple.base.php', $field);
-			}
+			else $return .= self::generateSnippet('backend/actions/snippets/add_simple.base.php', $field);
 		}
 
 		// add the tags field if necessary
@@ -358,25 +352,14 @@ class BackendModuleMakerGenerator
 			{
 				$return .= self::generateSnippet('backend/templates/snippets/' . $field['type'] . '.base.tpl', $field);
 			}
-			else
-			{
-				$returnSide .= self::generateSnippet('backend/templates/snippets/' . $field['type'] . '.base.tpl', $field);
-			}
+			else $returnSide .= self::generateSnippet('backend/templates/snippets/' . $field['type'] . '.base.tpl', $field);
 
 			unset($field['required_html']);
 		}
 
-		// add tags if necessary
-		if($module['useTags'])
-		{
-			$returnSide .= self::generateSnippet('backend/templates/snippets/tags.base.tpl');
-		}
-
-		// add category
-		if($module['useCategories'])
-		{
-			$returnSide .= self::generateSnippet('backend/templates/snippets/category.base.tpl');
-		}
+		// add tags and categories
+		if($module['useTags']) $returnSide .= self::generateSnippet('backend/templates/snippets/tags.base.tpl');
+		if($module['useCategories']) $returnSide .= self::generateSnippet('backend/templates/snippets/category.base.tpl');
 
 		// return the strings we build up
 		return array($returnTitle, $return, $returnSide);
