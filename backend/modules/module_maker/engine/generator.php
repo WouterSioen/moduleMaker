@@ -202,8 +202,8 @@ class BackendModuleMakerGenerator
 		// add the tags field if necessary
 		if($module['useTags'])
 		{
-			if($isEdit) $return .= "\t\t\$this->frm->addText('tags', BackendTagsModel::getTags(\$this->URL->getModule(), \$this->record['id']), null, 'inputText tagBox', 'inputTextError tagBox');\n";
-			else $return .= "\t\t\$this->frm->addText('tags', null, null, 'inputText tagBox', 'inputTextError tagBox');\n";
+			if($isEdit) $return .= self::generateSnippet('backend/actions/snippets/load_tags_edit.base.php', $module);
+			else $return .= self::generateSnippet('backend/actions/snippets/load_tags_add.base.php', $module);
 		}
 
 		// add the categories
