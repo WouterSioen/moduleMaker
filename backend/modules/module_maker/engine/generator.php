@@ -181,46 +181,21 @@ class BackendModuleMakerGenerator
 			}
 			elseif($field['default'] !== '')
 			{
-				if($field['type'] == 'number') $default = ', ' . $field['default'];
-				elseif($field['type'] == 'dropdown') $default = ", BL::lbl('" . BackendModuleMakerHelper::buildCamelCasedName($field['default']) . "')";
-				else $default = ", '" . $field['default'] . "'";
+				if($field['type'] == 'number') $default = ', ' . $default;
+				elseif($field['type'] == 'dropdown') $default = ", BL::lbl('" . BackendModuleMakerHelper::buildCamelCasedName($default) . "')";
+				else $default = ", '" . $default . "'";
 			}
+			$field['default'] = $default;
+			$field['default_time'] = ($default && $field['type'] == 'datetime') ? ", date('H:i', \$this->record['" . $field['underscored_label'] . "'])" : '';
 
-			// create the add statements
-			switch ($field['type'])
+			// when there is a snippet provided for the datatype, use it. This falls back to a default snippet
+			if(file_exists(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/add_' . $field['type'] . '.base.php'))
 			{
-				case 'editor':
-					$return .= "\t\t\$this->frm->addEditor('" . $field['underscored_label'] . "'" . $default . ");\n";
-					break;
-				case 'datetime':
-					$return .= "\t\t\$this->frm->addDate('" . $field['underscored_label'] . "_date'" . $default . ");\n";
-					if($default) $default = ", date('H:i', \$this->record['" . $field['underscored_label'] . "'])";
-					$return .= "\t\t\$this->frm->addTime('" . $field['underscored_label'] . "_time'" . $default . ");\n";
-					break;
-				case 'password':
-					$return .= "\t\t\$this->frm->addPassword('" . $field['underscored_label'] . "'" . $default . ")->setAttributes(array('autocomplete' => 'off'));\n";
-					break;
-				case 'checkbox':
-					$return .= "\t\t\$this->frm->addCheckbox('" . $field['underscored_label'] . "'" . $default . ");\n";
-					break;
-				case 'multicheckbox':
-					$return .= "\t\t\$this->frm->addMultiCheckbox('" . $field['underscored_label'] . "', $" . $field['type'] . $field['camel_cased_label'] . 'Values' . $default . ");\n";
-					break;
-				case 'radiobutton':
-					$return .= "\t\t\$this->frm->addRadioButton('" . $field['underscored_label'] . "', $" . $field['type'] . $field['camel_cased_label'] . 'Values' . $default . ");\n";
-					break;
-				case 'dropdown':
-					$return .= "\t\t\$this->frm->addDropdown('" . $field['underscored_label'] . "', $" . $field['type'] . $field['camel_cased_label'] . 'Values' . $default . ");\n";
-					break;
-				case 'file':
-					$return .= "\t\t\$this->frm->addFile('" . $field['underscored_label'] . "');\n";
-					break;
-				case 'image':
-					$return .= "\t\t\$this->frm->addImage('" . $field['underscored_label'] . "');\n";
-					break;
-				default:
-					$return .= "\t\t\$this->frm->addText('" . $field['underscored_label'] . "'" . $default . ");\n";
-					break;
+				$return .= self::generateSnippet('backend/actions/snippets/add_' . $field['type'] . '.base.php', $field);
+			}
+			else
+			{
+				$return .= self::generateSnippet('backend/actions/snippets/add_simple.base.php', $field);
 			}
 		}
 
