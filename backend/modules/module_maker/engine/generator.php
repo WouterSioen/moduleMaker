@@ -143,7 +143,7 @@ class BackendModuleMakerGenerator
 		// loop through fields and create and addField statement for each field
 		foreach($module['fields'] as $field)
 		{
-			//don't add the metafield, it's already added
+			// don't add the metafield, it's already added
 			if($field['meta']) continue;
 
 			// for fields with multiple options: add them

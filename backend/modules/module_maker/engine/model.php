@@ -17,7 +17,7 @@ class BackendModuleMakerModel
 	/**
 	 * Creates the directories from a given array
 	 *
-	 * @param	array $dirs		The directories to create
+	 * @param array $dirs		The directories to create
 	 */
 	public static function makeDirs(array $dirs)
 	{
@@ -59,8 +59,8 @@ class BackendModuleMakerModel
 	/**
 	 * Creates a file in a specific directory
 	 *
-	 * @param	string $file				The file name.
-	 * @param	string[optional] $input		The input for the file.
+	 * @param string $file				The file name.
+	 * @param string[optional] $input		The input for the file.
 	 */
 	public static function makeFile($file, $input = null)
 	{
@@ -77,13 +77,13 @@ class BackendModuleMakerModel
 	/**
 	 * Reads the content of a file
 	 *
-	 * @return	string
-	 * @param	string $file		The file path.
+	 * @param string $file		The file path.
+	 * @return string
 	 */
 	public static function readFile($file)
 	{
 		// file exists?
-		if(!file_exists($file)) throw new Exception('The given file(' . $file .') does not exist.');
+		if(!file_exists($file)) throw new Exception('The given file(' . $file . ') does not exist.');
 
 		// open the file
 		$oFile = fopen($file, 'r');

@@ -17,8 +17,8 @@ class BackendModuleMakerHelper
 	/**
 	 * Creates a valid class name
 	 *
-	 * @return	string
-	 * @param	string $name		The given name.
+	 * @param string $name		The given name.
+	 * @return string
 	 */
 	public static function buildCamelCasedName($name)
 	{
@@ -47,8 +47,8 @@ class BackendModuleMakerHelper
 	/**
 	 * Creates a lower Camel Cased Name
 	 *
-	 * @return	string
-	 * @param	string $name		The given name.
+	 * @param string $name		The given name.
+	 * @return string
 	 */
 	public static function buildLowerCamelCasedName($name)
 	{
@@ -81,8 +81,8 @@ class BackendModuleMakerHelper
 	/**
 	 * Creates an underscored version off the classname
 	 *
-	 * @return	string
-	 * @param	string $name		The given name.
+	 * @param string $name		The given name.
+	 * @return string
 	 */
 	public static function buildUnderscoredName($name)
 	{

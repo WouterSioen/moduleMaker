@@ -55,7 +55,7 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 
 		$type = '';
 
-		switch ($field['type'])
+		switch($field['type'])
 		{
 			case 'editor':
 				$type = 'text';
