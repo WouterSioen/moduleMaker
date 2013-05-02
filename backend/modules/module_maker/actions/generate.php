@@ -71,7 +71,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		if($this->record['useSequence'])
 		{
 			$this->variables['sequence_extra'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/actions/snippets/sequence.base.php', array()
+				'backend/actions/snippets/sequence.base.php'
 			);
 		}
 
@@ -94,7 +94,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		if($this->record['metaField'] !== false)
 		{
 			$this->variables['parse_meta'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/actions/snippets/parse_meta.base.php', array()
+				'backend/actions/snippets/parse_meta.base.php'
 			);
 		}
 		else $this->variables['parse_meta'] = '';
