@@ -217,9 +217,10 @@ class BackendModuleMakerGenerator
 		if($module['metaField'] !== false)
 		{
 			$metaField = $module['fields'][$module['metaField']];
+			$metaField['module'] = $module['camel_case_name'];
 
-			$return .= "\n\t\t// meta\n\t\t\$this->meta = new BackendMeta(\$this->frm, " . (($isEdit) ? "\$this->record['meta_id']" : 'null') . ", '" . $metaField['underscored_label'] . "', true);";
-			if($isEdit) $return .= "\n\t\t\$this->meta->setUrlCallBack('Backend" . $module['camel_case_name'] . "Model', 'getUrl', array(\$this->record['id']));";
+			if($isEdit) $return .= self::generateSnippet('backend/actions/snippets/load_meta_edit.base.php', $metaField);
+			else $return .= self::generateSnippet('backend/actions/snippets/load_meta_add.base.php', $metaField);
 		}
 
 		// return the string we build up
