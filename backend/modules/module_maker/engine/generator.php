@@ -236,7 +236,7 @@ class BackendModuleMakerGenerator
 	{
 		if(!$module['useTags']) return '';
 
-		return self::generateSnippet('backend/actions/snippets/save_tags.base.php', array());
+		return self::generateSnippet('backend/actions/snippets/save_tags.base.php');
 	}
 
 	/**
@@ -269,15 +269,18 @@ class BackendModuleMakerGenerator
 	 * @param array $variables				The variables to assign to the template
 	 * @return string						The generated snippet
 	 */
-	public static function generateSnippet($template, $variables)
+	public static function generateSnippet($template, $variables = null)
 	{
 		// get the content of the file
 		$content = BackendModuleMakerModel::readFile(BACKEND_MODULE_PATH . '/layout/templates/' . $template);
 
 		// replace the variables
-		foreach($variables AS $key => $value)
+		if($variables && is_array($variables) && !empty($variables))
 		{
-			if(!is_array($value)) $content = str_replace('{$' . $key . '}', $value, $content);
+			foreach($variables AS $key => $value)
+			{
+				if(!is_array($value)) $content = str_replace('{$' . $key . '}', $value, $content);
+			}
 		}
 
 		return $content;
@@ -365,13 +368,13 @@ class BackendModuleMakerGenerator
 		// add tags if necessary
 		if($module['useTags'])
 		{
-			$returnSide .= self::generateSnippet('backend/templates/snippets/tags.base.tpl', array());
+			$returnSide .= self::generateSnippet('backend/templates/snippets/tags.base.tpl');
 		}
 
 		// add category
 		if($module['useCategories'])
 		{
-			$returnSide .= self::generateSnippet('backend/templates/snippets/category.base.tpl', array());
+			$returnSide .= self::generateSnippet('backend/templates/snippets/category.base.tpl');
 		}
 
 		// return the strings we build up
@@ -392,7 +395,7 @@ class BackendModuleMakerGenerator
 		if($module['metaField'] !== false)
 		{
 			$returnTop .= "\n\t\t\t<li><a href=\"#tabSEO\">{\$lblSEO|ucfirst}</a></li>";
-			$returnBottom .= self::generateSnippet('backend/templates/snippets/seo.base.tpl', array());
+			$returnBottom .= self::generateSnippet('backend/templates/snippets/seo.base.tpl');
 		}
 
 		return array($returnTop, $returnBottom);
@@ -400,7 +403,7 @@ class BackendModuleMakerGenerator
 
 	/**
 	 * Generates a part of the validateForm() function for the backend add/edit actions
-	 * @TODO: refactor me, I'm nasty
+	 * @TODO: add validation to image size
 	 * 
 	 * @param array $module				The array containing all info about the module
 	 * @param boolean $isEdit			Should we generate it for the edit action?
@@ -418,45 +421,28 @@ class BackendModuleMakerGenerator
 			{
 				if($field['type'] == 'datetime')
 				{
-					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "_date']->isFilled(BL::err('FieldIsRequired'));\n";
-					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "_time']->isFilled(BL::err('FieldIsRequired'));\n";
+					$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', array('underscored_label' => $field['underscored_label'] . '_date'));
+					$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', array('underscored_label' => $field['underscored_label'] . '_time'));
 				}
 				elseif(!($field['type'] == 'image' || $field['type'] == 'file') && !$isEdit)
 				{
-					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "']->isFilled(BL::err('FieldIsRequired'));\n";
+					$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', $field);
 				}
 			}
 
-			// check if fields are valid
-			switch($field['type'])
+			// when there is a snippet provided to validate this form type, use it
+			if(file_exists(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/validate_' . $field['type'] . '.base.php'))
 			{
-				case 'datetime':
-					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "_date']->isValid(BL::err('DateIsInvalid'));\n";
-					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "_time']->isValid(BL::err('TimeIsInvalid'));\n";
-					break;
-				case 'number':
-					$return .= "\t\t\t\$fields['" . $field['underscored_label'] . "']->isInteger(BL::err('InvalidInteger'));\n";
-					break;
-				case 'file':
-					$return .= "\n\t\t\t// you probably should add some validation to the file type\n\n";
-					break;
-				case 'image':
-					/**
-					 * @TODO add validation to image size
-					 */
-					$return .= "\t\t\tif(\$fields['" . $field['underscored_label'] . "'" . ']->isFilled())' . "\n\t\t\t{\n\t\t\t\t";
-					$return .= "\$fields['" . $field['underscored_label'] . "'" . "]->isAllowedExtension(array('jpg', 'png', 'gif', 'jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t\t";
-					$return .= "\$fields['" . $field['underscored_label'] . "'" . "]->isAllowedMimeType(array('image/jpg', 'image/png', 'image/gif', 'image/jpeg'), BL::err('JPGGIFAndPNGOnly'));\n\t\t\t}\n";
-					if($field['required'] && !$isEdit) $return .= "\t\t\telse \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
-					$return .= "\n";
-					break;
+				$return .= self::generateSnippet('backend/actions/snippets/validate_' . $field['type'] . '.base.php', $field);
 			}
+
+			if($field['type'] == 'image' && $field['required'] && !$isEdit) $return .= "\t\t\telse \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
 		}
 
 		// add validate meta if necessary
 		if($module['metaField'] !== false)
 		{
-			$return .= "\t\t\t// validate meta\n\t\t\t\$this->meta->validate();\n";
+			$return .= self::generateSnippet('backend/actions/snippets/validate_meta.base.php');
 		}
 
 		// return the string we build up
