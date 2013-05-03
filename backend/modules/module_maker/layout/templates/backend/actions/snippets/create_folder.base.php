@@ -1,1 +1,1 @@
-				if(!SpoonDirectory::exists($imagePath . '/{$options}')) SpoonDirectory::create($imagePath . '//{$options}');
+				if(!SpoonDirectory::exists($imagePath . '/{$option}')) SpoonDirectory::create($imagePath . '/{$option}');
