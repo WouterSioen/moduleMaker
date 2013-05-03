@@ -70,6 +70,10 @@
 				<translation language="en"><![CDATA[special fields]]></translation>
 				<translation language="nl"><![CDATA[speciale velden]]></translation>
 			</item>
+			<item type="message" name="Install">
+				<translation language="en"><![CDATA[Do you want to install your module?]]></translation>
+				<translation language="nl"><![CDATA[Wil je je module installeren?]]></translation>
+			</item>
 			<item type="message" name="NoFields">
 				<translation language="en"><![CDATA[There are no fields yet.]]></translation>
 				<translation language="nl"><![CDATA[Er zijn nog geen velden.]]></translation>
@@ -81,6 +85,10 @@
 			<item type="error" name="DefaultShouldBeAnOption">
 				<translation language="en"><![CDATA[The default value should be one of the options.]]></translation>
 				<translation language="nl"><![CDATA[De standaard waarde moet een van de opties zijn.]]></translation>
+			</item>
+			<item type="error" name="DuplicateModuleName">
+				<translation language="en"><![CDATA[Er bestaat al een module met deze naam.]]></translation>
+				<translation language="nl"><![CDATA[There is already a module with this name.]]></translation>
 			</item>
 			<item type="error" name="ImageSizeNotWellFormed">
 				<translation language="en"><![CDATA[The sizes should be in the format widthxheight (400x400).]]></translation>

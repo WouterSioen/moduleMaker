@@ -75,6 +75,9 @@ class BackendModuleMakerAdd extends BackendBaseActionAdd
 			$fields['author_url']->isFilled(BL::err('FieldIsRequired'));
 			$fields['author_email']->isFilled(BL::err('FieldIsRequired'));
 
+			// check if there is already a module with this name
+			if(BackendExtensionsModel::existsModule($fields['title']->getValue())) $fields['title']->addError(BL::err('DuplicateModuleName'));
+
 			if($this->frm->isCorrect())
 			{
 				$this->record['title'] = $fields['title']->getValue();

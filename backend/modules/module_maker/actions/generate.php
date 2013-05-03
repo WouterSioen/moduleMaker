@@ -59,6 +59,8 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->generateBackendModel();
 		$this->generateBackendActions();
 		$this->generateBackendCategoryActions();
+
+		$this->parse();
 		$this->display();
 	}
 
@@ -362,5 +364,15 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			);
 		}
 		BackendModuleMakerModel::makeFile($this->backendPath . 'installer/data/install.sql', $sql);
+	}
+
+	/**
+	 * Parses the data in the template
+	 */
+	protected function parse()
+	{
+		$this->tpl->assign('module', $this->record);
+
+		// SpoonSession::delete('module');
 	}
 }
