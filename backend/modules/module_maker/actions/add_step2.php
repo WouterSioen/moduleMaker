@@ -33,11 +33,11 @@ class BackendModuleMakerAddStep2 extends BackendBaseActionAdd
 	 */
 	public function execute()
 	{
-		parent::execute();
-
 		// If step 1 isn't entered, redirect back to the first step of the wizard
 		$this->record = SpoonSession::get('module');
 		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('add'));
+
+		parent::execute();
 
 		$this->loadDataGrid();
 		$this->parse();

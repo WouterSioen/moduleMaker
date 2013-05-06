@@ -37,14 +37,14 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	 */
 	public function execute()
 	{
-		parent::execute();
-
 		// If step 1 isn't entered, redirect back to the first step of the wizard
 		$this->record = SpoonSession::get('module');
 		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('add'));
 
 		// If there are no fields added, redirect back to the second step of the wizard
 		if(!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(BackendModel::createURLForAction('add_step2'));
+
+		parent::execute();
 
 		// initialize some variables
 		$this->backendPath = BACKEND_MODULES_PATH . '/' . $this->record['underscored_name'] . '/';
