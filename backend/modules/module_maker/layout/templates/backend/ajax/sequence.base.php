@@ -20,8 +20,11 @@ class Backend{$camel_case_name}AjaxSequence extends BackendBaseAJAXAction
 		// loop id's and set new sequence
 		foreach($ids as $i => $id)
 		{
+			$item['id'] = $id;
+			$item['sequence'] = $i + 1;
+
 			// update sequence
-			if(Backend{$camel_case_name}Model::exists($id)) Backend{$camel_case_name}Model::update($id, array('sequence' => $i + 1));
+			if(Backend{$camel_case_name}Model::exists($id)) Backend{$camel_case_name}Model::update($item);
 		}
 
 		// success output

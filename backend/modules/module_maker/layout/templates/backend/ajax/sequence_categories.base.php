@@ -20,8 +20,11 @@ class Backend{$camel_case_name}AjaxSequenceCategories extends BackendBaseAJAXAct
 		// loop id's and set new sequence
 		foreach($ids as $i => $id)
 		{
+			$item['id'] = $id;
+			$item['sequence'] = $i + 1;
+
 			// update sequence
-			if(Backend{$camel_case_name}Model::existsCategory($id)) Backend{$camel_case_name}Model::updateCategory($id, array('sequence' => $i + 1));
+			if(Backend{$camel_case_name}Model::existsCategory($id)) Backend{$camel_case_name}Model::updateCategory($item);
 		}
 
 		// success output

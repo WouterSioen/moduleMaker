@@ -78,15 +78,14 @@ class Backend{$camel_case_name}Model
 	/**
 	 * Updates an item
 	 *
-	 * @param int $id
 	 * @param array $item
 	 */
-	public static function update($id, array $item)
+	public static function update(array $item)
 	{
 		$item['edited_on'] = BackendModel::getUTCDate();
 
 		BackendModel::getContainer()->get('database')->update(
-			'{$underscored_name}', $item, 'id = ?', (int) $id
+			'{$underscored_name}', $item, 'id = ?', (int) $item['id']
 		);
 	}
 {$update_category}}

@@ -81,10 +81,11 @@ class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
 {$validate_form_edit}
 			if($this->frm->isCorrect())
 			{
+				$item['id'] = $this->id;
 				$item['language'] = BL::getWorkingLanguage();
 
 {$build_item_edit}
-				Backend{$camel_case_name}Model::update($this->id, $item);
+				Backend{$camel_case_name}Model::update($item);
 				$item['id'] = $this->id;
 {$save_tags}{$search_index}
 				BackendModel::triggerEvent(
