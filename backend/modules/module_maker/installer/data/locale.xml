@@ -18,6 +18,10 @@
 				<translation language="en"><![CDATA[author url]]></translation>
 				<translation language="nl"><![CDATA[auteur url]]></translation>
 			</item>
+            <item type="label" name="Sequence">
+                <translation language="en"><![CDATA[sequence]]></translation>
+                <translation language="nl"><![CDATA[sequence]]></translation>
+            </item>
 			<item type="label" name="Fields">
 				<translation language="en"><![CDATA[fields]]></translation>
 				<translation language="nl"><![CDATA[velden]]></translation>
