@@ -189,6 +189,45 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 			 * @TODO validate the default option to the chosen datatype
 			 */
 
+			// check if the default value is valid
+			if($fields['default']->isFilled())
+			{
+				// get default value
+				$defaultValue = $fields['default']->getValue();
+
+				switch($type)
+				{
+					case 'editor':
+						break;
+
+					case 'number':
+						if(!is_numeric($defaultValue)) $fields['default']->addError(BL::err('FieldIsNotNumeric'));
+						break;
+
+					case 'datetime':
+						if(!BackendModuleMakerHelper::isValidDateTime($defaultValue)) $fields['default']->addError(BL::err('FieldIsNotAValidDateTime'));
+						break;
+
+					case 'checkbox':
+						break;
+
+					case 'multicheckbox':
+						break;
+
+					case 'radiobutton':
+						break;
+
+					case 'dropdown':
+						break;
+
+					default:
+						// types like text, password, file or image all map to a varchar
+						// check if varchar is higher then 255 characters
+						if(strlen($defaultValue) > 255) $fields['default']->addError(BL::err('Max255Characters'));
+						break;
+				}
+			}
+
 			if($this->frm->isCorrect())
 			{
 				// create the item
