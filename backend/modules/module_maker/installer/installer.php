@@ -32,6 +32,6 @@ class ModuleMakerInstaller extends ModuleInstaller
 		$module_makerID = $this->insertExtra('module_maker', 'block', 'Module_Maker', null, null, 'N', 1000);
 
 		$navigationModulesId = $this->setNavigation(null, 'Modules');
-		$navigationModule_MakerId = $this->setNavigation($navigationModulesId, 'ModuleMaker', 'module_maker/add', array('module_maker/add_step2', 'module_maker/add_step3'));
+		$navigationModule_MakerId = $this->setNavigation($navigationModulesId, 'ModuleMaker', 'module_maker/add', array('module_maker/add_step2', 'module_maker/add_field', 'module_maker/add_step3', 'module_maker/add_step4'));
 	}
 }
