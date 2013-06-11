@@ -30,7 +30,7 @@
 			<p>
 				<label for="required">{$chkRequired} {$lblRequired|ucfirst}</label>
 			</p>
-			<p>
+			<p id="defaultOption">
 				<label for="default">{$lblDefault|ucfirst}</label>
 				{$txtDefault} {$txtDefaultError}
 			</p>

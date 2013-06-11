@@ -87,6 +87,10 @@ jsBackend.modulemaker =
 				// change label to imagesizes when the type is image
 				if($value == 'image') $optionsLabel.text(utils.string.ucfirst(jsBackend.locale.lbl('ImageSizes')) + '*');
 				else $optionsLabel.text(utils.string.ucfirst(jsBackend.locale.lbl('Options')) + '*');
+
+				// don't show default option for text area (mysql type TEXT can't use default value)
+				if($value == 'editor') $('#defaultOption').hide();
+				else $('#defaultOption').show();
 			})
 		}
 	},
