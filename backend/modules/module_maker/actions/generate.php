@@ -11,6 +11,7 @@
  * This is the Generate action
  *
  * @author Wouter Sioen <wouter.sioen@wijs.be>
+ * @author Arend Pijls <arend.pijls@wijs.be>
  */
 class BackendModuleMakerGenerate extends BackendBaseAction
 {
@@ -55,10 +56,17 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->generateFolders();
 		$this->generateBaseFiles();
 		$this->generateInstallerFiles();
+
+		// backend
 		$this->generateBackendFiles();
 		$this->generateBackendModel();
 		$this->generateBackendActions();
 		$this->generateBackendCategoryActions();
+
+		// frontend
+		$this->generateFrontendFiles();
+		$this->generateFrontendModel();
+		$this->generateFrontendActions();
 
 		$this->parse();
 		$this->display();
@@ -301,6 +309,62 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		BackendModuleMakerGenerator::generateFile(
 			'backend/config.base.php', $this->variables, $this->backendPath . 'config.php'
 		);
+	}
+	/**
+	 * Generates the backend actions (and templates) (index, add, edit and delete)
+	 */
+	protected function generateFrontendActions()
+	{
+		// generate index
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/actions/index.base.php', $this->variables, $this->frontendPath . 'actions/index.php'
+		);
+
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/templates/index.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/index.tpl'
+		);
+
+		// unset the custom variables
+		/*
+		unset(
+		$this->variables['sequence_extra'], $this->variables['load_form_add'], $this->variables['validate_form_add'],
+		$this->variables['build_item_add'], $this->variables['load_form_edit'], $this->variables['validate_form_edit'],
+		);
+		*/
+	}
+
+	/**
+	 * Generates the frontend files (module.js, sequence.php)
+	 */
+	protected function generateFrontendFiles()
+	{
+		// generate module.js file
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/js/javascript.base.js', $this->variables, $this->frontendPath . 'js/' . $this->record['underscored_name'] . '.js'
+		);
+	}
+
+	/**
+	 * Generates the frontend model.php file
+	 */
+	protected function generateFrontendModel()
+	{
+		// create custom variables for the categories
+		if($this->record['useCategories'])
+		{
+
+		}
+		else
+		{
+
+		}
+
+		// generate the file
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/engine/model.base.php', $this->variables, $this->frontendPath . 'engine/model.php'
+		);
+
+		//unset($this->variables['getUrl'], $this->variables['getMaxSequence'], $this->variables['datagrid_extra'], $this->variables['datagrid_order']);
 	}
 
 	/**
