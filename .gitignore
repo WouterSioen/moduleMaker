@@ -7,4 +7,3 @@
 backend/cache/navigation/
 vendor/
 app/config/parameters.yml
-library/globals.php
