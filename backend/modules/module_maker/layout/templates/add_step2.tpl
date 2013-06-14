@@ -20,7 +20,6 @@
 		<li><b><span>5.</span> {$lblWizardGenerate|ucfirst}</b></li>
 	</ul>
 </div>
-
 {option:datagrid}
 	<div id="dataGridFieldsHolder">
 		<h3>{$lblFields|ucfirst}</h3>
@@ -32,10 +31,14 @@
 {option:!datagrid}
 	{$msgNoFields}
 {/option:!datagrid}
-
+{option:!varcharFound}
+	<p id="pressMessage" class="generalMessage infoMessage content" style="padding: 5px; display: block;">
+		{$msgWeNeedOneTextTypeForTheMeta|ucfirst}
+	</p>
+{/option:!varcharFound}
 <div class="fullwidthOptions">
 	<div class="buttonHolderRight">
-		<a id="toStep3" class="inputButton button mainButton {option:!datagrid}disabledButton{/option:!datagrid}" href="{$var|geturl:'add_step3'}" >{$lblToStep|ucfirst} 3</a>
+		<a id="toStep3" class="inputButton button mainButton {option:!datagrid}disabledButton{/option:!datagrid} {option:!varcharFound}disabledButton{/option:!varcharFound}" href="{$var|geturl:'add_step3'}" >{$lblToStep|ucfirst} 3</a>
 	</div>
 </div>
 

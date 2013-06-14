@@ -305,9 +305,14 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			'backend/info.base.xml', $this->variables, $this->backendPath . 'info.xml'
 		);
 
-		// generate config.php file
+		// generate config.php file for the backend
 		BackendModuleMakerGenerator::generateFile(
 			'backend/config.base.php', $this->variables, $this->backendPath . 'config.php'
+		);
+
+		// generate config.php file for the frontend
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/config.base.php', $this->variables, $this->frontendPath . 'config.php'
 		);
 	}
 	/**
@@ -322,6 +327,15 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		BackendModuleMakerGenerator::generateFile(
 			'frontend/templates/index.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/index.tpl'
+		);
+
+		// generate detail
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/actions/detail.base.php', $this->variables, $this->frontendPath . 'actions/detail.php'
+		);
+
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/templates/detail.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/detail.tpl'
 		);
 
 		// unset the custom variables

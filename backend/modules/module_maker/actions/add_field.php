@@ -161,6 +161,21 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 			$fields = $this->frm->getFields();
 			$fields['label']->isFilled(BL::err('FieldIsRequired'));
 
+			// get existing fields
+			$this->record = SpoonSession::get('module');
+			if(array_key_exists('fields', $this->record))
+			{
+				foreach($this->record['fields'] as $field)
+				{
+					// check if we already have a type with the same label
+					if(strtolower($field['label']) == strtolower($fields['label']->getValue()))
+					{
+						$fields['label']->addError(BL::err('LabelAlreadyExist'));
+						break;
+					}
+				}
+			}
+
 			// for certain types, the options field is required
 			$type = $fields['type']->getValue();
 			if($type == 'dropdown' || $type == 'multicheckbox' || $type == 'radiobutton')
@@ -182,11 +197,21 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 			if($type == 'image')
 			{
 				$fields['tags']->isFilled(BL::err('FieldIsRequired'));
-				$fields['tags']->isValidAgainstRegexp('\'([1-9][0-9]*x[1-9][0-9]*[,])+([1-9][0-9]*x[1-9][0-9]*)\'', BL::err('ImageSizeNotWellFormed'));
+				$tags = explode(',', $fields['tags']->getValue());
+
+				// loop all tags and check on format, example (400x400)
+				foreach($tags as $tag)
+				{
+					if(!preg_match('\'([1-9][0-9]*x[1-9][0-9]$)\'', $tag))
+					{
+						$fields['tags']->addError(BL::err('ImageSizeNotWellFormed'));
+						break;
+					}
+				}
 			}
 
 			/**
-			 * @TODO validate the default option to the chosen datatype
+			 * @TODO validate the default option for checkbox, multicheckbox, radiobutton and dropdown
 			 */
 
 			// check if the default value is valid
@@ -209,15 +234,19 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 						break;
 
 					case 'checkbox':
+						if(strtoupper($defaultValue) != 'Y' AND strtoupper($defaultValue) != 'N') $fields['default']->addError(BL::err('MustBeAYOrAN'));
 						break;
 
 					case 'multicheckbox':
+						// already checked if default value is one of the options
 						break;
 
 					case 'radiobutton':
+						// already checked if default value is one of the options
 						break;
 
 					case 'dropdown':
+						// already checked if default value is one of the options
 						break;
 
 					default:

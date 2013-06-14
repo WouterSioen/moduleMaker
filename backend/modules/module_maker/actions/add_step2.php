@@ -29,6 +29,13 @@ class BackendModuleMakerAddStep2 extends BackendBaseActionAdd
 	private $datagrid;
 
 	/**
+	 * We need at least one varchar for the meta
+	 *
+	 * @var boolean
+	 */
+	private $varcharFound = false;
+
+	/**
 	 * Execute the actions
 	 */
 	public function execute()
@@ -55,6 +62,16 @@ class BackendModuleMakerAddStep2 extends BackendBaseActionAdd
 			$this->record['fields'][$key]['key'] = $key;
 		}
 
+		// check if we have a varchar
+		foreach($this->record['fields'] as $field)
+		{
+			if($field['type'] == 'text')
+			{
+				$this->varcharFound = true;
+				break;
+			}
+		}
+
 		// if the record has fields, create a datagrid with all the fields
 		$this->datagrid = new BackendDataGridArray($this->record['fields']);
 		$this->datagrid->addColumn('delete', null, BL::lbl('Delete'), BackendModel::createURLForAction('delete_field') . '&amp;id=[key]', BL::lbl('Delete'));
@@ -68,5 +85,6 @@ class BackendModuleMakerAddStep2 extends BackendBaseActionAdd
 	{
 		parent::parse();
 		$this->tpl->assign('datagrid', ($this->datagrid->getNumResults() != 0) ? $this->datagrid->getContent() : false);
+		$this->tpl->assign('varcharFound', $this->varcharFound);
 	}
 }

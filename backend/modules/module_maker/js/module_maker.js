@@ -20,7 +20,6 @@ jsBackend.modulemaker =
 
 		jsBackend.modulemaker.tagBoxes();
 		jsBackend.modulemaker.toggleOptions();
-		jsBackend.modulemaker.toggleMeta();
 		jsBackend.modulemaker.toggleSearch();
 		jsBackend.modulemaker.renderInit();
 	},
@@ -40,22 +39,6 @@ jsBackend.modulemaker =
 
 			$('input.tagBox').on('change', function() { 
 				console.log($('input.tagBox').val());
-			});
-		}
-	},
-
-	// toggles the visibility of the field dropdown for meta
-	toggleMeta: function()
-	{
-		$chkMeta = $('#meta');
-		$ddmMetaFieldDiv = $('.showOnMeta');
-
-		if($chkMeta.length > 0 && $ddmMetaFieldDiv.length > 0)
-		{
-			$chkMeta.on('change', function(){
-				($chkMeta.attr('checked') === 'checked')
-					? $ddmMetaFieldDiv.slideDown(200)
-					: $ddmMetaFieldDiv.slideUp(200);
 			});
 		}
 	},

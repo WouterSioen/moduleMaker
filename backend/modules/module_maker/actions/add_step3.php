@@ -124,21 +124,13 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 
 			if($this->frm->isCorrect())
 			{
-				// set all fields to meta false
-				foreach($this->record['fields'] as &$field)
-				{
-					$field['meta'] = false;
-					$field['searchable'] = false;
-				}
+				// set all fields to searchable false
+				foreach($this->record['fields'] as &$field) $field['searchable'] = false;
 
-				// if this field is checked, let's add a boolean meta true to the chosen field
-				if($frmFields['meta']->isChecked())
-				{
-					$metaField = $frmFields['meta_field']->getValue();
-					$this->record['fields'][$metaField]['meta'] = true;
-					$this->record['metaField'] = $metaField;
-				}
-				else $this->record['metaField'] = false;
+				// get meta value
+				$metaField = $frmFields['meta_field']->getValue();
+				$this->record['fields'][$metaField]['meta'] = true;
+				$this->record['metaField'] = $metaField;
 
 				// if this field is checked, let's add a boolean searchable true to the chosen fields
 				if($frmFields['search']->isChecked())

@@ -35,11 +35,8 @@ Hier komen speciale velden zoals
 		</div>
 		<div class="options horizontal">
 			<p>
-				<label for="meta">{$chkMeta} {$lblMeta|ucfirst}</label>
-				<span class="showOnMeta"{option:!meta} style="display: none;"{/option:!meta}>
-					<label for="meta_field">{$lblMetaField|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
-					{$ddmMetaField} {$ddmMetaFieldError}
-				</span>
+				<label for="meta_field">{$lblMetaField|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
+				{$ddmMetaField} {$ddmMetaFieldError}
 			</p>
 		</div>
 		<div class="options horizontal">
