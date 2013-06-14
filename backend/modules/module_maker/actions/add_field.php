@@ -260,7 +260,7 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 			if($this->frm->isCorrect())
 			{
 				// create the item
-				$item['label'] = $fields['label']->getValue();
+				$item['label'] = strtolower($fields['label']->getValue());
 				$item['type'] = $type;
 				$item['options'] = $fields['tags']->getValue();
 				$item['required'] = $fields['required']->isChecked();
