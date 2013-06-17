@@ -22,7 +22,7 @@ class Frontend{$camel_case_name}Model
 	 */
 	public static function get($URL)
 	{
-		return (array) FrontendModel::getContainer()->get('database')->getRecord(
+		$item = (array) FrontendModel::getContainer()->get('database')->getRecord(
 			'SELECT i.*,
 			 m.keywords AS meta_keywords, m.keywords_overwrite AS meta_keywords_overwrite,
 			 m.description AS meta_description, m.description_overwrite AS meta_description_overwrite,
@@ -30,8 +30,16 @@ class Frontend{$camel_case_name}Model
 			 FROM {$underscored_name} AS i
 			 INNER JOIN meta AS m ON i.meta_id = m.id
 			 WHERE m.url = ?',
-			array((int) $URL)
+			array((string) $URL)
 		);
+
+		// no results?
+		if(empty($item)) return array();
+
+		// create full url
+		$item['full_url'] = FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $item['url'];
+
+		return $item;
 	}
 
 	/**
@@ -44,15 +52,21 @@ class Frontend{$camel_case_name}Model
 	public static function getAll($limit = 10, $offset = 0)
 	{
 		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
-			'SELECT i.*
+			'SELECT i.*, m.url
 			 FROM {$underscored_name} AS i
 			 INNER JOIN meta AS m ON i.meta_id = m.id
 			 WHERE i.language = ?
-			 ORDER BY i.id DESC LIMIT ?, ?',
+			 ORDER BY {$sequence_sorting} i.id DESC LIMIT ?, ?',
 			array(FRONTEND_LANGUAGE, (int) $offset, (int) $limit));
 
 		// no results?
 		if(empty($items)) return array();
+
+		// prepare items for search
+		foreach($items as &$item)
+		{
+			$item['full_url'] = FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $item['url'];
+		}
 
 		// return
 		return $items;
@@ -70,7 +84,7 @@ class Frontend{$camel_case_name}Model
 			 FROM {$underscored_name} AS i'
 		);
 	}
-
+{$getAllByCategory}{$getCategory}{$getCategoryCount}
 	/**
 	 * Parse the search results for this module
 	 *
@@ -95,7 +109,7 @@ class Frontend{$camel_case_name}Model
 		// prepare items for search
 		foreach($items as &$item)
 		{
-			$item['full_url'] = FrontendNavigation::getURLForBlock({$underscored_name}, 'detail') . '/' . $item['url'];
+			$item['full_url'] = FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $item['url'];
 		}
 
 		// return
