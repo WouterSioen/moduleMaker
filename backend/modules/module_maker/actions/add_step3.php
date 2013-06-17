@@ -132,6 +132,9 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 				$this->record['fields'][$metaField]['meta'] = true;
 				$this->record['metaField'] = $metaField;
 
+				// set meta type required
+				$this->record['fields'][$metaField]['required'] = true;
+
 				// if this field is checked, let's add a boolean searchable true to the chosen fields
 				if($frmFields['search']->isChecked())
 				{
