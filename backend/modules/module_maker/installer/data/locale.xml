@@ -74,6 +74,24 @@
 				<translation language="en"><![CDATA[special fields]]></translation>
 				<translation language="nl"><![CDATA[speciale velden]]></translation>
 			</item>
+            <item type="error" name="FieldIsNotAValidDateTime">
+                <translation language="en"><![CDATA[field is not a valid datetime]]></translation>
+            </item>
+            <item type="error" name="FieldIsNotNumeric">
+                <translation language="en"><![CDATA[field is not numeric]]></translation>
+            </item>
+            <item type="error" name="LabelAlreadyExist">
+                <translation language="en"><![CDATA[label already exist]]></translation>
+            </item>
+            <item type="error" name="Max255Characters">
+                <translation language="en"><![CDATA[max 255 characters]]></translation>
+            </item>
+            <item type="error" name="MustBeAYOrAN">
+                <translation language="en"><![CDATA[must be a Y or a N]]></translation>
+            </item>
+            <item type="message" name="WeNeedOneTextTypeForTheMeta">
+                <translation language="en"><![CDATA[]]></translation>
+            </item>
 			<item type="message" name="Install">
 				<translation language="en"><![CDATA[Do you want to install your module?]]></translation>
 				<translation language="nl"><![CDATA[Wil je je module installeren?]]></translation>
