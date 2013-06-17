@@ -4,3 +4,5 @@
 		$this->setActionRights(1, '{$underscored_name}', 'edit_category');
 		$this->setActionRights(1, '{$underscored_name}', 'delete_category');
 		$this->setActionRights(1, '{$underscored_name}', 'sequence_categories');
+
+		$this->insertExtra('{$underscored_name}', 'block', '{$camel_case_name}Category', 'category', null, 'N', 1002);
