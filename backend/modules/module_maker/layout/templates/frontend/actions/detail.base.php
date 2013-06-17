@@ -38,10 +38,10 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 	private function getData()
 	{
 		// validate incoming parameters
-		if($this->URL->getParameter(1) === null) $this->redirect(FrontendNavigation::getURL(404));
+		if($this->URL->getParameter(0) === null) $this->redirect(FrontendNavigation::getURL(404));
 
 		// get record
-		$this->record = Frontend{$camel_case_name}Model::get($this->URL->getParameter(1));
+		$this->record = FrontendNewsModel::get($this->URL->getParameter(0));
 
 		// check if record is not empty
 		if(empty($this->record)) $this->redirect(FrontendNavigation::getURL(404));
@@ -52,27 +52,40 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 	 */
 	protected function parse()
 	{
-		// build Facebook Open Graph-data
-		if(FrontendModel::getModuleSetting('core', 'facebook_admin_ids', null) !== null || FrontendModel::getModuleSetting('core', 'facebook_app_id', null) !== null)
-		{
-			/**
-			 * @TODO add specified image
-			 * $this->header->addOpenGraphImage(FRONTEND_FILES_URL . '/{$underscored_name}/images/source/' . $this->record['image']);
-			 */
+		/**
+		 * @TODO add specified image
+		 * $this->header->addOpenGraphImage(FRONTEND_FILES_URL . '/news/images/source/' . $this->record['image']);
+		 */
 
-			// add additional OpenGraph data
-			$this->header->addOpenGraphData('title', $this->record['meta_title'], true);
-			$this->header->addOpenGraphData('type', 'article', true);
-			$this->header->addOpenGraphData('url', SITE_URL . FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->record['url'], true);
-			$this->header->addOpenGraphData('site_name', FrontendModel::getModuleSetting('core', 'site_title_' . FRONTEND_LANGUAGE, SITE_DEFAULT_TITLE), true);
-			$this->header->addOpenGraphData('description', $this->record['title'], true);
-		}
+		// build Facebook  OpenGraph data
+		$this->header->addOpenGraphData('title', $this->record['meta_title'], true);
+		$this->header->addOpenGraphData('type', 'article', true);
+		$this->header->addOpenGraphData('url', SITE_URL . FrontendNavigation::getURLForBlock('news', 'detail') . '/' . $this->record['url'], true);
+		$this->header->addOpenGraphData('site_name', FrontendModel::getModuleSetting('core', 'site_title_' . FRONTEND_LANGUAGE, SITE_DEFAULT_TITLE), true);
+		$this->header->addOpenGraphData('description', $this->record['meta_title'], true);
+
+		/**
+		 * @TODO add the responsible twitter account and image
+		 * $this->addMetaData(array('property' => 'twitter:creator', 'content' => '@vreewijs'), true, 'property');
+		 * $this->addMetaData(array('property' => 'twitter:site', 'content' => '@vreewijs'), true, 'property');
+		 * $this->addMetaData(array('property' => 'twitter:image', 'content' => '"http://wijs.be/frontend/files/blog/images/source/facetnavigatie-performantie.jpg'), true, 'property');
+		 */
+		$this->addMetaData(array('property' => 'twitter:card', 'content' => 'summary'), true, 'property');
+		$this->addMetaData(array('property' => 'twitter:url', 'content' => SITE_URL . FrontendNavigation::getURLForBlock('news', 'detail') . '/' . $this->record['url']), true, 'property');
+		$this->addMetaData(array('property' => 'twitter:title', 'content' => $this->record['meta_title']), true, 'property');
+		$this->addMetaData(array('property' => 'twitter:description', 'content' => $this->record['meta_title']), true, 'property');
 
 		// add into breadcrumb
 		$this->breadcrumb->addElement($this->record['meta_title']);
 
+		// hide action title
+		$this->tpl->assign('hideContentTitle', true);
+
+		// show title linked with the meta title
+		$this->tpl->assign('title', $this->record['{$pageTitle}']);
+
 		// set meta
-		$this->header->setPageTitle($this->record['meta_title'], ($this->record['meta_title_overwrite'] == 'Y'));
+		$this->header->setPageTitle($this->record['meta_title'], ($this->record['meta_description_overwrite'] == 'Y'));
 		$this->header->addMetaDescription($this->record['meta_description'], ($this->record['meta_description_overwrite'] == 'Y'));
 		$this->header->addMetaKeywords($this->record['meta_keywords'], ($this->record['meta_keywords_overwrite'] == 'Y'));
 
@@ -84,3 +97,4 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 		$this->tpl->assign('item', $this->record);
 	}
 }
+
