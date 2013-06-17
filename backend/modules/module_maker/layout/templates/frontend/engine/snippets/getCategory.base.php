@@ -12,7 +12,7 @@
 				m.keywords AS meta_keywords, m.keywords_overwrite AS meta_keywords_overwrite,
 				m.description AS meta_description, m.description_overwrite AS meta_description_overwrite,
 				m.title AS meta_title, m.title_overwrite AS meta_title_overwrite, m.url
-				FROM news_categories AS i
+				FROM {$underscored_name}_categories AS i
 				INNER JOIN meta AS m ON i.meta_id = m.id
 				WHERE m.url = ?',
 				array((string) $URL)
@@ -22,7 +22,7 @@
 		if(empty($item)) return array();
 
 		// create full url
-		$item['full_url'] = FrontendNavigation::getURLForBlock('news', 'category') . '/' . $item['url'];
+		$item['full_url'] = FrontendNavigation::getURLForBlock('{$underscored_name}', 'category') . '/' . $item['url'];
 
 		return $item;
 	}

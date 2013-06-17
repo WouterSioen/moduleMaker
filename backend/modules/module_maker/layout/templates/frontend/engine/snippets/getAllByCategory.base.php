@@ -1,16 +1,31 @@
 
 	/**
-	* Get the number of items in a category
+	* Get all category items (at least a chunk)
 	*
 	* @param int $categoryId
-	* @return int
+	* @param int[optional] $limit The number of items to get.
+	* @param int[optional] $offset The offset.
+	* @return array
 	*/
-	public static function getAllCategoryCount($categoryId)
+	public static function getAllByCategory($categoryId, $limit = 10, $offset = 0)
 	{
-		return (int) FrontendModel::getContainer()->get('database')->getVar(
-			'SELECT COUNT(i.id) AS count
-			FROM news AS i
-			WHERE i.category_id',
-			array((int) $categoryId)
-		);
+		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
+			'SELECT i.*, m.url
+			FROM {$underscored_name} AS i
+			INNER JOIN meta AS m ON i.meta_id = m.id
+			WHERE i.category_id = ? AND i.language = ?
+			ORDER BY {$sequence_sorting} i.id DESC LIMIT ?, ?',
+			array($categoryId, FRONTEND_LANGUAGE, (int) $offset, (int) $limit));
+
+		// no results?
+		if(empty($items)) return array();
+
+		// prepare items for search
+		foreach($items as &$item)
+		{
+			$item['full_url'] = FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $item['url'];
+		}
+
+		// return
+		return $items;
 	}
