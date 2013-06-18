@@ -5,7 +5,7 @@
 	* @param int $categoryId
 	* @return int
 	*/
-	public static function getAllCategoryCount($categoryId)
+	public static function getCategoryCount($categoryId)
 	{
 		return (int) FrontendModel::getContainer()->get('database')->getVar(
 			'SELECT COUNT(i.id) AS count
