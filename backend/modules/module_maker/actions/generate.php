@@ -339,7 +339,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	protected function generateFrontendActions()
 	{
 		// use text field linked with the meta for the page title
-		$this->variables['pageTitle'] = $this->record['fields'][(int) $this->record['metaField']];
+		$this->variables['pageTitle'] = $this->record['fields'][(int) $this->record['metaField']]['underscored_label'];
 
 		// generate index
 		BackendModuleMakerGenerator::generateFile(
