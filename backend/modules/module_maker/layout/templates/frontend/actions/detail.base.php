@@ -41,7 +41,7 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 		if($this->URL->getParameter(0) === null) $this->redirect(FrontendNavigation::getURL(404));
 
 		// get record
-		$this->record = FrontendNewsModel::get($this->URL->getParameter(0));
+		$this->record = Frontend{$camel_case_name}Model::get($this->URL->getParameter(0));
 
 		// check if record is not empty
 		if(empty($this->record)) $this->redirect(FrontendNavigation::getURL(404));
@@ -54,13 +54,13 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 	{
 		/**
 		 * @TODO add specified image
-		 * $this->header->addOpenGraphImage(FRONTEND_FILES_URL . '/news/images/source/' . $this->record['image']);
+		 * $this->header->addOpenGraphImage(FRONTEND_FILES_URL . '/{$underscored_name}/images/source/' . $this->record['image']);
 		 */
 
 		// build Facebook  OpenGraph data
 		$this->header->addOpenGraphData('title', $this->record['meta_title'], true);
 		$this->header->addOpenGraphData('type', 'article', true);
-		$this->header->addOpenGraphData('url', SITE_URL . FrontendNavigation::getURLForBlock('news', 'detail') . '/' . $this->record['url'], true);
+		$this->header->addOpenGraphData('url', SITE_URL . FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->record['url'], true);
 		$this->header->addOpenGraphData('site_name', FrontendModel::getModuleSetting('core', 'site_title_' . FRONTEND_LANGUAGE, SITE_DEFAULT_TITLE), true);
 		$this->header->addOpenGraphData('description', $this->record['meta_title'], true);
 
@@ -70,10 +70,10 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 		 * $this->addMetaData(array('property' => 'twitter:site', 'content' => '@vreewijs'), true, 'property');
 		 * $this->addMetaData(array('property' => 'twitter:image', 'content' => '"http://wijs.be/frontend/files/blog/images/source/facetnavigatie-performantie.jpg'), true, 'property');
 		 */
-		$this->addMetaData(array('property' => 'twitter:card', 'content' => 'summary'), true, 'property');
-		$this->addMetaData(array('property' => 'twitter:url', 'content' => SITE_URL . FrontendNavigation::getURLForBlock('news', 'detail') . '/' . $this->record['url']), true, 'property');
-		$this->addMetaData(array('property' => 'twitter:title', 'content' => $this->record['meta_title']), true, 'property');
-		$this->addMetaData(array('property' => 'twitter:description', 'content' => $this->record['meta_title']), true, 'property');
+		$this->header->addMetaData(array('property' => 'twitter:card', 'content' => 'summary'), true, 'property');
+		$this->header->addMetaData(array('property' => 'twitter:url', 'content' => SITE_URL . FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->record['url']), true, 'property');
+		$this->header->addMetaData(array('property' => 'twitter:title', 'content' => $this->record['meta_title']), true, 'property');
+		$this->header->addMetaData(array('property' => 'twitter:description', 'content' => $this->record['meta_title']), true, 'property');
 
 		// add into breadcrumb
 		$this->breadcrumb->addElement($this->record['meta_title']);
@@ -97,4 +97,3 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 		$this->tpl->assign('item', $this->record);
 	}
 }
-
