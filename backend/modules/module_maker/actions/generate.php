@@ -67,6 +67,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->generateFrontendFiles();
 		$this->generateFrontendModel();
 		$this->generateFrontendActions();
+		$this->generateFrontendCategoryActions();
 
 		$this->parse();
 		$this->display();
@@ -315,11 +316,31 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			'frontend/config.base.php', $this->variables, $this->frontendPath . 'config.php'
 		);
 	}
+
+	/**
+	 * Generates the frontend category action
+	 */
+	protected function generateFrontendCategoryActions()
+	{
+		if(!$this->record['useCategories']) return;
+
+		// generate category action
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/actions/category.base.php', $this->variables, $this->frontendPath . 'actions/category.php'
+		);
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/templates/category.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/category.tpl'
+		);
+	}
+
 	/**
 	 * Generates the backend actions (and templates) (index, add, edit and delete)
 	 */
 	protected function generateFrontendActions()
 	{
+		// use text field linked with the meta for the page title
+		$this->variables['pageTitle'] = $this->record['fields'][(int) $this->record['metaField']];
+
 		// generate index
 		BackendModuleMakerGenerator::generateFile(
 			'frontend/actions/index.base.php', $this->variables, $this->frontendPath . 'actions/index.php'
@@ -338,13 +359,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			'frontend/templates/detail.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/detail.tpl'
 		);
 
-		// unset the custom variables
-		/*
-		unset(
-		$this->variables['sequence_extra'], $this->variables['load_form_add'], $this->variables['validate_form_add'],
-		$this->variables['build_item_add'], $this->variables['load_form_edit'], $this->variables['validate_form_edit'],
-		);
-		*/
+		unset($this->variables['pageTitle']);
 	}
 
 	/**
@@ -363,14 +378,36 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	 */
 	protected function generateFrontendModel()
 	{
+		// create custom mysql queries for the sequence
+		$this->variables['sequence_sorting'] = '';
+		if($this->record['useSequence'])
+		{
+			$this->variables['sequence_sorting'] = ' i.sequence ASC, ';
+		}
+
 		// create custom variables for the categories
 		if($this->record['useCategories'])
 		{
+			$this->variables['getAllByCategory'] = BackendModuleMakerGenerator::generateSnippet(
+				'frontend/engine/snippets/getAllByCategory.base.php', $this->variables
+			);
 
+			$this->variables['getCategory'] = BackendModuleMakerGenerator::generateSnippet(
+				'frontend/engine/snippets/getCategory.base.php', $this->variables
+			);
+
+			$this->variables['getCategoryCount'] = BackendModuleMakerGenerator::generateSnippet(
+				'frontend/engine/snippets/getCategoryCount.base.php', $this->variables
+			);
 		}
-		else
-		{
 
+		// check if search is enabled
+		$this->variables['search'] = '';
+		if($this->record['searchFields'])
+		{
+			$this->variables['search'] = BackendModuleMakerGenerator::generateSnippet(
+				'frontend/engine/snippets/search.base.php', $this->variables
+			);
 		}
 
 		// generate the file
@@ -378,7 +415,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			'frontend/engine/model.base.php', $this->variables, $this->frontendPath . 'engine/model.php'
 		);
 
-		//unset($this->variables['getUrl'], $this->variables['getMaxSequence'], $this->variables['datagrid_extra'], $this->variables['datagrid_order']);
+		unset($this->variables['getAllByCategory'], $this->variables['getCategory'], $this->variables['getCategoryCount'], $this->variables['sequence_sorting'], $this->variables['search']);
 	}
 
 	/**
