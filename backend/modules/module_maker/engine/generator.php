@@ -11,6 +11,7 @@
  * In this file we store all functions that generate blocks of code for the modulemaker module
  *
  * @author Wouter Sioen <wouter.sioen@gmail.com>
+ * @author Arend Pijls <arend.pijls@wijs.be>
  */
 class BackendModuleMakerGenerator
 {

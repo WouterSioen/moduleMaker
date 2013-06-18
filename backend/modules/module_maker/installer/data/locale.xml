@@ -90,7 +90,8 @@
                 <translation language="en"><![CDATA[must be a Y or a N]]></translation>
             </item>
             <item type="message" name="WeNeedOneTextTypeForTheMeta">
-                <translation language="en"><![CDATA[]]></translation>
+                <translation language="en"><![CDATA[There should be one text type for linking with the meta]]></translation>
+                <translation language="nl"><![CDATA[Er moet minstens 1 tekst veld zijn om te linken met de meta]]></translation>
             </item>
 			<item type="message" name="Install">
 				<translation language="en"><![CDATA[Do you want to install your module?]]></translation>
