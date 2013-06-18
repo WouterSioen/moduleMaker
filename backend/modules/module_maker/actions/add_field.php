@@ -202,17 +202,13 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 				// loop all tags and check on format, example (400x400)
 				foreach($tags as $tag)
 				{
-					if(!preg_match('\'([1-9][0-9]*x[1-9][0-9]$)\'', $tag))
+					if(!preg_match('\'([1-9][0-9]*x[1-9][0-9]*)\'', $tag))
 					{
 						$fields['tags']->addError(BL::err('ImageSizeNotWellFormed'));
 						break;
 					}
 				}
 			}
-
-			/**
-			 * @TODO validate the default option for checkbox, multicheckbox, radiobutton and dropdown
-			 */
 
 			// check if the default value is valid
 			if($fields['default']->isFilled())
