@@ -216,40 +216,22 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 				// get default value
 				$defaultValue = $fields['default']->getValue();
 
-				switch($type)
+				// check the default values
+				if($type == 'text' || $type == 'password' || $type == 'file' || $type == 'image')
 				{
-					case 'editor':
-						break;
-
-					case 'number':
-						if(!is_numeric($defaultValue)) $fields['default']->addError(BL::err('FieldIsNotNumeric'));
-						break;
-
-					case 'datetime':
-						if(!BackendModuleMakerHelper::isValidDateTime($defaultValue)) $fields['default']->addError(BL::err('FieldIsNotAValidDateTime'));
-						break;
-
-					case 'checkbox':
-						if(strtoupper($defaultValue) != 'Y' AND strtoupper($defaultValue) != 'N') $fields['default']->addError(BL::err('MustBeAYOrAN'));
-						break;
-
-					case 'multicheckbox':
-						// already checked if default value is one of the options
-						break;
-
-					case 'radiobutton':
-						// already checked if default value is one of the options
-						break;
-
-					case 'dropdown':
-						// already checked if default value is one of the options
-						break;
-
-					default:
-						// types like text, password, file or image all map to a varchar
-						// check if varchar is higher then 255 characters
-						if(strlen($defaultValue) > 255) $fields['default']->addError(BL::err('Max255Characters'));
-						break;
+					if(strlen($defaultValue) > 255) $fields['default']->addError(BL::err('Max255Characters'));
+				}
+				else if($type == 'number')
+				{
+					if(!is_numeric($defaultValue)) $fields['default']->addError(BL::err('FieldIsNotNumeric'));
+				}
+				else if($type == 'datetime')
+				{
+					if(!BackendModuleMakerHelper::isValidDateTime($defaultValue)) $fields['default']->addError(BL::err('FieldIsNotAValidDateTime'));
+				}
+				else if($type == 'checkbox')
+				{
+					if(strtoupper($defaultValue) != 'Y' AND strtoupper($defaultValue) != 'N') $fields['default']->addError(BL::err('MustBeAYOrAN'));
 				}
 			}
 
