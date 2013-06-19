@@ -55,7 +55,8 @@ class Frontend{$camel_case_name}Category extends FrontendBaseBlock
 		$requestedPage = $this->URL->getParameter('page', 'int', 1);
 
 		// set URL and limit
-		$this->pagination['url'] = FrontendNavigation::getURLForBlock('{$underscored_name}');
+		$this->pagination['url'] = FrontendNavigation::getURLForBlock('{$underscored_name}', 'category') . '/' . $this->category['url'];
+
 		$this->pagination['limit'] = FrontendModel::getModuleSetting('{$underscored_name}', 'overview_num_items', 10);
 
 		// populate count fields in pagination
@@ -83,15 +84,15 @@ class Frontend{$camel_case_name}Category extends FrontendBaseBlock
 	{
 		/**
 		 * @TODO add specified image
-		 * $this->header->addOpenGraphImage(FRONTEND_FILES_URL . '/{$underscored_name}/images/source/' . $this->record['image']);
+		 * $this->header->addOpenGraphImage(FRONTEND_FILES_URL . '/{$underscored_name}/images/source/' . $this->category['image']);
 		 */
 
 		// add additional OpenGraph data
-		$this->header->addOpenGraphData('title', $this->record['meta_title'], true);
+		$this->header->addOpenGraphData('title', $this->category['meta_title'], true);
 		$this->header->addOpenGraphData('type', 'article', true);
-		$this->header->addOpenGraphData('url', SITE_URL . FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->record['url'], true);
+		$this->header->addOpenGraphData('url', SITE_URL . FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->category['url'], true);
 		$this->header->addOpenGraphData('site_name', FrontendModel::getModuleSetting('core', 'site_title_' . FRONTEND_LANGUAGE, SITE_DEFAULT_TITLE), true);
-		$this->header->addOpenGraphData('description', $this->record['title'], true);
+		$this->header->addOpenGraphData('description', $this->category['title'], true);
 
 		/**
 		 * @TODO add the responsible twitter account and image
@@ -100,9 +101,9 @@ class Frontend{$camel_case_name}Category extends FrontendBaseBlock
 		 * $this->addMetaData(array('property' => 'twitter:image', 'content' => '"http://wijs.be/frontend/files/blog/images/source/facetnavigatie-performantie.jpg'), true, 'property');
 		 */
 		$this->header->addMetaData(array('property' => 'twitter:card', 'content' => 'summary'), true, 'property');
-		$this->header->addMetaData(array('property' => 'twitter:url', 'content' => SITE_URL . FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->record['url']), true, 'property');
-		$this->header->addMetaData(array('property' => 'twitter:title', 'content' => $this->record['meta_title']), true, 'property');
-		$this->header->addMetaData(array('property' => 'twitter:description', 'content' => $this->record['meta_title']), true, 'property');
+		$this->header->addMetaData(array('property' => 'twitter:url', 'content' => SITE_URL . FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->category['url']), true, 'property');
+		$this->header->addMetaData(array('property' => 'twitter:title', 'content' => $this->category['meta_title']), true, 'property');
+		$this->header->addMetaData(array('property' => 'twitter:description', 'content' => $this->category['meta_title']), true, 'property');
 
 		// add into breadcrumb
 		$this->breadcrumb->addElement($this->category['meta_title']);
