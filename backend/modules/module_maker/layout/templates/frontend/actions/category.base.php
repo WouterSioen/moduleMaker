@@ -108,6 +108,12 @@ class Frontend{$camel_case_name}Category extends FrontendBaseBlock
 		// add into breadcrumb
 		$this->breadcrumb->addElement($this->category['meta_title']);
 
+		// hide action title
+		$this->tpl->assign('hideContentTitle', true);
+
+		// show the title
+		$this->tpl->assign('title', $this->category['title']);
+
 		// set meta
 		$this->header->setPageTitle($this->category['meta_title'], ($this->category['meta_title_overwrite'] == 'Y'));
 		$this->header->addMetaDescription($this->category['meta_description'], ($this->category['meta_description_overwrite'] == 'Y'));
