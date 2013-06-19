@@ -33,7 +33,7 @@ class BackendModuleMakerAddStep2 extends BackendBaseActionAdd
 	 *
 	 * @var boolean
 	 */
-	private $varcharFound = false;
+	private $allowSave = false;
 
 	/**
 	 * Execute the actions
@@ -67,7 +67,7 @@ class BackendModuleMakerAddStep2 extends BackendBaseActionAdd
 		{
 			if($field['type'] == 'text')
 			{
-				$this->varcharFound = true;
+				$this->allowSave = true;
 				break;
 			}
 		}
@@ -85,6 +85,6 @@ class BackendModuleMakerAddStep2 extends BackendBaseActionAdd
 	{
 		parent::parse();
 		$this->tpl->assign('datagrid', ($this->datagrid->getNumResults() != 0) ? $this->datagrid->getContent() : false);
-		$this->tpl->assign('varcharFound', $this->varcharFound);
+		$this->tpl->assign('varcharFound', $this->allowSave);
 	}
 }
