@@ -11,10 +11,10 @@
 	{
 		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT i.*, m.url
-			FROM {$underscored_name} AS i
-			INNER JOIN meta AS m ON i.meta_id = m.id
-			WHERE i.category_id = ? AND i.language = ?
-			ORDER BY {$sequence_sorting} i.id DESC LIMIT ?, ?',
+			 FROM {$underscored_name} AS i
+			 INNER JOIN meta AS m ON i.meta_id = m.id
+			 WHERE i.category_id = ? AND i.language = ?
+			 ORDER BY {$sequence_sorting}i.id DESC LIMIT ?, ?',
 			array($categoryId, FRONTEND_LANGUAGE, (int) $offset, (int) $limit));
 
 		// no results?

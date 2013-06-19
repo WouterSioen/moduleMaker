@@ -13,10 +13,10 @@
 	public static function search(array $ids)
 	{
 		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
-			'SELECT i.*, m.url
-			FROM {$underscored_name} AS i
-			INNER JOIN meta AS m ON i.meta_id = m.id
-			WHERE i.language = ? AND i.id IN (' . implode(',', $ids) . ')',
+			'SELECT i.{$meta_field} AS title, m.url
+			 FROM {$underscored_name} AS i
+			 INNER JOIN meta AS m ON i.meta_id = m.id
+			 WHERE i.language = ? AND i.id IN (' . implode(',', $ids) . ')',
 			array(FRONTEND_LANGUAGE), 'id'
 		);
 

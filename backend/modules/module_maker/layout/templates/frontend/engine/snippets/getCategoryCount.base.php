@@ -9,8 +9,8 @@
 	{
 		return (int) FrontendModel::getContainer()->get('database')->getVar(
 			'SELECT COUNT(i.id) AS count
-			FROM {$underscored_name} AS i
-			WHERE i.category_id',
+			 FROM {$underscored_name} AS i
+			 WHERE i.category_id',
 			array((int) $categoryId)
 		);
 	}
