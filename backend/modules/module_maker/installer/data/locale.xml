@@ -76,18 +76,23 @@
 			</item>
             <item type="error" name="FieldIsNotAValidDateTime">
                 <translation language="en"><![CDATA[field is not a valid datetime]]></translation>
+                <translation language="nl"><![CDATA[Geen geldige datum]]></translation>
             </item>
             <item type="error" name="FieldIsNotNumeric">
                 <translation language="en"><![CDATA[field is not numeric]]></translation>
+                <translation language="nl"><![CDATA[veld is niet numeriek]]></translation>
             </item>
             <item type="error" name="LabelAlreadyExist">
                 <translation language="en"><![CDATA[label already exist]]></translation>
+                <translation language="nl"><![CDATA[label bestaat al]]></translation>
             </item>
             <item type="error" name="Max255Characters">
                 <translation language="en"><![CDATA[max 255 characters]]></translation>
+                <translation language="nl"><![CDATA[maximum 255 karakter]]></translation>
             </item>
             <item type="error" name="MustBeAYOrAN">
                 <translation language="en"><![CDATA[must be a Y or a N]]></translation>
+                <translation language="nl"><![CDATA[moet een Y of een N zijn]]></translation>
             </item>
             <item type="message" name="WeNeedOneTextTypeForTheMeta">
                 <translation language="en"><![CDATA[There should be one text type for linking with the meta]]></translation>
