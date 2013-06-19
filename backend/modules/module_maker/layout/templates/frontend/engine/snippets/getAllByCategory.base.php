@@ -20,10 +20,13 @@
 		// no results?
 		if(empty($items)) return array();
 
+		// get detail action url
+		$detailUrl = FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail');
+
 		// prepare items for search
 		foreach($items as &$item)
 		{
-			$item['full_url'] = FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $item['url'];
+			$item['full_url'] = $detailUrl . '/' . $item['url'];
 		}
 
 		// return
