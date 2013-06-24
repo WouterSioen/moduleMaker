@@ -35,14 +35,46 @@ class BackendModuleMakerCreateZip extends BackendBaseActionIndex
 
 		if($this->getParameter('module') !== NULL)
 		{
-			$dir = "/Users/arendpijls/repos/moduleMaker/frontend/modules/second_hand/";
-			$di = new RecursiveDirectoryIterator($dir);
-			foreach (new RecursiveIteratorIterator($di) as $filename => $file)
+			$module = $this->getParameter('module');
+			$files = array();
+
+			// frontend files
+			$frontendDir = FRONTEND_PATH . "/modules/" . $module . "/";
+
+			// check if dir exist
+			if(file_exists($frontendDir))
 			{
-				$files[] = str_replace('/Users/arendpijls/repos/moduleMaker/', '', $filename);
+				$dir = new RecursiveDirectoryIterator($frontendDir);
+				foreach (new RecursiveIteratorIterator($dir) as $filename => $file) $files[] = str_replace(PATH_WWW . '/', '', $filename);
 			}
 
-			Spoon::dump(BackendModuleMakerHelper::create_zip($files, '/Users/arendpijls/repos/moduleMaker/test.zip'), true);
+			// backend files
+			$backendDir = BACKEND_PATH . "/modules/" . $module . "/";
+
+			// check if dir exist
+			if(file_exists($backendDir))
+			{
+				$dir = new RecursiveDirectoryIterator($backendDir);
+				foreach (new RecursiveIteratorIterator($dir) as $filename => $file) $files[] = str_replace(PATH_WWW . '/', '', $filename);
+			}
+
+			// we found some files
+			if(!empty($files))
+			{
+				// create zip
+				if(BackendModuleMakerHelper::createZip($files, $module, PATH_WWW . '/' . $module . '.zip'))
+				{
+					// download zip
+					header('Content-Type: application/zip');
+					header('Content-disposition: attachment; filename=' . $module . '.zip');
+					header('Content-Length: ' . filesize(PATH_WWW . '/' . $module . '.zip'));
+					readfile(PATH_WWW . '/' . $module . '.zip');
+
+					// delete temp file
+					unlink(PATH_WWW . '/' . $module . '.zip');
+					exit();
+				}
+			}
 		}
 		else
 		{
@@ -91,7 +123,6 @@ class BackendModuleMakerCreateZip extends BackendBaseActionIndex
 
 		// add create zip column
 		$this->dataGridInstallableModules->addColumn('install', null, ucfirst(BL::lbl('CreateZip')), BackendModel::createURLForAction('create_zip', 'module_maker') . '&amp;module=[raw_name]', ucfirst(BL::lbl('CreateZip')));
-		$this->dataGridInstallableModules->setColumnConfirm('install', sprintf(BL::msg('ConfirmModuleInstall'), '[raw_name]'), null, SpoonFilter::ucfirst(BL::lbl('CreateZip')) . '?');
 	}
 
 	/**
@@ -114,7 +145,6 @@ class BackendModuleMakerCreateZip extends BackendBaseActionIndex
 
 		// add create zip column
 		$this->dataGridInstalledModules->addColumn('install', null, ucfirst(BL::lbl('CreateZip')), BackendModel::createURLForAction('create_zip', 'module_maker') . '&amp;module=[raw_name]', ucfirst(BL::lbl('CreateZip')));
-		$this->dataGridInstalledModules->setColumnConfirm('install', sprintf(BL::msg('ConfirmModuleInstall'), '[raw_name]'), null, SpoonFilter::ucfirst(BL::lbl('CreateZip')) . '?');
 	}
 
 	/**

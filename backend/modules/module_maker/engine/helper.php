@@ -108,7 +108,7 @@ class BackendModuleMakerHelper
 	 * @param boolean $overwrite
 	 * @return boolean
 	 */
-	public static function create_zip($files = array(), $module, $destination = '', $overwrite = false)
+	public static function createZip($files = array(), $module, $destination = '', $overwrite = false)
 	{
 		// if the zip file already exists and overwrite is false, return false
 		if(file_exists($destination) && !$overwrite) return false;

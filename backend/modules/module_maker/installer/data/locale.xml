@@ -24,7 +24,19 @@
             </item>
             <item type="label" name="CreateZip">
                 <translation language="en"><![CDATA[create a zip]]></translation>
-                <translation language="nl"><![CDATA[maak een zip]></translation>
+                <translation language="nl"><![CDATA[maak een zip]]></translation>
+            </item>
+            <item type="label" name="InstalledModules">
+                <translation language="en"><![CDATA[installed modules]]></translation>
+                <translation language="nl"><![CDATA[geinstaleerde modules]]></translation>
+            </item>
+            <item type="label" name="InstallableModules">
+                <translation language="en"><![CDATA[installable modules]]></translation>
+                <translation language="nl"><![CDATA[niet geinstalleerde modules]]></translation>
+            </item>
+            <item type="label" name="Version">
+                <translation language="en"><![CDATA[version]]></translation>
+                <translation language="nl"><![CDATA[versie]]></translation>
             </item>
             <item type="label" name="Sequence">
                 <translation language="en"><![CDATA[sequence]]></translation>
