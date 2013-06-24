@@ -68,6 +68,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->generateFrontendModel();
 		$this->generateFrontendActions();
 		$this->generateFrontendCategoryActions();
+		$this->generateFrontendCategoryWidget();
 
 		$this->parse();
 		$this->display();
@@ -92,7 +93,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		);
 
 		BackendModuleMakerGenerator::generateFile(
-			'backend/templates/index.base.tpl', $this->variables, $this->backendPath . 'layout/templates/index.tpl'
+			'backend/layout/templates/index.base.tpl', $this->variables, $this->backendPath . 'layout/templates/index.tpl'
 		);
 
 		// generate add action
@@ -122,7 +123,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		// build and save the file
 		BackendModuleMakerGenerator::generateFile(
-			'backend/templates/add.base.tpl', $this->variables, $this->backendPath . 'layout/templates/add.tpl'
+			'backend/layout/templates/add.base.tpl', $this->variables, $this->backendPath . 'layout/templates/add.tpl'
 		);
 
 		// generate edit action
@@ -139,7 +140,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		// generate edit template
 		BackendModuleMakerGenerator::generateFile(
-			'backend/templates/edit.base.tpl', $this->variables, $this->backendPath . 'layout/templates/edit.tpl'
+			'backend/layout/templates/edit.base.tpl', $this->variables, $this->backendPath . 'layout/templates/edit.tpl'
 		);
 
 		// generate delete
@@ -169,7 +170,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			'backend/actions/categories.base.php', $this->variables, $this->backendPath . 'actions/categories.php'
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'backend/templates/categories.base.tpl', $this->variables, $this->backendPath . 'layout/templates/categories.tpl'
+			'backend/layout/templates/categories.base.tpl', $this->variables, $this->backendPath . 'layout/templates/categories.tpl'
 		);
 
 		// generate add_category
@@ -177,7 +178,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			'backend/actions/add_category.base.php', $this->variables, $this->backendPath . 'actions/add_category.php'
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'backend/templates/add_category.base.tpl', $this->variables, $this->backendPath . 'layout/templates/add_category.tpl'
+			'backend/layout/templates/add_category.base.tpl', $this->variables, $this->backendPath . 'layout/templates/add_category.tpl'
 		);
 
 		// generate edit_category
@@ -185,7 +186,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			'backend/actions/edit_category.base.php', $this->variables, $this->backendPath . 'actions/edit_category.php'
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'backend/templates/edit_category.base.tpl', $this->variables, $this->backendPath . 'layout/templates/edit_category.tpl'
+			'backend/layout/templates/edit_category.base.tpl', $this->variables, $this->backendPath . 'layout/templates/edit_category.tpl'
 		);
 
 		// generate delete_category
@@ -318,22 +319,6 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	}
 
 	/**
-	 * Generates the frontend category action
-	 */
-	protected function generateFrontendCategoryActions()
-	{
-		if(!$this->record['useCategories']) return;
-
-		// generate category action
-		BackendModuleMakerGenerator::generateFile(
-			'frontend/actions/category.base.php', $this->variables, $this->frontendPath . 'actions/category.php'
-		);
-		BackendModuleMakerGenerator::generateFile(
-			'frontend/templates/category.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/category.tpl'
-		);
-	}
-
-	/**
 	 * Generates the backend actions (and templates) (index, add, edit and delete)
 	 */
 	protected function generateFrontendActions()
@@ -347,7 +332,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		);
 
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/templates/index.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/index.tpl'
+			'frontend/layout/templates/index.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/index.tpl'
 		);
 
 		// generate detail
@@ -356,10 +341,43 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		);
 
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/templates/detail.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/detail.tpl'
+			'frontend/layout/templates/detail.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/detail.tpl'
 		);
 
 		unset($this->variables['pageTitle']);
+	}
+
+
+	/**
+	 * Generates the frontend category action
+	 */
+	protected function generateFrontendCategoryActions()
+	{
+		if(!$this->record['useCategories']) return;
+
+		// generate category action
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/actions/category.base.php', $this->variables, $this->frontendPath . 'actions/category.php'
+		);
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/layout/templates/category.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/category.tpl'
+		);
+	}
+
+	/**
+	 * Generates the frontend categories widget
+	 */
+	protected function generateFrontendCategoryWidget()
+	{
+		if(!$this->record['useCategories']) return;
+
+		// generate categories widget
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/widgets/categories.base.php', $this->variables, $this->frontendPath . 'widgets/categories.php'
+		);
+		BackendModuleMakerGenerator::generateFile(
+			'frontend/layout/widgets/categories.base.tpl', $this->variables, $this->frontendPath . 'layout/widgets/categories.tpl'
+		);
 	}
 
 	/**
@@ -382,7 +400,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->variables['sequence_sorting'] = '';
 		if($this->record['useSequence'])
 		{
-			$this->variables['sequence_sorting'] = ' i.sequence ASC, ';
+			$this->variables['sequence_sorting'] = 'i.sequence ASC, ';
 		}
 
 		// create custom variables for the categories
@@ -405,6 +423,9 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->variables['search'] = '';
 		if($this->record['searchFields'])
 		{
+			// use text field linked with the meta for the page title
+			$this->variables['meta_field'] = $this->record['fields'][(int) $this->record['metaField']]['underscored_label'];
+
 			$this->variables['search'] = BackendModuleMakerGenerator::generateSnippet(
 				'frontend/engine/snippets/search.base.php', $this->variables
 			);
@@ -415,7 +436,14 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			'frontend/engine/model.base.php', $this->variables, $this->frontendPath . 'engine/model.php'
 		);
 
-		unset($this->variables['getAllByCategory'], $this->variables['getCategory'], $this->variables['getCategoryCount'], $this->variables['sequence_sorting'], $this->variables['search']);
+		unset(
+			$this->variables['getAllByCategory'],
+			$this->variables['getCategory'],
+			$this->variables['getCategoryCount'],
+			$this->variables['sequence_sorting'],
+			$this->variables['meta_field'],
+			$this->variables['search']
+		);
 	}
 
 	/**
@@ -427,8 +455,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$backendDirs = array(
 			'main' => $this->backendPath,
 			'sub' => array(
-				'actions', 'ajax', 'js',
-				'engine' => array('cronjobs'),
+				'actions', 'ajax', 'js', 'cronjobs', 'engine',
 				'installer' => array('data'),
 				'layout' => array('templates')
 			)
@@ -441,8 +468,8 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$frontendDirs = array(
 			'main' => $this->frontendPath,
 			'sub' => array(
-				'actions', 'engine',
-				'layout' => array('templates'),
+				'actions', 'engine', 'widgets',
+				'layout' => array('templates', 'widgets'),
 				'js'
 			)
 		);

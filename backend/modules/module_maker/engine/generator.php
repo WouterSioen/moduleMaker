@@ -336,7 +336,7 @@ class BackendModuleMakerGenerator
 		{
 			$metaField = $module['fields'][(int) $module['metaField']];
 
-			$returnTitle = self::generateSnippet('backend/templates/snippets/meta.base.tpl', $metaField);
+			$returnTitle = self::generateSnippet('backend/layout/templates/snippets/meta.base.tpl', $metaField);
 		}
 
 		// loop through fields and add items
@@ -348,16 +348,16 @@ class BackendModuleMakerGenerator
 
 			if($field['type'] == 'editor' || $field['type'] == 'text' || $field['type'] == 'number' || $field['type'] == 'password')
 			{
-				$return .= self::generateSnippet('backend/templates/snippets/' . $field['type'] . '.base.tpl', $field);
+				$return .= self::generateSnippet('backend/layout/templates/snippets/' . $field['type'] . '.base.tpl', $field);
 			}
-			else $returnSide .= self::generateSnippet('backend/templates/snippets/' . $field['type'] . '.base.tpl', $field);
+			else $returnSide .= self::generateSnippet('backend/layout/templates/snippets/' . $field['type'] . '.base.tpl', $field);
 
 			unset($field['required_html']);
 		}
 
 		// add tags and categories
-		if($module['useTags']) $returnSide .= self::generateSnippet('backend/templates/snippets/tags.base.tpl');
-		if($module['useCategories']) $returnSide .= self::generateSnippet('backend/templates/snippets/category.base.tpl');
+		if($module['useTags']) $returnSide .= self::generateSnippet('backend/layout/templates/snippets/tags.base.tpl');
+		if($module['useCategories']) $returnSide .= self::generateSnippet('backend/layout/templates/snippets/category.base.tpl');
 
 		// return the strings we build up
 		return array($returnTitle, $return, $returnSide);
@@ -376,7 +376,7 @@ class BackendModuleMakerGenerator
 		if($module['metaField'] !== false)
 		{
 			$returnTop .= "\n\t\t\t<li><a href=\"#tabSEO\">{\$lblSEO|ucfirst}</a></li>";
-			$returnBottom .= self::generateSnippet('backend/templates/snippets/seo.base.tpl');
+			$returnBottom .= self::generateSnippet('backend/layout/templates/snippets/seo.base.tpl');
 		}
 
 		return array($returnTop, $returnBottom);

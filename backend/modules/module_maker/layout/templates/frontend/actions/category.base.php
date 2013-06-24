@@ -8,7 +8,7 @@
  */
 
 /**
- * This is the index-action (default), it will display the overview of {$title} categories
+ * This is the category-action, it will display the overview of {$title} categories
  *
  * @author {$author_name} <{$author_email}>
  */

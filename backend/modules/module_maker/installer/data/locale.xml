@@ -18,6 +18,14 @@
 				<translation language="en"><![CDATA[author url]]></translation>
 				<translation language="nl"><![CDATA[auteur url]]></translation>
 			</item>
+            <item type="label" name="CreateModule">
+                <translation language="en"><![CDATA[create module]]></translation>
+                <translation language="nl"><![CDATA[maak een module]]></translation>
+            </item>
+            <item type="label" name="CreateZip">
+                <translation language="en"><![CDATA[create a zip]]></translation>
+                <translation language="nl"><![CDATA[maak een zip]></translation>
+            </item>
             <item type="label" name="Sequence">
                 <translation language="en"><![CDATA[sequence]]></translation>
                 <translation language="nl"><![CDATA[sequence]]></translation>
@@ -74,6 +82,10 @@
 				<translation language="en"><![CDATA[special fields]]></translation>
 				<translation language="nl"><![CDATA[speciale velden]]></translation>
 			</item>
+            <item type="label" name="WizardSpecialFields">
+                <translation language="en"><![CDATA[special fields]]></translation>
+                <translation language="nl"><![CDATA[speciale velden]]></translation>
+            </item>
             <item type="error" name="FieldIsNotAValidDateTime">
                 <translation language="en"><![CDATA[field is not a valid datetime]]></translation>
                 <translation language="nl"><![CDATA[Geen geldige datum]]></translation>

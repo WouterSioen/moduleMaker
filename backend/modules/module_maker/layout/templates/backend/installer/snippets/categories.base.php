@@ -6,3 +6,4 @@
 		$this->setActionRights(1, '{$underscored_name}', 'sequence_categories');
 
 		$this->insertExtra('{$underscored_name}', 'block', '{$camel_case_name}Category', 'category', null, 'N', 1002);
+		$this->insertExtra('{$underscored_name}', 'widget', 'Categories', 'categories', null, 'N', 1003);

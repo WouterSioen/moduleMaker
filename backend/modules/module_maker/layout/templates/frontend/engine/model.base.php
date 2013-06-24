@@ -56,7 +56,7 @@ class Frontend{$camel_case_name}Model
 			 FROM {$underscored_name} AS i
 			 INNER JOIN meta AS m ON i.meta_id = m.id
 			 WHERE i.language = ?
-			 ORDER BY {$sequence_sorting} i.id DESC LIMIT ?, ?',
+			 ORDER BY {$sequence_sorting}i.id DESC LIMIT ?, ?',
 			array(FRONTEND_LANGUAGE, (int) $offset, (int) $limit));
 
 		// no results?
@@ -87,5 +87,5 @@ class Frontend{$camel_case_name}Model
 			 FROM {$underscored_name} AS i'
 		);
 	}
-{$getAllByCategory}{$getCategory}{$getCategoryCount}{$search}
+{$getAllByCategory}{$getAllCategories}{$getCategory}{$getCategoryCount}{$search}
 }

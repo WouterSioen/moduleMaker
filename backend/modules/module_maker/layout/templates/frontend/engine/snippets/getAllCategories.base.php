@@ -8,10 +8,11 @@
 	{
 		$return = (array) FrontendModel::getContainer()->get('database')->getRecords(
 			'SELECT c.id, c.title AS label, m.url, COUNT(c.id) AS total, m.data AS meta_data
-			 FROM applications_categories AS c
-			 INNER JOIN applications AS i ON c.id = i.category_id AND c.language = i.language
+			 FROM {$underscored_name}_categories AS c
+			 INNER JOIN {$underscored_name} AS i ON c.id = i.category_id AND c.language = i.language
 			 INNER JOIN meta AS m ON c.meta_id = m.id
-			 GROUP BY c.id',
+			 GROUP BY c.id
+			 ORDER BY c.sequence AS',
 			array(), 'id'
 		);
 
