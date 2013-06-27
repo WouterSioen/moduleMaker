@@ -45,7 +45,10 @@ class BackendModuleMakerCreateZip extends BackendBaseActionIndex
 			if(file_exists($frontendDir))
 			{
 				$dir = new RecursiveDirectoryIterator($frontendDir);
-				foreach (new RecursiveIteratorIterator($dir) as $filename => $file) $files[] = str_replace(PATH_WWW . '/', '', $filename);
+				foreach(new RecursiveIteratorIterator($dir) as $filename => $file)
+				{
+					$files[] = str_replace(PATH_WWW . '/', '', $filename);
+				}
 			}
 
 			// backend files
@@ -55,7 +58,10 @@ class BackendModuleMakerCreateZip extends BackendBaseActionIndex
 			if(file_exists($backendDir))
 			{
 				$dir = new RecursiveDirectoryIterator($backendDir);
-				foreach (new RecursiveIteratorIterator($dir) as $filename => $file) $files[] = str_replace(PATH_WWW . '/', '', $filename);
+				foreach(new RecursiveIteratorIterator($dir) as $filename => $file)
+				{
+					$files[] = str_replace(PATH_WWW . '/', '', $filename);
+				}
 			}
 
 			// we found some files
@@ -74,6 +80,10 @@ class BackendModuleMakerCreateZip extends BackendBaseActionIndex
 					unlink(PATH_WWW . '/' . $module . '.zip');
 					exit();
 				}
+			}
+			else
+			{
+				$this->redirect(BackendModel::createURLForAction('create_zip') . '&error=non-existing');
 			}
 		}
 		else
@@ -117,12 +127,22 @@ class BackendModuleMakerCreateZip extends BackendBaseActionIndex
 		// check if this action is allowed
 		if(BackendAuthentication::isAllowedAction('detail_module'))
 		{
-			$this->dataGridInstallableModules->setColumnURL('raw_name', BackendModel::createURLForAction('detail_module') . '&amp;module=[raw_name]');
-			$this->dataGridInstallableModules->addColumn('details', null, BL::lbl('Details'), BackendModel::createURLForAction('detail_module') . '&amp;module=[raw_name]', BL::lbl('Details'));
+			$this->dataGridInstallableModules->setColumnURL(
+				'raw_name', BackendModel::createURLForAction('detail_module') . '&amp;module=[raw_name]'
+			);
+			$this->dataGridInstallableModules->addColumn(
+				'details', null, BL::lbl('Details'),
+				BackendModel::createURLForAction('detail_module') . '&amp;module=[raw_name]',
+				BL::lbl('Details')
+			);
 		}
 
 		// add create zip column
-		$this->dataGridInstallableModules->addColumn('install', null, ucfirst(BL::lbl('CreateZip')), BackendModel::createURLForAction('create_zip', 'module_maker') . '&amp;module=[raw_name]', ucfirst(BL::lbl('CreateZip')));
+		$this->dataGridInstallableModules->addColumn(
+			'install', null, ucfirst(BL::lbl('CreateZip')),
+			BackendModel::createURLForAction('create_zip', 'module_maker') . '&amp;module=[raw_name]',
+			ucfirst(BL::lbl('CreateZip'))
+		);
 	}
 
 	/**
@@ -139,12 +159,22 @@ class BackendModuleMakerCreateZip extends BackendBaseActionIndex
 		// check if this action is allowed
 		if(BackendAuthentication::isAllowedAction('detail_module'))
 		{
-			$this->dataGridInstalledModules->setColumnURL('name', BackendModel::createURLForAction('detail_module', 'extensions') . '&amp;module=[raw_name]');
-			$this->dataGridInstalledModules->addColumn('details', null, BL::lbl('Details'), BackendModel::createURLForAction('detail_module', 'extensions') . '&amp;module=[raw_name]', BL::lbl('Details'));
+			$this->dataGridInstalledModules->setColumnURL(
+				'name', BackendModel::createURLForAction('detail_module', 'extensions') . '&amp;module=[raw_name]'
+			);
+			$this->dataGridInstalledModules->addColumn(
+				'details', null, BL::lbl('Details'),
+				BackendModel::createURLForAction('detail_module', 'extensions') . '&amp;module=[raw_name]',
+				BL::lbl('Details')
+			);
 		}
 
 		// add create zip column
-		$this->dataGridInstalledModules->addColumn('install', null, ucfirst(BL::lbl('CreateZip')), BackendModel::createURLForAction('create_zip', 'module_maker') . '&amp;module=[raw_name]', ucfirst(BL::lbl('CreateZip')));
+		$this->dataGridInstalledModules->addColumn(
+			'install', null, ucfirst(BL::lbl('CreateZip')),
+			BackendModel::createURLForAction('create_zip', 'module_maker') . '&amp;module=[raw_name]',
+			ucfirst(BL::lbl('CreateZip'))
+		);
 	}
 
 	/**
@@ -157,8 +187,5 @@ class BackendModuleMakerCreateZip extends BackendBaseActionIndex
 		// parse data grid
 		$this->tpl->assign('dataGridInstallableModules', (string) $this->dataGridInstallableModules->getContent());
 		$this->tpl->assign('dataGridInstalledModules', (string) $this->dataGridInstalledModules->getContent());
-
-		// parse installer warnings
-		$this->tpl->assign('warnings', (array) SpoonSession::get('installer_warnings'));
 	}
 }

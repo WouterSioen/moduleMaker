@@ -5,22 +5,6 @@
 	<h2>{$lblCreateZip|ucfirst}</h2>
 </div>
 
-{option:warnings}
-	<div class="generalMessage infoMessage">
-		<p><strong>{$msgModulesWarnings}:</strong></p>
-		<ul>
-			<li>
-				<strong>{$warnings.module}</strong>
-				<ul>
-					{iteration:warnings.warnings}
-						<li>- {$warnings.warnings.message}</li>
-					{/iteration:warnings.warnings}
-				</ul>
-			</li>
-		</ul>
-	</div>
-{/option:warnings}
-
 {option:dataGridInstalledModules}
 <div class="dataGridHolder">
 	<div class="tableHeading">
