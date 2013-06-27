@@ -330,21 +330,28 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		BackendModuleMakerGenerator::generateFile(
 			'frontend/actions/index.base.php', $this->variables, $this->frontendPath . 'actions/index.php'
 		);
-
 		BackendModuleMakerGenerator::generateFile(
 			'frontend/layout/templates/index.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/index.tpl'
 		);
+
+		// create twittercard variable if necessary
+		if(array_key_exists('twitter', $this->record))
+		{
+			$this->variables['twitterCard'] = BackendModuleMakerGenerator::generateSnippet(
+				'frontend/actions/snippets/twittercard.base.php', $this->record
+			);
+		}
+		else $this->variables['twitterCard'] = '';
 
 		// generate detail
 		BackendModuleMakerGenerator::generateFile(
 			'frontend/actions/detail.base.php', $this->variables, $this->frontendPath . 'actions/detail.php'
 		);
-
 		BackendModuleMakerGenerator::generateFile(
 			'frontend/layout/templates/detail.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/detail.tpl'
 		);
 
-		unset($this->variables['pageTitle']);
+		unset($this->variables['pageTitle'], $this->variables['twitterCard']);
 	}
 
 
@@ -409,14 +416,20 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			$this->variables['getAllByCategory'] = BackendModuleMakerGenerator::generateSnippet(
 				'frontend/engine/snippets/getAllByCategory.base.php', $this->variables
 			);
-
+			$this->variables['getAllCategories'] = BackendModuleMakerGenerator::generateSnippet(
+				'frontend/engine/snippets/getAllCategories.base.php', $this->variables
+			);
 			$this->variables['getCategory'] = BackendModuleMakerGenerator::generateSnippet(
 				'frontend/engine/snippets/getCategory.base.php', $this->variables
 			);
-
 			$this->variables['getCategoryCount'] = BackendModuleMakerGenerator::generateSnippet(
 				'frontend/engine/snippets/getCategoryCount.base.php', $this->variables
 			);
+		}
+		else
+		{
+			$this->variables['getAllByCategory'] = $this->variables['getCategory'] = $this->variables['getCategoryCount'] = '';
+			$this->variables['getAllCategories'] = '';
 		}
 
 		// check if search is enabled
@@ -437,11 +450,8 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		);
 
 		unset(
-			$this->variables['getAllByCategory'],
-			$this->variables['getCategory'],
-			$this->variables['getCategoryCount'],
-			$this->variables['sequence_sorting'],
-			$this->variables['meta_field'],
+			$this->variables['getAllByCategory'], $this->variables['getAllCategories'], $this->variables['getCategory'],
+			$this->variables['getCategoryCount'], $this->variables['sequence_sorting'], $this->variables['meta_field'],
 			$this->variables['search']
 		);
 	}

@@ -21,6 +21,7 @@ jsBackend.modulemaker =
 		jsBackend.modulemaker.tagBoxes();
 		jsBackend.modulemaker.toggleOptions();
 		jsBackend.modulemaker.toggleSearch();
+		jsBackend.modulemaker.toggleTwitter();
 		jsBackend.modulemaker.renderInit();
 	},
 
@@ -90,6 +91,22 @@ jsBackend.modulemaker =
 				($chkSearch.attr('checked') === 'checked')
 					? $ddmSearchFieldsDiv.slideDown(200)
 					: $ddmSearchFieldsDiv.slideUp(200);
+			});
+		}
+	},
+
+	// toggles the visibility of the twittername textfield
+	toggleTwitter: function()
+	{
+		$chkTwitter = $('#twitter');
+		$ddmTwitterFieldsDiv = $('.showOnTwitter');
+
+		if($chkTwitter.length > 0 && $ddmTwitterFieldsDiv.length > 0)
+		{
+			$chkTwitter.on('change', function(){
+				($chkTwitter.attr('checked') === 'checked')
+					? $ddmTwitterFieldsDiv.slideDown(200)
+					: $ddmTwitterFieldsDiv.slideUp(200);
 			});
 		}
 	},

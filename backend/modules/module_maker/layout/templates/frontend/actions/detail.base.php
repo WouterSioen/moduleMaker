@@ -63,18 +63,7 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 		$this->header->addOpenGraphData('url', SITE_URL . FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->record['url'], true);
 		$this->header->addOpenGraphData('site_name', FrontendModel::getModuleSetting('core', 'site_title_' . FRONTEND_LANGUAGE, SITE_DEFAULT_TITLE), true);
 		$this->header->addOpenGraphData('description', $this->record['meta_title'], true);
-
-		/**
-		 * @TODO add the responsible twitter account and image
-		 * $this->addMetaData(array('property' => 'twitter:creator', 'content' => '@vreewijs'), true, 'property');
-		 * $this->addMetaData(array('property' => 'twitter:site', 'content' => '@vreewijs'), true, 'property');
-		 * $this->addMetaData(array('property' => 'twitter:image', 'content' => '"http://wijs.be/frontend/files/blog/images/source/facetnavigatie-performantie.jpg'), true, 'property');
-		 */
-		$this->header->addMetaData(array('property' => 'twitter:card', 'content' => 'summary'), true, 'property');
-		$this->header->addMetaData(array('property' => 'twitter:url', 'content' => SITE_URL . FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->record['url']), true, 'property');
-		$this->header->addMetaData(array('property' => 'twitter:title', 'content' => $this->record['meta_title']), true, 'property');
-		$this->header->addMetaData(array('property' => 'twitter:description', 'content' => $this->record['meta_title']), true, 'property');
-
+{$twitterCard}
 		// add into breadcrumb
 		$this->breadcrumb->addElement($this->record['meta_title']);
 
