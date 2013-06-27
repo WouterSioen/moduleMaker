@@ -15,19 +15,6 @@
 	</ul>
 </div>
 
-<div class="box">
-	<div class="heading">
-		<h3>TO DO</h3>
-	</div>
-	<div class="options">
-		<pre>
-Hier komen speciale velden zoals
-- extra afbeeldingen tabel
-- extra settings tabel (key => value)
-		</pre>
-	</div>
-</div>
-
 {form:add_step3}
 	<div id="options" class="box">
 		<div class="heading">

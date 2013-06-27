@@ -15,36 +15,31 @@
 	</ul>
 </div>
 
-<div class="box">
-	<div class="heading">
-		<h3>TO DO</h3>
+{form:add_step4}
+	<div class="box">
+		<div class="heading">
+			<h3>{$lblWizardBlocks|ucfirst}</h3>
+		</div>
+		<div class="options">
+			<p>
+				<label for="twitter">{$chkTwitter} {$lblTwitterCard|ucfirst}</label>
+			</p>
+			<span class="showOnTwitter"{option:!item.twitter} style="display: none;"{/option:!item.twitter}>
+				<label for="twitterName">{$lblTwitterName|ucfirst}</label>
+				{$txtTwitterName} {$txtTwitterNameError}
+			</span>
+		</div>
+		<div class="options">
+			{$item|dump}
+		</div>
 	</div>
-	<div class="options">
-		<pre>
-Hier komt de mogelijkheid om frontend blocks en widgets toe te voegen
 
-Blocks: 
-	- Index (sowieso aanwezig)
-		* ev. aanduiden op welk veld gesorteerd moet worden
-		* ev. aanduiden of er paginatie wordt gebruikt
-	- Detail (sowieso aanwezig als meta is aangevink)
-		* ev. aanduiden welke velden moeten getoond worden
-Widgets: mogelijkheid om parameters mee te geven
-	- Veld die een bepaalde waarde moet hebben
-	- Sortering op een bepaald veld
-	- ...
-		</pre>
+	<div class="fullwidthOptions">
+		<div class="buttonHolderRight">
+			<input id="addStep4" class="inputButton button mainButton" type="submit" name="add_step_4" value="{$lblGenerate|ucfirst}" />
+		</div>
 	</div>
-	<div class="options">
-		{$item|dump}
-	</div>
-</div>
-
-<div class="fullwidthOptions">
-	<div class="buttonHolderRight">
-		<a id="generate" class="inputButton button mainButton" href="{$var|geturl:'generate'}" >{$lblGenerate|ucfirst}</a>
-	</div>
-</div>
+{/form:add_step4}
 
 {include:{$BACKEND_CORE_PATH}/layout/templates/structure_end_module.tpl}
 {include:{$BACKEND_CORE_PATH}/layout/templates/footer.tpl}
