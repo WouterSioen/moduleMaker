@@ -409,14 +409,20 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			$this->variables['getAllByCategory'] = BackendModuleMakerGenerator::generateSnippet(
 				'frontend/engine/snippets/getAllByCategory.base.php', $this->variables
 			);
-
+			$this->variables['getAllCategories'] = BackendModuleMakerGenerator::generateSnippet(
+				'frontend/engine/snippets/getAllCategories.base.php', $this->variables
+			);
 			$this->variables['getCategory'] = BackendModuleMakerGenerator::generateSnippet(
 				'frontend/engine/snippets/getCategory.base.php', $this->variables
 			);
-
 			$this->variables['getCategoryCount'] = BackendModuleMakerGenerator::generateSnippet(
 				'frontend/engine/snippets/getCategoryCount.base.php', $this->variables
 			);
+		}
+		else
+		{
+			$this->variables['getAllByCategory'] = $this->variables['getCategory'] = $this->variables['getCategoryCount'] = '';
+			$this->variables['getAllCategories'] = '';
 		}
 
 		// check if search is enabled
@@ -437,11 +443,8 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		);
 
 		unset(
-			$this->variables['getAllByCategory'],
-			$this->variables['getCategory'],
-			$this->variables['getCategoryCount'],
-			$this->variables['sequence_sorting'],
-			$this->variables['meta_field'],
+			$this->variables['getAllByCategory'], $this->variables['getAllCategories'], $this->variables['getCategory'],
+			$this->variables['getCategoryCount'], $this->variables['sequence_sorting'], $this->variables['meta_field'],
 			$this->variables['search']
 		);
 	}
