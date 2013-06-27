@@ -35,8 +35,8 @@ class BackendModuleMakerAddStep4 extends BackendBaseActionAdd
 
 		parent::execute();
 
-		// $this->loadForm();
-		// $this->validateForm();
+		$this->loadForm();
+		$this->validateForm();
 
 		$this->parse();
 		$this->display();
@@ -47,7 +47,9 @@ class BackendModuleMakerAddStep4 extends BackendBaseActionAdd
 	 */
 	protected function loadForm()
 	{
-
+		$this->frm = new BackendForm('add_step4');
+		$this->frm->addCheckbox('twitter', array_key_exists('twitter', $this->record));
+		$this->frm->addText('twitter_name', array_key_exists('twitter', $this->record) ? $this->record['twitter'] : null);
 	}
 
 	/**
@@ -65,6 +67,35 @@ class BackendModuleMakerAddStep4 extends BackendBaseActionAdd
 	 */
 	protected function validateForm()
 	{
+		if($this->frm->isSubmitted())
+		{
+			$this->frm->cleanupFields();
 
+			$frmFields = $this->frm->getFields();
+
+			// validate form
+			if($frmFields['twitter']->isChecked())
+			{
+				// we need fields when search is ticked
+				$frmFields['twitter_name']->isFilled(BL::err('FieldIsRequired'));
+			}
+
+			if($this->frm->isCorrect())
+			{
+				// if this field is checked, let's add a boolean searchable true to the chosen fields
+				if($frmFields['twitter']->isChecked())
+				{
+					$this->record['twitter'] = $frmFields['twitter_name']->getValue();
+				}
+				else
+				{
+					if(array_key_exists('twitter', $this->record)) unset($this->record['twitter']);
+				}
+
+				// save the object in our session
+				SpoonSession::set('module', $this->record);
+				$this->redirect(BackendModel::createURLForAction('generate'));
+			}
+		}
 	}
 }
