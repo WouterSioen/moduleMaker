@@ -50,6 +50,23 @@
 				uploadedFiles: {}
 			};
 
+			// add uploadedFiles if the uploadedImages field is filled
+			if($('#uploadedImages').val())
+			{
+				$images = $.parseJSON($('#uploadedImages').val());
+				$.each($images, function(i, item){
+					uploader.uploadedFiles[item.id] = {
+						id: item.id,
+						uploadURL: item.uploadURL,
+						uploadName: item.uploadName,
+						originalName: item.originalFileName,
+						warning: '',
+						progress: 100
+					};
+				});
+				jsBackend.{$underscored_name}.uploadHandler.buildFileList();
+			}
+
 			// bind complete callback
 			uploader.element.on('upload', function(event, id, fileName)
 			{
@@ -129,7 +146,7 @@
 				{
 					$('#' + fieldId).val(fieldValue);
 				});
-				$('.jsDeleteImage').on('click', jsBackend.test.uploadHandler.deleteImage );
+				$('.jsDeleteImage').on('click', jsBackend.{$underscored_name}.uploadHandler.deleteImage );
 			}
 		},
 
