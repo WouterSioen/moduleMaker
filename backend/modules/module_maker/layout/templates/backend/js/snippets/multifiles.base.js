@@ -68,7 +68,7 @@
 			// bind complete callback
 			uploader.element.on('progress', function(event, id, fileName, uploadedBytes, totalBytes)
 			{
-				$('#upImage' + id).find('.progressBar').css('width', (uploadedBytes / totalBytes) + '%').text(uploadedBytes + '/' + totalBytes);
+				$('#upImage' + id).find('.progressBar').css('width', (uploadedBytes / totalBytes) * 100 + '%');
 			});
 
 			// bind complete callback
@@ -103,7 +103,7 @@
 				});
 				$.each(uploader.uploadedFiles, function(index, item)
 				{
-					var formFields = 'Uploading...<div class="progressBar" style="width: 0%;"></div>';
+					var formFields = '<div class="progressBar" style="width: 0%;"></div>';
 					if(item.progress == 100)
 					{
 						var find = '{id}';

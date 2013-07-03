@@ -3,7 +3,7 @@
 				$files = array();
 				if($fields['uploaded_images']->isFilled())
 				{
-					$images = json_decode($fields['uploaded_images']->getValue());
+					$images = json_decode(html_entity_decode($fields['uploaded_images']->getValue()));
 					$uploadedImages = array();
 					foreach($images as $image) $files[$image->id] = $image->uploadName;
 				}
@@ -18,25 +18,25 @@
 						if(in_array($sImage['uploadName'], $files) && empty($sImage['warning']))
 						{
 							$uploadedImages[] = $sImage['uploadName'];
-							BackendModel::imageRename(
+							Backend{$camel_case_name}Helper::imageRename(
 								$this->getModule(),
 								$sImage['uploadName'],
 								$sImage['uploadName'],
 								'',
 								'/uploaded_images',
-								null,
+								Backend{$camel_case_name}Helper::$imageSizes,
 								true
 							);
 
-							$photoId = Backend{$camel_case_name}Model::insert(
+							$photoId = Backend{$camel_case_name}Model::insertImage(
 								array(
 									'{$underscored_name}_id' => $item['id'],
-									'filename' => $sImage['uploadName'],
-									'sequence' => Backend{$camel_case_name}Model::getMaximumSequence($item['id']) + 1
+									'name' => $sImage['uploadName'],
+									'sequence' => Backend{$camel_case_name}Model::getMaximumImageSequence($item['id']) + 1
 								)
 							);
 						}
-						BackendModel::imageDelete($this->getModule(), $sImage['uploadName'], 'uploaded_images', Backend{$camel_case_name}Model::$tempFileSizes);
+						BackendModel::imageDelete($this->getModule(), $sImage['uploadName'], 'uploaded_images', Backend{$camel_case_name}Helper::$tempFileSizes);
 					}
 					SpoonSession::delete('uploadedFiles');
 				}

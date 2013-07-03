@@ -275,6 +275,17 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		}
 		else $this->variables['getMaxSequence'] = '';
 
+		if($this->record['multipleImages'])
+		{
+			$this->variables['insert_image'] = BackendModuleMakerGenerator::generateSnippet(
+				'backend/engine/snippets/insertImage.base.php', $this->variables
+			);
+			$this->variables['getMaxImageSequence'] = BackendModuleMakerGenerator::generateSnippet(
+				'backend/engine/snippets/getMaxImageSequence.base.php', $this->variables
+			);
+		}
+		else $this->variables['insert_image'] = $this->variables['getMaxImageSequence'] = '';
+
 		// add the extra parameters in the MySQL SELECT
 		$this->variables['select_extra'] = '';
 		foreach($this->record['fields'] as $field)
@@ -324,7 +335,18 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			'backend/engine/model.base.php', $this->variables, $this->backendPath . 'engine/model.php'
 		);
 
-		unset($this->variables['getUrl'], $this->variables['getMaxSequence'], $this->variables['datagrid_extra'], $this->variables['datagrid_order']);
+		unset(
+			$this->variables['getUrl'], $this->variables['getMaxSequence'], $this->variables['datagrid_extra'],
+			$this->variables['datagrid_order'], $this->variables['insert_image'], $this->variables['getMaxImageSequence']
+		);
+
+		// generate the helper class if necessary
+		if($this->record['multipleImages'])
+		{
+			BackendModuleMakerGenerator::generateFile(
+				'backend/engine/helper.base.php', $this->variables, $this->backendPath . 'engine/helper.php'
+			);
+		}
 	}
 
 	/**

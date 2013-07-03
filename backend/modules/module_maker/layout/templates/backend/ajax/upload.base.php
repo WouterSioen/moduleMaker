@@ -26,9 +26,14 @@ class Backend{$camel_case_name}AjaxUpload extends BackendBaseAJAXAction
 		$uploadPath = FRONTEND_FILES_PATH . $pathSlug;
 		$uploadURL = FRONTEND_FILES_URL . $pathSlug;
 
+		// get the temporary image directory
+		$sizes = Backend{$camel_case_name}Helper::$tempFileSizes;
+		reset($sizes);
+		$thumbFolder = key($sizes);
+
 		// create directories, in case it doesn't exist yet
 		SpoonDirectory::create($uploadPath . '/source');
-		SpoonDirectory::create($uploadPath . '/100x100');
+		SpoonDirectory::create($uploadPath . '/' . $thumbFolder);
 		SpoonDirectory::create($uploadPath . '/chunks');
 
 		// create uploader

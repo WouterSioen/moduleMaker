@@ -61,7 +61,7 @@ class Backend{$camel_case_name}Model
 			array((int) $id)
 		);
 	}
-{$get_category}{$getMaxSequence}{$getUrl}{$get_url_category}
+{$get_category}{$getMaxImageSequence}{$getMaxSequence}{$getUrl}{$get_url_category}
 	/**
 	 * Insert an item in the database
 	 *
@@ -74,7 +74,7 @@ class Backend{$camel_case_name}Model
 
 		return (int) BackendModel::getContainer()->get('database')->insert('{$underscored_name}', $item);
 	}
-{$insert_category}
+{$insert_category}{$insert_image}
 	/**
 	 * Updates an item
 	 *
