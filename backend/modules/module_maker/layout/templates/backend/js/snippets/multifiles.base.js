@@ -98,8 +98,8 @@
 
 				$('.jsNextAction .inputText').each(function()
 				{
-					var $element = $(this);
-					filledFields[$element.attr('id')] = $element.val();
+					var element = $(this);
+					filledFields[element.attr('id')] = element.val();
 				});
 				$.each(uploader.uploadedFiles, function(index, item)
 				{
@@ -134,10 +134,9 @@
 		},
 
 		// delete an image from the canvas and uploaded files
-		deleteImage: function(event)
+		deleteImage: function(e)
 		{
-			event.preventDefault();
-
+			e.preventDefault();
 			var $this = $(this);
 
 			// get the list id (this is actually the key in the uploaded files array)
@@ -155,7 +154,7 @@
 			uploader.uploadedFiles = tempList;
 
 			// fade out and remove the item on complete
-			$this.parent().fadeOut(300, function()
+			$this.parent().fadeOut(200, function()
 			{
 				// rebuild the list
 				$('#upImage' + listId).remove();
