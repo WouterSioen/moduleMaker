@@ -91,7 +91,6 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		BackendModuleMakerGenerator::generateFile(
 			'backend/actions/index.base.php', $this->variables, $this->backendPath . 'actions/index.php'
 		);
-
 		BackendModuleMakerGenerator::generateFile(
 			'backend/layout/templates/index.base.tpl', $this->variables, $this->backendPath . 'layout/templates/index.tpl'
 		);
@@ -110,6 +109,9 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			);
 		}
 		else $this->variables['parse_meta'] = '';
+
+		// get variables for multiple images
+		list($this->variables['multiFilesJs'], $this->variables['multiFilesLoad'], $this->variables['multiFilesSave']) = BackendModuleMakerGenerator::generateMultiFiles($this->record, false);
 
 		// build and save the file
 		BackendModuleMakerGenerator::generateFile(
@@ -154,7 +156,8 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			$this->variables['build_item_add'], $this->variables['load_form_edit'], $this->variables['validate_form_edit'],
 			$this->variables['build_item_edit'], $this->variables['search_index'], $this->variables['parse_meta'],
 			$this->variables['save_tags'], $this->variables['template_title'], $this->variables['template'],
-			$this->variables['template_side'], $this->variables['template_tabs_top'], $this->variables['template_tabs_bottom']
+			$this->variables['template_side'], $this->variables['template_tabs_top'], $this->variables['template_tabs_bottom'],
+			$this->variables['multiFilesJs'], $this->variables['multiFilesLoad'], $this->variables['multiFilesSave']
 		);
 	}
 
@@ -201,9 +204,17 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	protected function generateBackendFiles()
 	{
 		// generate module.js file
+		if($this->record['multipleImages'])
+		{
+			$this->variables['multiJs'] = BackendModuleMakerGenerator::generateSnippet(
+				'backend/js/snippets/multifiles.base.js', $this->variables
+			);
+		}
+		else $this->variables['multiJs'] = '';
 		BackendModuleMakerGenerator::generateFile(
 			'backend/js/javascript.base.js', $this->variables, $this->backendPath . 'js/' . $this->record['underscored_name'] . '.js'
 		);
+		unset($this->variables['multiJs']);
 
 		// add a sequence ajax action if necessary
 		if($this->record['useSequence'])
@@ -218,6 +229,25 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		{
 			BackendModuleMakerGenerator::generateFile(
 				'backend/ajax/sequence_categories.base.php', $this->variables, $this->backendPath . 'ajax/sequence_categories.php'
+			);
+		}
+
+		// add an upload ajax action if necessary
+		if($this->record['multipleImages'])
+		{
+			BackendModuleMakerGenerator::generateFile(
+				'backend/ajax/upload.base.php', $this->variables, $this->backendPath . 'ajax/upload.php'
+			);
+		}
+
+		// if we use the fineuploader, we should copy the needed js and css files
+		if($this->record['multipleImages'])
+		{
+			BackendModuleMakerModel::recurseCopy(
+				BACKEND_MODULE_PATH . '/layout/templates/backend/js/fineuploader', $this->backendPath . 'js/fineuploader'
+			);
+			BackendModuleMakerGenerator::generateFile(
+				'backend/layout/css/fineuploader.css', null, $this->backendPath . 'layout/css/fineuploader.css'
 			);
 		}
 	}
@@ -467,7 +497,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			'sub' => array(
 				'actions', 'ajax', 'js', 'cronjobs', 'engine',
 				'installer' => array('data'),
-				'layout' => array('templates')
+				'layout' => array('templates', 'css')
 			)
 		);
 
@@ -500,6 +530,13 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			'backend/installer/installer.base.php', $this->variables, $this->backendPath . 'installer/installer.php'
 		);
 
+		if($this->record['multipleImages'])
+		{
+			BackendModuleMakerGenerator::generateFile(
+				'backend/installer/data/qqFileUploader.php', null, $this->backendPath . 'installer/data/qqFileUploader.php'
+			);
+		}
+
 		unset($this->variables['install_extras'], $this->variables['backend_navigation']);
 
 		// generate locale.xml
@@ -513,6 +550,12 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		{
 			$sql .= BackendModuleMakerGenerator::generateSnippet(
 				'backend/installer/snippets/categories.base.sql', $this->variables
+			);
+		}
+		if($this->record['multipleImages'])
+		{
+			$sql .= BackendModuleMakerGenerator::generateSnippet(
+				'backend/installer/snippets/multiple_images.base.sql', $this->variables
 			);
 		}
 		BackendModuleMakerModel::makeFile($this->backendPath . 'installer/data/install.sql', $sql);

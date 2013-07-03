@@ -26,7 +26,7 @@
 			</p>
 			<span class="showOnTwitter"{option:!item.twitter} style="display: none;"{/option:!item.twitter}>
 				<label for="twitterName">{$lblTwitterName|ucfirst}</label>
-				{$txtTwitterName} {$txtTwitterNameError}
+				@{$txtTwitterName} {$txtTwitterNameError}
 			</span>
 		</div>
 		<div class="options">

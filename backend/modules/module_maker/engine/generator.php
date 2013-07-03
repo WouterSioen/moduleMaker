@@ -96,9 +96,15 @@ class BackendModuleMakerGenerator
 		{
 			$navigation = self::generateSnippet('backend/installer/snippets/navigation.base.php', $module);
 		}
+
 		if($module['searchFields'])
 		{
 			$extras .= self::generateSnippet('backend/installer/snippets/search.base.php', $module);
+		}
+
+		if($module['multipleImages'])
+		{
+			$extras .= self::generateSnippet('backend/installer/snippets/multiple_images.base.php', $module);
 		}
 
 		return array($extras, $navigation);
@@ -219,6 +225,24 @@ class BackendModuleMakerGenerator
 
 		// return the string we build up
 		return $return;
+	}
+
+	/**
+	 * Generates the snippets for the multifiles
+	 * 
+	 * @param array $module
+	 * @param boolean $isEdit
+	 * @return array
+	 */
+	public static function generateMultiFiles($module, $isEdit)
+	{
+		if(!$module['multipleImages']) return array('', '', '');
+
+		$js = self::generateSnippet('backend/actions/snippets/multiple_images_js.base.php', $module);
+		$load = self::generateSnippet('backend/actions/snippets/multiple_images_load.base.php', $module);
+		$save = self::generateSnippet('backend/actions/snippets/multiple_images_save.base.php', $module);
+
+		return array($js, $load, $save);
 	}
 
 	/**
@@ -377,6 +401,12 @@ class BackendModuleMakerGenerator
 		{
 			$returnTop .= "\n\t\t\t<li><a href=\"#tabSEO\">{\$lblSEO|ucfirst}</a></li>";
 			$returnBottom .= self::generateSnippet('backend/layout/templates/snippets/seo.base.tpl');
+		}
+
+		if($module['multipleImages'])
+		{
+			$returnTop .= "\n\t\t\t<li><a href=\"#tabImages\">{\$lblImages|ucfirst}</a></li>";
+			$returnBottom .= self::generateSnippet('backend/layout/templates/snippets/images.base.tpl');
 		}
 
 		return array($returnTop, $returnBottom);

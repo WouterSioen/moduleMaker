@@ -16,7 +16,7 @@ jsBackend.{$underscored_name} =
 	init: function()
 	{
 		// do meta
-		if($('#title').length > 0) $('#title').doMeta();
+		if($('#title').length > 0) $('#title').doMeta();{$multiJs}
 	}
 }
 
