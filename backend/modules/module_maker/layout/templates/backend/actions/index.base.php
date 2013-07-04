@@ -35,6 +35,9 @@ class Backend{$camel_case_name}Index extends BackendBaseActionIndex
 			Backend{$camel_case_name}Model::QRY_DATAGRID_BROWSE,
 			BL::getWorkingLanguage()
 		);
+
+		// reform date
+		$this->dataGrid->setColumnFunction(array('BackendDataGridFunctions', 'getLongDate'), array('[publish_on]'), 'publish_on', true);
 {$sequence_extra}
 		// check if this action is allowed
 		if(BackendAuthentication::isAllowedAction('edit'))

@@ -5,7 +5,7 @@ qq.UploadButton = function(o){
         multiple: false,
         acceptFiles: null,
         // name attribute of file input
-        name: 'file',
+        name: 'fineuploaderfile',
         onChange: function(input){},
         hoverClass: 'qq-upload-button-hover',
         focusClass: 'qq-upload-button-focus'

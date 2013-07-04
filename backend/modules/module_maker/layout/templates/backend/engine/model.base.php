@@ -15,7 +15,7 @@
 class Backend{$camel_case_name}Model
 {
 	const QRY_DATAGRID_BROWSE =
-		'SELECT i.id, i.{$meta_field}, i.created_on{$datagrid_extra}
+		'SELECT i.id, i.{$meta_field}, UNIX_TIMESTAMP(i.created_on) AS created_on{$datagrid_extra}
 		 FROM {$underscored_name} AS i
 		 WHERE i.language = ?{$datagrid_order}';
 {$datagrid_categories}
