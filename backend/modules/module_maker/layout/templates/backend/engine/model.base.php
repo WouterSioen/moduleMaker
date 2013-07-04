@@ -61,7 +61,7 @@ class Backend{$camel_case_name}Model
 			array((int) $id)
 		);
 	}
-{$get_category}{$getImages}{$getMaxSequence}{$getUrl}{$get_url_category}
+{$get_category}{$get_images}{$get_max_sequence}{$get_url}{$get_url_category}
 	/**
 	 * Insert an item in the database
 	 *

@@ -264,37 +264,37 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		// add the createURL function if there is a meta field
 		if($this->record['metaField'] !== false)
 		{
-			$this->variables['getUrl'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/getUrl.base.php', $this->variables
+			$this->variables['get_url'] = BackendModuleMakerGenerator::generateSnippet(
+				'backend/engine/snippets/get_url.base.php', $this->variables
 			);
 		}
-		else $this->variables['getUrl'] = '';
+		else $this->variables['get_url'] = '';
 
 		// add the getMaximumSequence function if sequencing is used
 		if($this->record['useSequence'])
 		{
-			$this->variables['getMaxSequence'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/getMaxSequence.base.php', $this->variables
+			$this->variables['get_max_sequence'] = BackendModuleMakerGenerator::generateSnippet(
+				'backend/engine/snippets/get_max_sequence.base.php', $this->variables
 			);
 		}
-		else $this->variables['getMaxSequence'] = '';
+		else $this->variables['get_max_sequence'] = '';
 
 		if($this->record['multipleImages'])
 		{
 			$this->variables['insert_image'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/insertImage.base.php', $this->variables
+				'backend/engine/snippets/insert_image.base.php', $this->variables
 			);
 			$this->variables['update_image'] = BackendModuleMakerGenerator::generateSnippet(
 				'backend/engine/snippets/update_image.base.php', $this->variables
 			);
-			$this->variables['getImages'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/getImages.base.php', $this->variables
+			$this->variables['get_images'] = BackendModuleMakerGenerator::generateSnippet(
+				'backend/engine/snippets/get_images.base.php', $this->variables
 			);
 			$this->variables['delete_image'] = BackendModuleMakerGenerator::generateSnippet(
 				'backend/engine/snippets/delete_image.base.php', $this->variables
 			);
 		}
-		else $this->variables['insert_image'] = $this->variables['update_image'] = $this->variables['getImages'] = $this->variables['delete_image'] = '';
+		else $this->variables['insert_image'] = $this->variables['update_image'] = $this->variables['get_images'] = $this->variables['delete_image'] = '';
 
 		// add the extra parameters in the MySQL SELECT
 		$this->variables['select_extra'] = '';
@@ -312,25 +312,25 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		if($this->record['useCategories'])
 		{
 			$this->variables['datagrid_categories'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/datagridCategories.base.php', $this->variables
+				'backend/engine/snippets/datagrid_categories.base.php', $this->variables
 			);
 			$this->variables['delete_category'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/deleteCategory.base.php', $this->variables
+				'backend/engine/snippets/delete_category.base.php', $this->variables
 			);
 			$this->variables['exists_category'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/existsCategory.base.php', $this->variables
+				'backend/engine/snippets/exists_category.base.php', $this->variables
 			);
 			$this->variables['get_category'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/getCategory.base.php', $this->variables
+				'backend/engine/snippets/get_category.base.php', $this->variables
 			);
 			$this->variables['get_url_category'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/getUrlCategory.base.php', $this->variables
+				'backend/engine/snippets/get_url_category.base.php', $this->variables
 			);
 			$this->variables['insert_category'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/insertCategory.base.php', $this->variables
+				'backend/engine/snippets/insert_category.base.php', $this->variables
 			);
 			$this->variables['update_category'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/updateCategory.base.php', $this->variables
+				'backend/engine/snippets/update_category.base.php', $this->variables
 			);
 		}
 		else
@@ -346,9 +346,9 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		);
 
 		unset(
-			$this->variables['getUrl'], $this->variables['getMaxSequence'], $this->variables['datagrid_extra'],
+			$this->variables['get_url'], $this->variables['get_max_sequence'], $this->variables['datagrid_extra'],
 			$this->variables['datagrid_order'], $this->variables['insert_image'], $this->variables['update_image'],
-			$this->variables['getImages'], $this->variables['delete_image']
+			$this->variables['get_images'], $this->variables['delete_image']
 		);
 
 		// generate the helper class if necessary

@@ -111,7 +111,8 @@
 
 			// make the items sortable
 			$('#jsFileList').sortable({
-				update: function(event, ui){ jsBackend.{$underscored_name}.uploadHandler.sortImages($(this)); }
+				update: function(event, ui){ jsBackend.{$underscored_name}.uploadHandler.sortImages($(this)); },
+				tolerance: 'pointer'
 			});
 		},
 
