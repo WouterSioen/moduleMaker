@@ -5,6 +5,8 @@
 	// ajax uploader
 	uploadHandler:
 	{
+		lowestSequence: 0,
+
 		init: function()
 		{
 			// create uploader
@@ -61,6 +63,7 @@
 						uploadName: item.uploadName,
 						originalName: item.originalFileName,
 						warning: '',
+						sequence: i,
 						progress: 100
 					};
 				});
@@ -70,12 +73,14 @@
 			// bind complete callback
 			uploader.element.on('upload', function(event, id, fileName)
 			{
+				jsBackend.{$underscored_name}.uploadHandler.lowestSequence--;
 				uploader.uploadedFiles[id] = {
 					id: id,
 					uploadURL: '',
 					uploadName: '',
 					originalName: fileName,
 					warning: '',
+					sequence: jsBackend.{$underscored_name}.uploadHandler.lowestSequence,
 					progress: 0
 				};
 
@@ -103,6 +108,11 @@
 					jsBackend.{$underscored_name}.uploadHandler.buildFileList();
 				}
 			});
+
+			// make the items sortable
+			$('#jsFileList').sortable({
+				update: function(event, ui){ jsBackend.{$underscored_name}.uploadHandler.sortImages($(this)); }
+			});
 		},
 
 		// build the list of uploaded files
@@ -118,8 +128,14 @@
 					var element = $(this);
 					filledFields[element.attr('id')] = element.val();
 				});
-				$.each(uploader.uploadedFiles, function(index, item)
+
+				// get the keys ordered by sequence
+				var orderedKeys = jsBackend.{$underscored_name}.uploadHandler.getOrderedKeys();
+
+				$.each(orderedKeys, function(index, item)
 				{
+					item = uploader.uploadedFiles[item];
+
 					var formFields = '<div class="progressBar" style="width: 0%;"></div>';
 					if(item.progress == 100)
 					{
@@ -173,4 +189,38 @@
 				// rebuild the list
 				$('#upImage' + listId).remove();
 			});
+		},
+
+		// orders the imageslist by sequence
+		getOrderedKeys: function()
+		{
+			// First get all keys:
+			var keys = [];
+			for(var n in uploader.uploadedFiles) keys.push(n);
+
+			// now sort the keys:
+			keys.sort(function(a, b)
+			{
+				$objectA = uploader.uploadedFiles[a];
+				$objectB = uploader.uploadedFiles[b];
+
+				return $objectA.sequence > $objectB.sequence;
+			});
+
+			return keys;
+		},
+
+		sortImages: function($items)
+		{
+			// fetch id's
+			var ids = $items.sortable('toArray', {attribute: 'id'});
+
+			// loop ids and change sequence
+			$.each(ids, function(i, item){
+				id = item.replace('upImage', '');
+				uploader.uploadedFiles[id]['sequence'] = i;
+			});
+
+			jsBackend.{$underscored_name}.uploadHandler.lowestSequence = 0;
+			$('#uploadedImages').val(JSON.stringify(uploader.uploadedFiles));
 		}
