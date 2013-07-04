@@ -29,9 +29,6 @@
 				@{$txtTwitterName} {$txtTwitterNameError}
 			</span>
 		</div>
-		<div class="options">
-			{$item|dump}
-		</div>
 	</div>
 
 	<div class="fullwidthOptions">
