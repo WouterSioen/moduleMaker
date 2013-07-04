@@ -20,7 +20,7 @@ class Backend{$camel_case_name}Add extends BackendBaseActionAdd
 	public function execute()
 	{
 		parent::execute();
-
+{$multiFilesJs}
 		$this->loadForm();
 		$this->validateForm();
 
@@ -35,7 +35,7 @@ class Backend{$camel_case_name}Add extends BackendBaseActionAdd
 	{
 		$this->frm = new BackendForm('add');
 
-{$load_form_add}
+{$multiFilesLoad}{$load_form_add}
 	}
 
 	/**
@@ -66,7 +66,7 @@ class Backend{$camel_case_name}Add extends BackendBaseActionAdd
 {$build_item_add}
 				// insert it
 				$item['id'] = Backend{$camel_case_name}Model::insert($item);
-{$save_tags}{$search_index}
+{$multiFilesSave}{$save_tags}{$search_index}
 				BackendModel::triggerEvent(
 					$this->getModule(), 'after_add', $item
 				);

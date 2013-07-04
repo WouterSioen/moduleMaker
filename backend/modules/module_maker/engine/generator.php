@@ -96,12 +96,35 @@ class BackendModuleMakerGenerator
 		{
 			$navigation = self::generateSnippet('backend/installer/snippets/navigation.base.php', $module);
 		}
+
 		if($module['searchFields'])
 		{
 			$extras .= self::generateSnippet('backend/installer/snippets/search.base.php', $module);
 		}
 
+		if($module['multipleImages'])
+		{
+			$extras .= self::generateSnippet('backend/installer/snippets/multiple_images.base.php', $module);
+		}
+
 		return array($extras, $navigation);
+	}
+
+	/**
+	 * Generates a part of the loadData() function for the backend add/edit actions
+	 * 
+	 * @param array $module				The array containing all info about the module
+	 * @param boolean $isEdit			Should we generate it for the edit action?
+	 * @return string
+	 */
+	public static function generateLoadData($module, $isEdit)
+	{
+		if($isEdit && $module['multipleImages'])
+		{
+			return self::generateSnippet('backend/actions/snippets/multiple_images_get.base.php', $module);
+		}
+
+		return '';
 	}
 
 	/**
@@ -219,6 +242,26 @@ class BackendModuleMakerGenerator
 
 		// return the string we build up
 		return $return;
+	}
+
+	/**
+	 * Generates the snippets for the multifiles
+	 * 
+	 * @param array $module
+	 * @param boolean $isEdit
+	 * @return array
+	 */
+	public static function generateMultiFiles($module, $isEdit)
+	{
+		if(!$module['multipleImages']) return array('', '', '');
+
+		$js = self::generateSnippet('backend/actions/snippets/multiple_images_js.base.php', $module);
+		if($isEdit) $load = self::generateSnippet('backend/actions/snippets/multiple_images_load_edit.base.php', $module);
+		else $load = self::generateSnippet('backend/actions/snippets/multiple_images_load.base.php', $module);
+		if($isEdit) $save = self::generateSnippet('backend/actions/snippets/multiple_images_save_edit.base.php', $module);
+		else $save = self::generateSnippet('backend/actions/snippets/multiple_images_save.base.php', $module);
+
+		return array($js, $load, $save);
 	}
 
 	/**
@@ -379,6 +422,12 @@ class BackendModuleMakerGenerator
 			$returnBottom .= self::generateSnippet('backend/layout/templates/snippets/seo.base.tpl');
 		}
 
+		if($module['multipleImages'])
+		{
+			$returnTop .= "\n\t\t\t<li><a href=\"#tabImages\">{\$lblImages|ucfirst}</a></li>";
+			$returnBottom .= self::generateSnippet('backend/layout/templates/snippets/images.base.tpl');
+		}
+
 		return array($returnTop, $returnBottom);
 	}
 
@@ -405,7 +454,7 @@ class BackendModuleMakerGenerator
 					$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', array('underscored_label' => $field['underscored_label'] . '_date'));
 					$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', array('underscored_label' => $field['underscored_label'] . '_time'));
 				}
-				elseif(!($field['type'] == 'image' || $field['type'] == 'file') && !$isEdit)
+				elseif(!($field['type'] == 'image' || $field['type'] == 'file'))
 				{
 					$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', $field);
 				}

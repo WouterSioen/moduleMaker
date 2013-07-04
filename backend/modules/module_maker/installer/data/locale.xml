@@ -26,6 +26,10 @@
 				<translation language="en"><![CDATA[create a zip]]></translation>
 				<translation language="nl"><![CDATA[maak een zip]]></translation>
 			</item>
+			<item type="label" name="Fields">
+				<translation language="en"><![CDATA[fields]]></translation>
+				<translation language="nl"><![CDATA[velden]]></translation>
+			</item>
 			<item type="label" name="InstalledModules">
 				<translation language="en"><![CDATA[installed modules]]></translation>
 				<translation language="nl"><![CDATA[geinstaleerde modules]]></translation>
@@ -34,21 +38,13 @@
 				<translation language="en"><![CDATA[installable modules]]></translation>
 				<translation language="nl"><![CDATA[niet geinstalleerde modules]]></translation>
 			</item>
-			<item type="label" name="Version">
-				<translation language="en"><![CDATA[version]]></translation>
-				<translation language="nl"><![CDATA[versie]]></translation>
-			</item>
-			<item type="label" name="Sequence">
-				<translation language="en"><![CDATA[sequence]]></translation>
-				<translation language="nl"><![CDATA[sequence]]></translation>
-			</item>
-			<item type="label" name="Fields">
-				<translation language="en"><![CDATA[fields]]></translation>
-				<translation language="nl"><![CDATA[velden]]></translation>
-			</item>
 			<item type="label" name="ImageSizes">
-				<translation language="en"><![CDATA[groottes (voorbeeld: 300x300)]]></translation>
-				<translation language="nl"><![CDATA[sizes (formatted as 300x300)]]></translation>
+				<translation language="en"><![CDATA[sizes (formatted as 300x300)]]></translation>
+				<translation language="nl"><![CDATA[groottes (voorbeeld: 300x300)]]></translation>
+			</item>
+			<item type="label" name="MultipleImages">
+				<translation language="en"><![CDATA[multiple images per item]]></translation>
+				<translation language="nl"><![CDATA[meerdere afbeeldingen per item]]></translation>
 			</item>
 			<item type="label" name="LowerCcasedLabel">
 				<translation language="en"><![CDATA[label]]></translation>
@@ -74,6 +70,10 @@
 				<translation language="en"><![CDATA[Search fields]]></translation>
 				<translation language="nl"><![CDATA[zoekvelden]]></translation>
 			</item>
+			<item type="label" name="Sequence">
+				<translation language="en"><![CDATA[sequence]]></translation>
+				<translation language="nl"><![CDATA[sequence]]></translation>
+			</item>
 			<item type="label" name="TwitterCard">
 				<translation language="en"><![CDATA[Twitter card]]></translation>
 				<translation language="nl"><![CDATA[twitter card]]></translation>
@@ -81,6 +81,10 @@
 			<item type="label" name="TwitterName">
 				<translation language="en"><![CDATA[Twitter name]]></translation>
 				<translation language="nl"><![CDATA[twitter naam]]></translation>
+			</item>
+			<item type="label" name="Version">
+				<translation language="en"><![CDATA[version]]></translation>
+				<translation language="nl"><![CDATA[versie]]></translation>
 			</item>
 			<item type="label" name="WizardBlocks">
 				<translation language="en"><![CDATA[blocks]]></translation>

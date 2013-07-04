@@ -44,19 +44,24 @@
 				{/option:searchFields}
 			</span>
 		</div>
-		<div class="options horizontal">
+		<div class="options">
 			<p>
 				<label for="tags">{$chkTags} {$lblTags|ucfirst}</label>
 			</p>
 		</div>
-		<div class="options horizontal">
+		<div class="options">
 			<p>
 				<label for="sequence">{$chkSequence} {$lblSequence|ucfirst}</label>
 			</p>
 		</div>
-		<div class="options horizontal">
+		<div class="options">
 			<p>
 				<label for="categories">{$chkCategories} {$lblCategories|ucfirst}</label>
+			</p>
+		</div>
+		<div class="options">
+			<p>
+				<label for="multipleImages">{$chkMultipleImages} {$lblMultipleImages|ucfirst}</label>
 			</p>
 		</div>
 	</div>
