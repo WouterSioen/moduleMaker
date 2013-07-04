@@ -20,7 +20,7 @@ class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
 	public function execute()
 	{
 		parent::execute();
-
+{$multiFilesJs}
 		$this->loadData();
 		$this->loadForm();
 		$this->validateForm();
@@ -42,7 +42,7 @@ class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
 			);
 		}
 
-		$this->record = Backend{$camel_case_name}Model::get($this->id);
+		$this->record = Backend{$camel_case_name}Model::get($this->id);{$load_data_edit}
 	}
 
 	/**
@@ -53,7 +53,7 @@ class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
 		// create form
 		$this->frm = new BackendForm('edit');
 
-{$load_form_edit}
+{$multiFilesLoad}{$load_form_edit}
 	}
 
 	/**
@@ -87,7 +87,7 @@ class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
 {$build_item_edit}
 				Backend{$camel_case_name}Model::update($item);
 				$item['id'] = $this->id;
-{$save_tags}{$search_index}
+{$multiFilesSave}{$save_tags}{$search_index}
 				BackendModel::triggerEvent(
 					$this->getModule(), 'after_edit', $item
 				);
