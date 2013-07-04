@@ -96,7 +96,7 @@ class Backend{$camel_case_name}EditCategory extends BackendBaseActionEdit
 
 				// everything is saved, so redirect to the overview
 				$this->redirect(
-					BackendModel::createURLForAction('categories') . '&report=edited-category&highlight=row-' . $item['id']
+					BackendModel::createURLForAction('categories') . '&report=edited-category&var=' . urlencode($item['title']) . '&highlight=row-' . $item['id']
 				);
 			}
 		}
