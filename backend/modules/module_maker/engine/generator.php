@@ -41,8 +41,7 @@ class BackendModuleMakerGenerator
 				}
 
 				// add the function used to create the filename
-				if($module['metaField'] !== false) $field['file_name_function'] = '$this->meta->getUrl()';
-				else $field['file_name_function'] = 'time()';
+				$field['file_name_function'] = '$this->meta->getUrl()';
 			}
 
 			// when there is a snippet provided for the datatype, use it. This falls back to a default snippet
@@ -56,7 +55,7 @@ class BackendModuleMakerGenerator
 		// add sequence, categories or meta if necessary
 		if($module['useSequence']) $return .= self::generateSnippet('backend/actions/snippets/build_sequence.base.php', $module);
 		if($module['useCategories']) $return .= self::generateSnippet('backend/actions/snippets/build_category.base.php');
-		if($module['metaField'] !== false) $return .= self::generateSnippet('backend/actions/snippets/build_meta.base.php');
+		$return .= self::generateSnippet('backend/actions/snippets/build_meta.base.php');
 
 		// return the string we build up
 		return $return;
@@ -140,25 +139,22 @@ class BackendModuleMakerGenerator
 		$return = '';
 
 		// Add the meta field as a title field
-		if($module['metaField'] !== false)
+		$metaField = $module['fields'][(int) $module['metaField']];
+
+		// create the default value
+		$default = '';
+		if($isEdit)
 		{
-			$metaField = $module['fields'][(int) $module['metaField']];
-
-			// create the default value
-			$default = '';
-			if($isEdit)
-			{
-				$default = " ,\$this->record['" . $metaField['underscored_label'] . "']";
-			}
-			elseif($metaField['default'] !== '')
-			{
-				if($metaField['type'] == 'number') $default = ' ,' . $metaField['default'];
-				elseif($metaField['type'] == 'dropdown') $default = ", BL::lbl('" . BackendModuleMakerHelper::buildCamelCasedName($metaField['default']) . "')";
-				else $default = " ,'" . $metaField['default'] . "'";
-			}
-
-			$return .= "\t\t\$this->frm->addText('" . $metaField['underscored_label'] . "'" . $default . (($default) ? '' : ', null') . ", null, 'inputText title', 'inputTextError title');\n";
+			$default = " ,\$this->record['" . $metaField['underscored_label'] . "']";
 		}
+		elseif($metaField['default'] !== '')
+		{
+			if($metaField['type'] == 'number') $default = ' ,' . $metaField['default'];
+			elseif($metaField['type'] == 'dropdown') $default = ", BL::lbl('" . BackendModuleMakerHelper::buildCamelCasedName($metaField['default']) . "')";
+			else $default = " ,'" . $metaField['default'] . "'";
+		}
+
+		$return .= "\t\t\$this->frm->addText('" . $metaField['underscored_label'] . "'" . $default . (($default) ? '' : ', null') . ", null, 'inputText title', 'inputTextError title');\n";
 
 		// loop through fields and create and addField statement for each field
 		foreach($module['fields'] as $field)
@@ -230,15 +226,12 @@ class BackendModuleMakerGenerator
 			else $return .= self::generateSnippet('backend/actions/snippets/load_categories_add.base.php', $module);
 		}
 
-		// Add the meta if necessary
-		if($module['metaField'] !== false)
-		{
-			$metaField = $module['fields'][(int) $module['metaField']];
-			$metaField['module'] = $module['camel_case_name'];
+		// Add the meta
+		$metaField = $module['fields'][(int) $module['metaField']];
+		$metaField['module'] = $module['camel_case_name'];
 
-			if($isEdit) $return .= self::generateSnippet('backend/actions/snippets/load_meta_edit.base.php', $metaField);
-			else $return .= self::generateSnippet('backend/actions/snippets/load_meta_add.base.php', $metaField);
-		}
+		if($isEdit) $return .= self::generateSnippet('backend/actions/snippets/load_meta_edit.base.php', $metaField);
+		else $return .= self::generateSnippet('backend/actions/snippets/load_meta_add.base.php', $metaField);
 
 		// return the string we build up
 		return $return;
@@ -338,8 +331,8 @@ class BackendModuleMakerGenerator
 
 		// add basic field
 		$return .= " `id` int(11) NOT NULL auto_increment,\n";
+		$return .= " `meta_id` int(11) NOT NULL,\n";
 
-		if($module['metaField'] !== false) $return .= " `meta_id` int(11) NOT NULL,\n";
 		if($module['useCategories']) $return .= " `category_id` int(11) NOT NULL,\n";
 
 		$return .= " `language` varchar(5) NOT NULL,\n";
@@ -374,13 +367,9 @@ class BackendModuleMakerGenerator
 	{
 		$return = $returnSide = $returnTitle = '';
 
-		// first add the meta field (if necessary)
-		if($module['metaField'] !== false)
-		{
-			$metaField = $module['fields'][(int) $module['metaField']];
-
-			$returnTitle = self::generateSnippet('backend/layout/templates/snippets/meta.base.tpl', $metaField);
-		}
+		// first add the meta field
+		$metaField = $module['fields'][(int) $module['metaField']];
+		$returnTitle = self::generateSnippet('backend/layout/templates/snippets/meta.base.tpl', $metaField);
 
 		// loop through fields and add items
 		foreach($module['fields'] as &$field)
@@ -416,11 +405,8 @@ class BackendModuleMakerGenerator
 	{
 		$returnTop = $returnBottom = '';
 
-		if($module['metaField'] !== false)
-		{
-			$returnTop .= "\n\t\t\t<li><a href=\"#tabSEO\">{\$lblSEO|ucfirst}</a></li>";
-			$returnBottom .= self::generateSnippet('backend/layout/templates/snippets/seo.base.tpl');
-		}
+		$returnTop .= "\n\t\t\t<li><a href=\"#tabSEO\">{\$lblSEO|ucfirst}</a></li>";
+		$returnBottom .= self::generateSnippet('backend/layout/templates/snippets/seo.base.tpl');
 
 		if($module['multipleImages'])
 		{
@@ -475,11 +461,8 @@ class BackendModuleMakerGenerator
 			$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', array('underscored_label' => 'category_id'));
 		}
 
-		// add validate meta if necessary
-		if($module['metaField'] !== false)
-		{
-			$return .= self::generateSnippet('backend/actions/snippets/validate_meta.base.php');
-		}
+		// add validate meta
+		$return .= self::generateSnippet('backend/actions/snippets/validate_meta.base.php');
 
 		// return the string we build up
 		return $return;
