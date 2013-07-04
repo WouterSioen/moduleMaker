@@ -37,10 +37,6 @@ jsBackend.modulemaker =
 				addLabel: utils.string.ucfirst(jsBackend.locale.lbl('Add')),
 				removeLabel: utils.string.ucfirst(jsBackend.locale.lbl('DeleteThisOption'))
 			});
-
-			$('input.tagBox').on('change', function() { 
-				console.log($('input.tagBox').val());
-			});
 		}
 	},
 
@@ -143,12 +139,6 @@ jsBackend.modulemaker =
 		$tags = ($tags) ? $tags + ',' + $('#addValue-tags').val() : $('#addValue-tags').val();
 
 		// do ajax call to render the field
-
-
-		console.log($label);
-		console.log($type);
-		console.log($required);
-		console.log($tags);
 	}
 }
 
