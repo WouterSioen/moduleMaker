@@ -466,7 +466,7 @@ class BackendModuleMakerGenerator
 				$return .= self::generateSnippet('backend/actions/snippets/validate_' . $field['type'] . '.base.php', $field);
 			}
 
-			if($field['type'] == 'image' && $field['required'] && !$isEdit) $return .= "\t\t\telse \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
+			if(($field['type'] == 'image' || $field['type'] == 'file') && $field['required'] && !$isEdit) $return .= "\t\t\telse \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
 		}
 
 		// add validate category if necessary
