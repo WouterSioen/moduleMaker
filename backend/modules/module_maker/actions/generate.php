@@ -130,10 +130,14 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		// generate edit action
 		// create some custom variables
+		$this->variables['load_data_edit'] = BackendModuleMakerGenerator::generateLoadData($this->record, true);
 		$this->variables['load_form_edit'] = BackendModuleMakerGenerator::generateLoadForm($this->record, true);
 		$this->variables['validate_form_edit'] = BackendModuleMakerGenerator::generateValidateForm($this->record, true);
 		$this->variables['build_item_edit'] = BackendModuleMakerGenerator::generateBuildItem($this->record, true);
 		$this->variables['search_index'] = BackendModuleMakerGenerator::generateSearchIndex($this->record);
+
+		// get variables for multiple images
+		list($this->variables['multiFilesJs'], $this->variables['multiFilesLoad'], $this->variables['multiFilesSave']) = BackendModuleMakerGenerator::generateMultiFiles($this->record, true);
 
 		// build and save the file
 		BackendModuleMakerGenerator::generateFile(
@@ -283,8 +287,14 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			$this->variables['getMaxImageSequence'] = BackendModuleMakerGenerator::generateSnippet(
 				'backend/engine/snippets/getMaxImageSequence.base.php', $this->variables
 			);
+			$this->variables['getImages'] = BackendModuleMakerGenerator::generateSnippet(
+				'backend/engine/snippets/getImages.base.php', $this->variables
+			);
+			$this->variables['delete_image'] = BackendModuleMakerGenerator::generateSnippet(
+				'backend/engine/snippets/delete_image.base.php', $this->variables
+			);
 		}
-		else $this->variables['insert_image'] = $this->variables['getMaxImageSequence'] = '';
+		else $this->variables['insert_image'] = $this->variables['getMaxImageSequence'] = $this->variables['getImages'] = $this->variables['delete_image'] = '';
 
 		// add the extra parameters in the MySQL SELECT
 		$this->variables['select_extra'] = '';
@@ -337,7 +347,8 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		unset(
 			$this->variables['getUrl'], $this->variables['getMaxSequence'], $this->variables['datagrid_extra'],
-			$this->variables['datagrid_order'], $this->variables['insert_image'], $this->variables['getMaxImageSequence']
+			$this->variables['datagrid_order'], $this->variables['insert_image'], $this->variables['getMaxImageSequence'],
+			$this->variables['getImages'], $this->variables['delete_image']
 		);
 
 		// generate the helper class if necessary

@@ -55,8 +55,8 @@
 			{
 				$images = $.parseJSON($('#uploadedImages').val());
 				$.each($images, function(i, item){
-					uploader.uploadedFiles[item.id] = {
-						id: item.id,
+					uploader.uploadedFiles['_' + item.id] = {
+						id: '_' + item.id,
 						uploadURL: item.uploadURL,
 						uploadName: item.uploadName,
 						originalName: item.originalFileName,
@@ -129,12 +129,8 @@
 					html += '<li id="upImage' + item.id + '">';
 					html += '<div class="jsImage">';
 					html += (item.uploadURL != '' ? '<img src="' + item.uploadURL + '/100x100/' + item.uploadName + '">' : '');
-					html += '<div class="buttonHolder"><a href="#" class="jsDeleteImage button icon iconDelete" data-list-id="' + item.id + '"><span>Remove</span></a></div>';
-					html += '</div>';
-
-					if(item.warning != '') html += '<div class="jsNextAction warning">' + item.warning + '</div>';
-					else html += '<div class="jsNextAction">' + formFields + '</div>';
-
+					html += '<div class="buttonHolder"><a href="#" class="jsDeleteImage button icon iconDelete iconOnly" data-list-id="' + item.id + '"><span>Remove</span></a></div>';
+					html += formFields + '</div>';
 					html += '</li>';
 				});
 
@@ -157,7 +153,7 @@
 			var $this = $(this);
 
 			// get the list id (this is actually the key in the uploaded files array)
-			var listId = parseInt($this.data('list-id'));
+			var listId = $this.data('list-id');
 
 			// delete item from list
 			var tempList = {};
@@ -169,9 +165,10 @@
 				}
 			});
 			uploader.uploadedFiles = tempList;
+			$('#uploadedImages').val(JSON.stringify(uploader.uploadedFiles));
 
 			// fade out and remove the item on complete
-			$this.parent().fadeOut(200, function()
+			$this.closest('li').fadeOut(200, function()
 			{
 				// rebuild the list
 				$('#upImage' + listId).remove();

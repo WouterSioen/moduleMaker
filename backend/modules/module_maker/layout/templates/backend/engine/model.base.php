@@ -28,7 +28,7 @@ class Backend{$camel_case_name}Model
 	{
 		BackendModel::getContainer()->get('database')->delete('{$underscored_name}', 'id = ?', (int) $id);
 	}
-{$delete_category}
+{$delete_category}{$delete_image}
 	/**
 	 * Checks if a certain item exists
 	 *
@@ -61,7 +61,7 @@ class Backend{$camel_case_name}Model
 			array((int) $id)
 		);
 	}
-{$get_category}{$getMaxImageSequence}{$getMaxSequence}{$getUrl}{$get_url_category}
+{$get_category}{$getImages}{$getMaxImageSequence}{$getMaxSequence}{$getUrl}{$get_url_category}
 	/**
 	 * Insert an item in the database
 	 *

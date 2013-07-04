@@ -34,8 +34,8 @@ class Backend{$camel_case_name}Add extends BackendBaseActionAdd
 	protected function loadForm()
 	{
 		$this->frm = new BackendForm('add');
-{$multiFilesLoad}
-{$load_form_add}
+
+{$multiFilesLoad}{$load_form_add}
 	}
 
 	/**

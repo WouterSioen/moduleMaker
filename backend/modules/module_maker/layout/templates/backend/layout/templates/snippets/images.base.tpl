@@ -4,5 +4,5 @@
 
 			<div id="jsImageUploader" class="buttonHolder"></div>
 
-			<ul id="jsFileList" class="fileList"></ul>
+			<ul id="jsFileList" class="fileList clearfix"></ul>
 		</div>

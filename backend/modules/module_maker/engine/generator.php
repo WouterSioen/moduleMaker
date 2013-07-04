@@ -111,6 +111,23 @@ class BackendModuleMakerGenerator
 	}
 
 	/**
+	 * Generates a part of the loadData() function for the backend add/edit actions
+	 * 
+	 * @param array $module				The array containing all info about the module
+	 * @param boolean $isEdit			Should we generate it for the edit action?
+	 * @return string
+	 */
+	public static function generateLoadData($module, $isEdit)
+	{
+		if($isEdit && $module['multipleImages'])
+		{
+			return self::generateSnippet('backend/actions/snippets/multiple_images_get.base.php', $module);
+		}
+
+		return '';
+	}
+
+	/**
 	 * Generates a part of the loadForm() function for the backend add/edit actions
 	 * @TODO: refactor me, I'm nasty
 	 * 
@@ -239,8 +256,10 @@ class BackendModuleMakerGenerator
 		if(!$module['multipleImages']) return array('', '', '');
 
 		$js = self::generateSnippet('backend/actions/snippets/multiple_images_js.base.php', $module);
-		$load = self::generateSnippet('backend/actions/snippets/multiple_images_load.base.php', $module);
-		$save = self::generateSnippet('backend/actions/snippets/multiple_images_save.base.php', $module);
+		if($isEdit) $load = self::generateSnippet('backend/actions/snippets/multiple_images_load_edit.base.php', $module);
+		else $load = self::generateSnippet('backend/actions/snippets/multiple_images_load.base.php', $module);
+		if($isEdit) $save = self::generateSnippet('backend/actions/snippets/multiple_images_save_edit.base.php', $module);
+		else $save = self::generateSnippet('backend/actions/snippets/multiple_images_save.base.php', $module);
 
 		return array($js, $load, $save);
 	}
@@ -435,7 +454,7 @@ class BackendModuleMakerGenerator
 					$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', array('underscored_label' => $field['underscored_label'] . '_date'));
 					$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', array('underscored_label' => $field['underscored_label'] . '_time'));
 				}
-				elseif(!($field['type'] == 'image' || $field['type'] == 'file') && !$isEdit)
+				elseif(!($field['type'] == 'image' || $field['type'] == 'file'))
 				{
 					$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', $field);
 				}
