@@ -86,6 +86,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 				'backend/actions/snippets/sequence.base.php'
 			);
 		}
+		$this->variables['meta_field'] = $this->record['fields'][(int) $this->record['metaField']]['underscored_label'];
 
 		// generate index
 		BackendModuleMakerGenerator::generateFile(
@@ -157,7 +158,8 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			$this->variables['build_item_edit'], $this->variables['search_index'], $this->variables['parse_meta'],
 			$this->variables['save_tags'], $this->variables['template_title'], $this->variables['template'],
 			$this->variables['template_side'], $this->variables['template_tabs_top'], $this->variables['template_tabs_bottom'],
-			$this->variables['multiFilesJs'], $this->variables['multiFilesLoad'], $this->variables['multiFilesSave']
+			$this->variables['multiFilesJs'], $this->variables['multiFilesLoad'], $this->variables['multiFilesSave'],
+			$this->variables['meta_field']
 		);
 	}
 

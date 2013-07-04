@@ -47,6 +47,9 @@ class Backend{$camel_case_name}Index extends BackendBaseActionIndex
 				BackendModel::createURLForAction('edit') . '&amp;id=[id]',
 				BL::lbl('Edit')
 			);
+			$this->dataGrid->setColumnURL(
+				'{$meta_field}', BackendModel::createURLForAction('edit') . '&amp;id=[id]'
+			);
 		}
 	}
 
