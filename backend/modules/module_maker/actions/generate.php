@@ -215,10 +215,13 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			);
 		}
 		else $this->variables['multiJs'] = '';
+		$this->variables['do_meta'] = BackendModuleMakerGenerator::generateSnippet(
+			'backend/js/snippets/do_meta.base.js', $this->record['fields'][$this->record['metaField']]
+		);
 		BackendModuleMakerGenerator::generateFile(
 			'backend/js/javascript.base.js', $this->variables, $this->backendPath . 'js/' . $this->record['underscored_name'] . '.js'
 		);
-		unset($this->variables['multiJs']);
+		unset($this->variables['multiJs'], $this->variables['do_meta']);
 
 		// add a sequence ajax action if necessary
 		if($this->record['useSequence'])
