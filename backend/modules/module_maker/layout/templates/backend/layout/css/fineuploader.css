@@ -21,6 +21,7 @@
 	float: left;
 	width: 100px;
 	height: 100px;
+	cursor: move;
 }
 #jsFileList li {
 	border: 1px solid #DDD;

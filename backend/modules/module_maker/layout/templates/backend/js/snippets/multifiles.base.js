@@ -63,7 +63,7 @@
 						uploadName: item.uploadName,
 						originalName: item.originalFileName,
 						warning: '',
-						sequence: i,
+						sequence: item.sequence,
 						progress: 100
 					};
 				});
@@ -204,7 +204,7 @@
 				$objectA = uploader.uploadedFiles[a];
 				$objectB = uploader.uploadedFiles[b];
 
-				return $objectA.sequence > $objectB.sequence;
+				return parseInt($objectA.sequence) - parseInt($objectB.sequence);
 			});
 
 			return keys;

@@ -17,7 +17,19 @@
 						Backend{$camel_case_name}Model::deleteImage($key);
 						BackendModel::imageDelete($this->getModule(), $image['uploadName'], null, Backend{$camel_case_name}Helper::$tempFileSizes);
 					}
-					else unset($files['_' . $key]);
+					else
+					{
+						// update the sequence if it changed
+						$underscored = '_' . $key;
+						if($this->record['images'][$key]['sequence'] != $images->$underscored->sequence)
+						{
+							Backend{$camel_case_name}Model::updateImage(array(
+								'id' => $key,
+								'sequence' => $images->$underscored->sequence
+							));
+						}
+						unset($files['_' . $key]);
+					}
 				}
 
 				// get images from the session
@@ -45,7 +57,7 @@
 								array(
 									'{$underscored_name}_id' => $item['id'],
 									'name' => $sImage['uploadName'],
-									'sequence' => Backend{$camel_case_name}Model::getMaximumImageSequence($item['id']) + 1
+									'sequence' => $images->$sImage['index']->sequence
 								)
 							);
 						}

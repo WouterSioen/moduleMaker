@@ -32,7 +32,7 @@
 								array(
 									'{$underscored_name}_id' => $item['id'],
 									'name' => $sImage['uploadName'],
-									'sequence' => Backend{$camel_case_name}Model::getMaximumImageSequence($item['id']) + 1
+									'sequence' => $images->$sImage['index']->sequence
 								)
 							);
 						}

@@ -61,7 +61,7 @@ class Backend{$camel_case_name}Model
 			array((int) $id)
 		);
 	}
-{$get_category}{$getImages}{$getMaxImageSequence}{$getMaxSequence}{$getUrl}{$get_url_category}
+{$get_category}{$getImages}{$getMaxSequence}{$getUrl}{$get_url_category}
 	/**
 	 * Insert an item in the database
 	 *
@@ -88,4 +88,4 @@ class Backend{$camel_case_name}Model
 			'{$underscored_name}', $item, 'id = ?', (int) $item['id']
 		);
 	}
-{$update_category}}
+{$update_category}{$update_image}}

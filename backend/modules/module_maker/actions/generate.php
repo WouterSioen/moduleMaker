@@ -284,8 +284,8 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			$this->variables['insert_image'] = BackendModuleMakerGenerator::generateSnippet(
 				'backend/engine/snippets/insertImage.base.php', $this->variables
 			);
-			$this->variables['getMaxImageSequence'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/getMaxImageSequence.base.php', $this->variables
+			$this->variables['update_image'] = BackendModuleMakerGenerator::generateSnippet(
+				'backend/engine/snippets/update_image.base.php', $this->variables
 			);
 			$this->variables['getImages'] = BackendModuleMakerGenerator::generateSnippet(
 				'backend/engine/snippets/getImages.base.php', $this->variables
@@ -294,7 +294,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 				'backend/engine/snippets/delete_image.base.php', $this->variables
 			);
 		}
-		else $this->variables['insert_image'] = $this->variables['getMaxImageSequence'] = $this->variables['getImages'] = $this->variables['delete_image'] = '';
+		else $this->variables['insert_image'] = $this->variables['update_image'] = $this->variables['getImages'] = $this->variables['delete_image'] = '';
 
 		// add the extra parameters in the MySQL SELECT
 		$this->variables['select_extra'] = '';
@@ -347,7 +347,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		unset(
 			$this->variables['getUrl'], $this->variables['getMaxSequence'], $this->variables['datagrid_extra'],
-			$this->variables['datagrid_order'], $this->variables['insert_image'], $this->variables['getMaxImageSequence'],
+			$this->variables['datagrid_order'], $this->variables['insert_image'], $this->variables['update_image'],
 			$this->variables['getImages'], $this->variables['delete_image']
 		);
 
