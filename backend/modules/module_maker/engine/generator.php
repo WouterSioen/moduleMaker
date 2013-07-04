@@ -201,9 +201,9 @@ class BackendModuleMakerGenerator
 			}
 			elseif($field['default'] !== '')
 			{
-				if($field['type'] == 'number') $default = ', ' . $default;
-				elseif($field['type'] == 'dropdown') $default = ", BL::lbl('" . BackendModuleMakerHelper::buildCamelCasedName($default) . "')";
-				else $default = ", '" . $default . "'";
+				if($field['type'] == 'number') $default = ', ' . $field['default'];
+				elseif($field['type'] == 'dropdown') $default = ", BL::lbl('" . BackendModuleMakerHelper::buildCamelCasedName($field['default']) . "')";
+				else $default = ", '" . $field['default'] . "'";
 			}
 			$field['default'] = $default;
 			$field['default_time'] = ($default && $field['type'] == 'datetime') ? ", date('H:i', \$this->record['" . $field['underscored_label'] . "'])" : '';

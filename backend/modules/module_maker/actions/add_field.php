@@ -191,6 +191,8 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 						$fields['default']->addError(BL::err('DefaultShouldBeAnOption'));
 					}
 				}
+				// radiobuttons should have a default option
+				elseif($type == 'radiobutton') $fields['default']->addError(BL::err('FieldIsRequired'));
 			}
 
 			// if the type is images, the options should be in the form 200x200 seperated by a comma
