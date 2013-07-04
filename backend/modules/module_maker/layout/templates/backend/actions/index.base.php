@@ -37,7 +37,7 @@ class Backend{$camel_case_name}Index extends BackendBaseActionIndex
 		);
 
 		// reform date
-		$this->dataGrid->setColumnFunction(array('BackendDataGridFunctions', 'getLongDate'), array('[publish_on]'), 'publish_on', true);
+		$this->dataGrid->setColumnFunction(array('BackendDataGridFunctions', 'getLongDate'), array('[created_on]'), 'created_on', true);
 {$sequence_extra}
 		// check if this action is allowed
 		if(BackendAuthentication::isAllowedAction('edit'))
