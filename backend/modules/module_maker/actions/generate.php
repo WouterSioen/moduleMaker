@@ -264,14 +264,11 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	 */
 	protected function generateBackendModel()
 	{
-		// add the createURL function if there is a meta field
-		if($this->record['metaField'] !== false)
-		{
-			$this->variables['get_url'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/get_url.base.php', $this->variables
-			);
-		}
-		else $this->variables['get_url'] = '';
+		// add the createURL function
+		$this->variables['get_url'] = BackendModuleMakerGenerator::generateSnippet(
+			'backend/engine/snippets/get_url.base.php', $this->variables
+		);
+		$this->variables['meta_field'] = $this->record['fields'][(int) $this->record['metaField']]['underscored_label'];
 
 		// add the getMaximumSequence function if sequencing is used
 		if($this->record['useSequence'])
@@ -351,7 +348,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		unset(
 			$this->variables['get_url'], $this->variables['get_max_sequence'], $this->variables['datagrid_extra'],
 			$this->variables['datagrid_order'], $this->variables['insert_image'], $this->variables['update_image'],
-			$this->variables['get_images'], $this->variables['delete_image']
+			$this->variables['get_images'], $this->variables['delete_image'], $this->variables['meta_field']
 		);
 
 		// generate the helper class if necessary
