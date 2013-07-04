@@ -102,13 +102,9 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		$this->variables['build_item_add'] = BackendModuleMakerGenerator::generateBuildItem($this->record, false);
 		$this->variables['search_index'] = BackendModuleMakerGenerator::generateSearchIndex($this->record);
 		$this->variables['save_tags'] = BackendModuleMakerGenerator::generateSaveTags($this->record);
-		if($this->record['metaField'] !== false)
-		{
-			$this->variables['parse_meta'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/actions/snippets/parse_meta.base.php'
-			);
-		}
-		else $this->variables['parse_meta'] = '';
+		$this->variables['parse_meta'] = BackendModuleMakerGenerator::generateSnippet(
+			'backend/actions/snippets/parse_meta.base.php'
+		);
 
 		// get variables for multiple images
 		list($this->variables['multiFilesJs'], $this->variables['multiFilesLoad'], $this->variables['multiFilesSave']) = BackendModuleMakerGenerator::generateMultiFiles($this->record, false);
