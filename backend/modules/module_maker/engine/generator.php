@@ -469,6 +469,12 @@ class BackendModuleMakerGenerator
 			if($field['type'] == 'image' && $field['required'] && !$isEdit) $return .= "\t\t\telse \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
 		}
 
+		// add validate category if necessary
+		if($module['useCategories'] !== false)
+		{
+			$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', array('underscored_label' => 'category_id'));
+		}
+
 		// add validate meta if necessary
 		if($module['metaField'] !== false)
 		{
