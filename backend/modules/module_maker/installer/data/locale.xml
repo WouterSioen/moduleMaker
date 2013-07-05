@@ -18,6 +18,10 @@
 				<translation language="en"><![CDATA[author url]]></translation>
 				<translation language="nl"><![CDATA[auteur url]]></translation>
 			</item>
+			<item type="label" name="Caption">
+				<translation language="en"><![CDATA[bijschrift]]></translation>
+				<translation language="nl"><![CDATA[caption]]></translation>
+			</item>
 			<item type="label" name="CreateModule">
 				<translation language="en"><![CDATA[create module]]></translation>
 				<translation language="nl"><![CDATA[maak een module]]></translation>

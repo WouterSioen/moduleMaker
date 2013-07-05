@@ -11,6 +11,10 @@
 									<p>
 										{$file{$camel_cased_label}} {$file{$camel_cased_label}Error}
 									</p>
+									<p>
+										<label for="{$lower_ccased_label}Caption">{$lbl{$camel_cased_label}Caption|ucfirst}</label>
+										{$txt{$camel_cased_label}Caption} {$txt{$camel_cased_label}CaptionError}
+									</p>
 								</div>
 							</div>
 

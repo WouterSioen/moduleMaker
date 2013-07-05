@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locale>
+	<backend>
+		<test>
+			<item type="label" name="AddTest">
+				<translation language="nl"><![CDATA[test toevoegen]]></translation>
+				<translation language="en"><![CDATA[add test]]></translation>
+			</item>
+		</test>
+		<core>
+			<item type="label" name="Test">
+				<translation language="nl"><![CDATA[test]]></translation>
+				<translation language="en"><![CDATA[test]]></translation>
+			</item>
+            <item type="label" name="TestDetail">
+                <translation language="nl"><![CDATA[test detail]]></translation>
+                <translation language="en"><![CDATA[test detail]]></translation>
+            </item>
+            <item type="label" name="TestCategory">
+                <translation language="nl"><![CDATA[test categorie]]></translation>
+                <translation language="en"><![CDATA[test category]]></translation>
+            </item>
+            <item type="message" name="NoCategories">
+                <translation language="en"><![CDATA[no categories]]></translation>
+                <translation language="nl"><![CDATA[geen categorieën]]></translation>
+            </item>
+		</core>
+	</backend>
+	<frontend>
+		<core>
+		</core>
+	</frontend>
+</locale>

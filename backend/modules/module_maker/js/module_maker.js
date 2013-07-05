@@ -20,6 +20,7 @@ jsBackend.modulemaker =
 
 		jsBackend.modulemaker.tagBoxes();
 		jsBackend.modulemaker.toggleOptions();
+		jsBackend.modulemaker.toggleCaption();
 		jsBackend.modulemaker.toggleSearch();
 		jsBackend.modulemaker.toggleTwitter();
 		jsBackend.modulemaker.renderInit();
@@ -37,6 +38,24 @@ jsBackend.modulemaker =
 				addLabel: utils.string.ucfirst(jsBackend.locale.lbl('Add')),
 				removeLabel: utils.string.ucfirst(jsBackend.locale.lbl('DeleteThisOption'))
 			});
+		}
+	},
+
+	toggleCaption: function(){
+		$ddmType = $('#type');
+		$caption = $('#jsToggleCaption');
+
+		if($ddmType.length > 0 && $options.length > 0)
+		{
+			$value = $ddmType.val();
+
+			$ddmType.on('change', function() {
+				$value = $ddmType.val();
+
+				// show or hide it on change
+				if($value == 'image') $caption.slideDown(200);
+				else $caption.slideUp(200);
+			})
 		}
 	},
 
