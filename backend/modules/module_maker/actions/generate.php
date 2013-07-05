@@ -599,6 +599,6 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	{
 		$this->tpl->assign('module', $this->record);
 
-		// SpoonSession::delete('module');
+		SpoonSession::delete('module');
 	}
 }
