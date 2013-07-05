@@ -142,6 +142,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		);
 
 		// generate edit template
+		list($this->variables['template_title'], $this->variables['template'], $this->variables['template_side']) = BackendModuleMakerGenerator::generateTemplate($this->record, true);
 		BackendModuleMakerGenerator::generateFile(
 			'backend/layout/templates/edit.base.tpl', $this->variables, $this->backendPath . 'layout/templates/edit.tpl'
 		);

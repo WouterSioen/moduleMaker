@@ -378,7 +378,18 @@ class BackendModuleMakerGenerator
 
 			$field['required_html'] = ($field['required']) ? '<abbr title="{$lblRequiredField}">*</abbr>' : '';
 
-			if($field['type'] == 'editor' || $field['type'] == 'text' || $field['type'] == 'number' || $field['type'] == 'password')
+			// if it's an image of a file and it's an edit action, we want to show a preview
+			if($isEdit && ($field['type'] == 'image' || $field['type'] == 'file'))
+			{
+				$field['module'] = $module['underscored_name'];
+				if($field['type'] == 'image')
+				{
+					$imageSizes = explode(',', $field['options']);
+					$field['image_size'] = $imageSizes[0];
+				}
+				$return .= self::generateSnippet('backend/layout/templates/snippets/' . $field['type'] . '_edit.base.tpl', $field);
+			}
+			elseif($field['type'] == 'editor' || $field['type'] == 'text' || $field['type'] == 'number' || $field['type'] == 'password')
 			{
 				$return .= self::generateSnippet('backend/layout/templates/snippets/' . $field['type'] . '.base.tpl', $field);
 			}

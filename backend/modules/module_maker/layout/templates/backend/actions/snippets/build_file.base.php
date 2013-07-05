@@ -3,7 +3,7 @@
 				$filePath = FRONTEND_FILES_PATH . '/' . $this->getModule() . '/files';
 
 				// create folders if needed
-				if(!SpoonDirectory::exists($filePath . '/source')) SpoonDirectory::create($filePath . '/source');
+				if(!SpoonDirectory::exists($filePath)) SpoonDirectory::create($filePath);
 
 				// file provided?
 				if($fields['{$underscored_label}']->isFilled())
@@ -16,5 +16,5 @@
 					$item['{$underscored_label}'] = time() . '.' . $fields['{$underscored_label}']->getExtension();
 
 					// upload the file
-					$fields['{$underscored_label}']->moveFile($filePath, $item['{$underscored_label}']);
+					$fields['{$underscored_label}']->moveFile($filePath . '/' . $item['{$underscored_label}']);
 				}
