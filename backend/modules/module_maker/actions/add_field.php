@@ -104,6 +104,11 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 				$type = rtrim($type, ',');
 				$type .= ')';
 				break;
+			case 'image_caption':
+				$return = "`" . $field['underscored_label'] . "` varchar(255)" . $required . $default . ",\n";
+				$return .= " `" . $field['underscored_label'] . "_caption` varchar(255)" . $default . ',';
+				return $return;
+				break;
 			default:
 				// types like text, password, file or image all map to a varchar
 				$type = 'varchar(255)';
@@ -136,6 +141,7 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 		$this->frm->addText('label', null, null, 'inputText title', 'inputTextError title');
 		$this->frm->addDropDown('type', $types, null);
 		$this->frm->addText('tags', null, null, 'inputText tagBox', 'inputTextError tagBox');
+		$this->frm->addCheckbox('caption');
 		$this->frm->addCheckbox('required');
 		$this->frm->addText('default');
 	}
@@ -250,6 +256,11 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 				$item['lower_ccased_label'] = BackendModuleMakerHelper::buildLowerCamelCasedName($item['label']);
 				$item['meta'] = false;
 				$item['searchable'] = false;
+
+				if($item['type'] == 'image' && $fields['caption']->isChecked())
+				{
+					$item['type'] = 'image_caption';
+				}
 
 				// generate the SQL for the field
 				$item['sql'] = $this->generateSQL($item);

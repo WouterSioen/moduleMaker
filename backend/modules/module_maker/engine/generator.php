@@ -30,7 +30,7 @@ class BackendModuleMakerGenerator
 		foreach($module['fields'] as $field)
 		{
 			// for images, create the code to create folders for each image size
-			if($field['type'] == 'image')
+			if($field['type'] == 'image' || $field['type'] == 'image_caption')
 			{
 				// loop through the options, they contain the image sizes
 				$options = explode(',', $field['options']);
@@ -193,7 +193,8 @@ class BackendModuleMakerGenerator
 			$default = '';
 			if($isEdit)
 			{
-				$default = ", \$this->record['" . $field['underscored_label'] . "']";
+				if($field['type'] == 'image_caption') $default = ", \$this->record['" . $field['underscored_label'] . "_caption']";
+				else $default = ", \$this->record['" . $field['underscored_label'] . "']";
 			}
 			elseif($field['default'] !== '')
 			{
@@ -379,7 +380,7 @@ class BackendModuleMakerGenerator
 			$field['required_html'] = ($field['required']) ? '<abbr title="{$lblRequiredField}">*</abbr>' : '';
 
 			// if it's an image of a file and it's an edit action, we want to show a preview
-			if($isEdit && ($field['type'] == 'image' || $field['type'] == 'file'))
+			if($isEdit && ($field['type'] == 'image' || $field['type'] == 'file' || $field['type'] == 'image_caption'))
 			{
 				$field['module'] = $module['underscored_name'];
 				if($field['type'] == 'image')
