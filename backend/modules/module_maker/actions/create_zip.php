@@ -77,7 +77,7 @@ class BackendModuleMakerCreateZip extends BackendBaseActionIndex
 					readfile(PATH_WWW . '/' . $module . '.zip');
 
 					// delete temp file
-					unlink(PATH_WWW . '/' . $module . '.zip');
+					Spoonfile::delete(PATH_WWW . '/' . $module . '.zip');
 					exit();
 				}
 			}

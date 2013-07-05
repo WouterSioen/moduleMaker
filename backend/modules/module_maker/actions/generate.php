@@ -249,7 +249,7 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 		// if we use the fineuploader, we should copy the needed js and css files
 		if($this->record['multipleImages'])
 		{
-			BackendModuleMakerModel::recurseCopy(
+			SpoonDirectory::copy(
 				BACKEND_MODULE_PATH . '/layout/templates/backend/js/fineuploader', $this->backendPath . 'js/fineuploader'
 			);
 			BackendModuleMakerGenerator::generateFile(
@@ -381,6 +381,38 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 	}
 
 	/**
+	 * Generates the folder structure for the module
+	 */
+	protected function generateFolders()
+	{
+		// the backend
+		$backendDirs = array(
+			'main' => $this->backendPath,
+			'sub' => array(
+				'actions', 'ajax', 'js', 'cronjobs', 'engine',
+				'installer' => array('data'),
+				'layout' => array('templates', 'css')
+			)
+		);
+
+		// make the backend directories
+		BackendModuleMakerModel::makeDirs($backendDirs);
+
+		// the frontend
+		$frontendDirs = array(
+			'main' => $this->frontendPath,
+			'sub' => array(
+				'actions', 'engine', 'widgets',
+				'layout' => array('templates', 'widgets'),
+				'js'
+			)
+		);
+
+		// make the frontend directories
+		BackendModuleMakerModel::makeDirs($frontendDirs);
+	}
+
+	/**
 	 * Generates the backend actions (and templates) (index, add, edit and delete)
 	 */
 	protected function generateFrontendActions()
@@ -415,7 +447,6 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 
 		unset($this->variables['pageTitle'], $this->variables['twitterCard']);
 	}
-
 
 	/**
 	 * Generates the frontend category action
@@ -516,38 +547,6 @@ class BackendModuleMakerGenerate extends BackendBaseAction
 			$this->variables['getCategoryCount'], $this->variables['sequence_sorting'], $this->variables['meta_field'],
 			$this->variables['search']
 		);
-	}
-
-	/**
-	 * Generates the folder structure for the module
-	 */
-	protected function generateFolders()
-	{
-		// the backend
-		$backendDirs = array(
-			'main' => $this->backendPath,
-			'sub' => array(
-				'actions', 'ajax', 'js', 'cronjobs', 'engine',
-				'installer' => array('data'),
-				'layout' => array('templates', 'css')
-			)
-		);
-
-		// make the backend directories
-		BackendModuleMakerModel::makeDirs($backendDirs);
-
-		// the frontend
-		$frontendDirs = array(
-			'main' => $this->frontendPath,
-			'sub' => array(
-				'actions', 'engine', 'widgets',
-				'layout' => array('templates', 'widgets'),
-				'js'
-			)
-		);
-
-		// make the frontend directories
-		BackendModuleMakerModel::makeDirs($frontendDirs);
 	}
 
 	/**

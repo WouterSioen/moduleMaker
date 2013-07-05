@@ -229,15 +229,15 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 				{
 					if(strlen($defaultValue) > 255) $fields['default']->addError(BL::err('Max255Characters'));
 				}
-				else if($type == 'number')
+				elseif($type == 'number')
 				{
 					if(!is_numeric($defaultValue)) $fields['default']->addError(BL::err('FieldIsNotNumeric'));
 				}
-				else if($type == 'datetime')
+				elseif($type == 'datetime')
 				{
 					if(!BackendModuleMakerHelper::isValidDateTime($defaultValue)) $fields['default']->addError(BL::err('FieldIsNotAValidDateTime'));
 				}
-				else if($type == 'checkbox')
+				elseif($type == 'checkbox')
 				{
 					if(strtoupper($defaultValue) != 'Y' && strtoupper($defaultValue) != 'N') $fields['default']->addError(BL::err('MustBeAYOrAN'));
 				}

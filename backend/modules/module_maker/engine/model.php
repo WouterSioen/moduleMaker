@@ -97,31 +97,4 @@ class BackendModuleMakerModel
 		// return
 		return $rFile;
 	}
-
-	/**
-	 * Recursively copies files
-	 * 
-	 * @param string $source
-	 * @param string $destination
-	 */
-	public static function recurseCopy($source, $destination)
-	{
-		$dir = opendir($source);
-		@mkdir($destination);
-		while(false !== ($file = readdir($dir)))
-		{
-			if(($file != '.') && ($file != '..'))
-			{
-				if(is_dir($source . '/' . $file))
-				{
-					self::recurseCopy($source . '/' . $file, $destination . '/' . $file);
-				}
-				else
-				{
-					copy($source . '/' . $file, $destination . '/' . $file);
-				}
-			}
-		}
-		closedir($dir);
-	}
 }
