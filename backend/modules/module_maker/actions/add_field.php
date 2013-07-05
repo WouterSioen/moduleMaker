@@ -239,7 +239,7 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 				}
 				else if($type == 'checkbox')
 				{
-					if(strtoupper($defaultValue) != 'Y' AND strtoupper($defaultValue) != 'N') $fields['default']->addError(BL::err('MustBeAYOrAN'));
+					if(strtoupper($defaultValue) != 'Y' && strtoupper($defaultValue) != 'N') $fields['default']->addError(BL::err('MustBeAYOrAN'));
 				}
 			}
 
