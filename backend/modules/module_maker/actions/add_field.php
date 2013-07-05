@@ -67,6 +67,9 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 			case 'number':
 				$type = 'int(11)';
 				break;
+			case 'author':
+				$type = 'int(11)';
+				break;
 			case 'datetime':
 				$type = 'datetime';
 				break;
@@ -123,6 +126,9 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 	 */
 	protected function loadForm()
 	{
+		/**
+		 * @TODO: use labels
+		 */
 		$types = array(
 			'text' => 'text',
 			'editor' => 'editor',
@@ -133,6 +139,7 @@ class BackendModuleMakerAddField extends BackendBaseActionAdd
 			'multicheckbox' => 'multicheckbox',
 			'radiobutton' => 'radiobutton',
 			'dropdown' => 'dropdown',
+			'author' => 'author',
 			'file' => 'file',
 			'image' => 'image'
 		);

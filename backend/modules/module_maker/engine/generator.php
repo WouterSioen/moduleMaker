@@ -196,6 +196,7 @@ class BackendModuleMakerGenerator
 				if($field['type'] == 'image_caption') $default = ", \$this->record['" . $field['underscored_label'] . "_caption']";
 				else $default = ", \$this->record['" . $field['underscored_label'] . "']";
 			}
+			elseif($field['type'] == 'author') $default = ', BackendAuthentication::getUser()->getUserId()';
 			elseif($field['default'] !== '')
 			{
 				if($field['type'] == 'number') $default = ', ' . $field['default'];

@@ -88,7 +88,7 @@ jsBackend.modulemaker =
 				else $optionsLabel.text(utils.string.ucfirst(jsBackend.locale.lbl('Options')) + '*');
 
 				// don't show default option for text area (mysql type TEXT can't use default value)
-				if($value == 'editor') $('#defaultOption').hide();
+				if($value == 'editor' || $value == 'author') $('#defaultOption').hide();
 				else $('#defaultOption').show();
 			})
 		}
