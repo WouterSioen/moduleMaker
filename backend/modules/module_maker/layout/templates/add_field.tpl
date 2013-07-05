@@ -25,6 +25,9 @@
 				<label for="tags">{$lblOptions|ucfirst}<abbr title="{$lblRequiredField}">*</abbr></label>
 				{$txtTags} {$txtTagsError}
 			</p>
+			<p id="jsToggleCaption" style="display:none;">
+				<label for="caption">{$chkCaption} {$lblCaption|ucfirst}</label>
+			</p>
 		</div>
 		<div class="options">
 			<p>
