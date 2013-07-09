@@ -103,12 +103,11 @@ class BackendModuleMakerHelper
 	 * Creates a zip
 	 *
 	 * @param array $files
-	 * @param string $module
 	 * @param string $destination
 	 * @param boolean $overwrite
 	 * @return boolean
 	 */
-	public static function createZip($files = array(), $module, $destination = '', $overwrite = false)
+	public static function createZip($files = array(), $destination = '', $overwrite = false)
 	{
 		// if the zip file already exists and overwrite is false, return false
 		if(file_exists($destination) && !$overwrite) return false;
@@ -137,7 +136,7 @@ class BackendModuleMakerHelper
 			// add the files
 			foreach($valid_files as $file)
 			{
-				$zip->addFile($file, $module . '/' . $file);
+				$zip->addFile($file, $file);
 			}
 
 			// close the zip -- done!

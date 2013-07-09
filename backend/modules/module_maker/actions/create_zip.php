@@ -68,7 +68,7 @@ class BackendModuleMakerCreateZip extends BackendBaseActionIndex
 			if(!empty($files))
 			{
 				// create zip
-				if(BackendModuleMakerHelper::createZip($files, $module, PATH_WWW . '/' . $module . '.zip'))
+				if(BackendModuleMakerHelper::createZip($files, PATH_WWW . '/' . $module . '.zip'))
 				{
 					// download zip
 					header('Content-Type: application/zip');
