@@ -32,8 +32,11 @@
 	</div>
 
 	<div class="fullwidthOptions">
+		<div class="buttonHolder">
+			<a id="toStep3" class="inputButton button" href="{$var|geturl:'add_step3'}" >{$lblBack|ucfirst}</a>
+		</div>
 		<div class="buttonHolderRight">
-			<input id="addStep4" class="inputButton button mainButton" type="submit" name="add_step_4" value="{$lblGenerate|ucfirst}" />
+			<input id="generate" class="inputButton button mainButton" type="submit" name="generate" value="{$lblGenerate|ucfirst}" />
 		</div>
 	</div>
 {/form:add_step4}

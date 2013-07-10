@@ -102,7 +102,12 @@ class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
 		parent::parse();
 
 		$this->tpl->assign('meta', ($this->selectedMeta !== false));
-		$this->tpl->assign('search', ($this->selectedSearch !== false));
+
+		if($this->frm->isSubmitted() && $this->frm->getField('search')->isChecked())
+		{
+			$this->tpl->assign('search', true);
+		}
+		else $this->tpl->assign('search', ($this->selectedSearch !== false));
 	}
 
 	/**
