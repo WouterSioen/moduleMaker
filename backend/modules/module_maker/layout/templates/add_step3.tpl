@@ -67,8 +67,11 @@
 	</div>
 
 	<div class="fullwidthOptions">
+		<div class="buttonHolder">
+			<a id="toStep2" class="inputButton button" href="{$var|geturl:'add_step2'}" >{$lblBack|ucfirst}</a>
+		</div>
 		<div class="buttonHolderRight">
-			<input id="addStep3" class="inputButton button mainButton" type="submit" name="add_step_3" value="{$lblToStep|ucfirst} 4" />
+			<input id="addStep4" class="inputButton button mainButton" type="submit" name="add_step_4" value="{$lblToStep|ucfirst} 4" />
 		</div>
 	</div>
 {/form:add_step3}

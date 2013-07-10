@@ -37,6 +37,9 @@
 	</div>
 {/option:!varcharFound}
 <div class="fullwidthOptions">
+	<div class="buttonHolder">
+		<a id="toStep1" class="inputButton button" href="{$var|geturl:'add'}" >{$lblBack|ucfirst}</a>
+	</div>
 	<div class="buttonHolderRight">
 		<a id="toStep3" class="inputButton button mainButton {option:!datagrid}disabledButton{/option:!datagrid} {option:!varcharFound}disabledButton{/option:!varcharFound}" href="{$var|geturl:'add_step3'}" >{$lblToStep|ucfirst} 3</a>
 	</div>
