@@ -75,18 +75,21 @@ class BackendModuleMakerAdd extends BackendBaseActionAdd
 			$fields['author_url']->isFilled(BL::err('FieldIsRequired'));
 			$fields['author_email']->isFilled(BL::err('FieldIsRequired'));
 
+			// cleanup the modulename
+			$title = preg_replace('/[^A-Za-z ]/', '', $fields['title']->getValue());
+
 			// check if there is already a module with this name
-			if(BackendExtensionsModel::existsModule($fields['title']->getValue())) $fields['title']->addError(BL::err('DuplicateModuleName'));
+			if(BackendExtensionsModel::existsModule($title)) $fields['title']->addError(BL::err('DuplicateModuleName'));
 
 			if($this->frm->isCorrect())
 			{
-				$this->record['title'] = $fields['title']->getValue();
+				$this->record['title'] = $title;
 				$this->record['description'] = trim($fields['description']->getValue());
 				$this->record['author_name'] = $fields['author_name']->getValue();
 				$this->record['author_url'] = $fields['author_url']->getValue();
 				$this->record['author_email'] = $fields['author_email']->getValue();
-				$this->record['camel_case_name'] = BackendModuleMakerHelper::buildCamelCasedName($this->record['title']);
-				$this->record['underscored_name'] = BackendModuleMakerHelper::buildUnderscoredName($this->record['title']);
+				$this->record['camel_case_name'] = BackendModuleMakerHelper::buildCamelCasedName($title);
+				$this->record['underscored_name'] = BackendModuleMakerHelper::buildUnderscoredName($title);
 
 				SpoonSession::set('module', $this->record);
 
