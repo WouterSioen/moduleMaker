@@ -29,12 +29,12 @@
 	</div>
 {/option:datagrid}
 {option:!datagrid}
-	{$msgNoFields}
+	<p>{$msgNoFields}</p>
 {/option:!datagrid}
 {option:!varcharFound}
-	<p id="pressMessage" class="generalMessage infoMessage content" style="padding: 5px; display: block;">
-		{$msgWeNeedOneTextTypeForTheMeta|ucfirst}
-	</p>
+	<div id="pressMessage" class="generalMessage infoMessage content">
+		<p class="pb0">{$msgWeNeedOneTextTypeForTheMeta|ucfirst}</p>
+	</div>
 {/option:!varcharFound}
 <div class="fullwidthOptions">
 	<div class="buttonHolderRight">
