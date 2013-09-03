@@ -194,6 +194,7 @@ class BackendModuleMakerGenerator
 			if($isEdit)
 			{
 				if($field['type'] == 'image_caption') $default = ", \$this->record['" . $field['underscored_label'] . "_caption']";
+				elseif($field['type'] == 'checkbox') $default = ", \$this->record['" . $field['underscored_label'] . "'] == 'Y'";
 				else $default = ", \$this->record['" . $field['underscored_label'] . "']";
 			}
 			elseif($field['type'] == 'author') $default = ', BackendAuthentication::getUser()->getUserId()';
@@ -201,6 +202,7 @@ class BackendModuleMakerGenerator
 			{
 				if($field['type'] == 'number') $default = ', ' . $field['default'];
 				elseif($field['type'] == 'dropdown') $default = ", BL::lbl('" . BackendModuleMakerHelper::buildCamelCasedName($field['default']) . "')";
+				elseif($field['type'] == 'checkbox') $default = ($field['default'] == 'N') ? ', false': ', true';
 				else $default = ", '" . $field['default'] . "'";
 			}
 			$field['default'] = $default;
