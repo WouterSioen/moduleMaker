@@ -27,7 +27,13 @@ class Frontend{$camel_case_name}Category extends FrontendBaseBlock
 	 *
 	 * @var	array
 	 */
-	protected $pagination = array('limit' => 10, 'offset' => 0, 'requested_page' => 1, 'num_items' => null, 'num_pages' => null);
+	protected $pagination = array(
+		'limit' => 10,
+		'offset' => 0,
+		'requested_page' => 1,
+		'num_items' => null,
+		'num_pages' => null
+	);
 
 	/**
 	 * Execute the action
@@ -67,14 +73,19 @@ class Frontend{$camel_case_name}Category extends FrontendBaseBlock
 		if($this->pagination['num_pages'] == 0) $this->pagination['num_pages'] = 1;
 
 		// redirect if the request page doesn't exist
-		if($requestedPage > $this->pagination['num_pages'] || $requestedPage < 1) $this->redirect(FrontendNavigation::getURL(404));
+		if($requestedPage > $this->pagination['num_pages'] || $requestedPage < 1
+		{
+			$this->redirect(FrontendNavigation::getURL(404));
+		}
 
 		// populate calculated fields in pagination
 		$this->pagination['requested_page'] = $requestedPage;
 		$this->pagination['offset'] = ($this->pagination['requested_page'] * $this->pagination['limit']) - $this->pagination['limit'];
 
 		// get items
-		$this->items = Frontend{$camel_case_name}Model::getAllByCategory($this->category['id'], $this->pagination['limit'], $this->pagination['offset']);
+		$this->items = Frontend{$camel_case_name}Model::getAllByCategory(
+			$this->category['id'], $this->pagination['limit'], $this->pagination['offset']
+		);
 	}
 
 	/**
@@ -97,8 +108,18 @@ class Frontend{$camel_case_name}Category extends FrontendBaseBlock
 		$this->header->addMetaKeywords($this->category['meta_keywords'], ($this->category['meta_keywords_overwrite'] == 'Y'));
 
 		// advanced SEO-attributes
-		if(isset($this->category['meta_data']['seo_index'])) $this->header->addMetaData(array('name' => 'robots', 'content' => $this->category['meta_data']['seo_index']));
-		if(isset($this->category['meta_data']['seo_follow'])) $this->header->addMetaData(array('name' => 'robots', 'content' => $this->category['meta_data']['seo_follow']));
+		if(isset($this->category['meta_data']['seo_index']))
+		{
+			$this->header->addMetaData(
+				array('name' => 'robots', 'content' => $this->category['meta_data']['seo_index'])
+			);
+		}
+		if(isset($this->category['meta_data']['seo_follow']))
+		{
+			$this->header->addMetaData(
+				array('name' => 'robots', 'content' => $this->category['meta_data']['seo_follow'])
+			);
+		}
 
 		// assign items
 		$this->tpl->assign('items', $this->items);

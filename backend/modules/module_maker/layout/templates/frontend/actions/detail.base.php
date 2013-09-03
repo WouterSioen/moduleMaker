@@ -60,8 +60,16 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 		// build Facebook  OpenGraph data
 		$this->header->addOpenGraphData('title', $this->record['meta_title'], true);
 		$this->header->addOpenGraphData('type', 'article', true);
-		$this->header->addOpenGraphData('url', SITE_URL . FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->record['url'], true);
-		$this->header->addOpenGraphData('site_name', FrontendModel::getModuleSetting('core', 'site_title_' . FRONTEND_LANGUAGE, SITE_DEFAULT_TITLE), true);
+		$this->header->addOpenGraphData(
+			'url',
+			SITE_URL . FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->record['url'],
+			true
+		);
+		$this->header->addOpenGraphData(
+			'site_name',
+			FrontendModel::getModuleSetting('core', 'site_title_' . FRONTEND_LANGUAGE, SITE_DEFAULT_TITLE),
+			true
+		);
 		$this->header->addOpenGraphData('description', $this->record['meta_title'], true);
 {$twitterCard}
 		// add into breadcrumb
@@ -79,8 +87,18 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 		$this->header->addMetaKeywords($this->record['meta_keywords'], ($this->record['meta_keywords_overwrite'] == 'Y'));
 
 		// advanced SEO-attributes
-		if(isset($this->record['meta_data']['seo_index'])) $this->header->addMetaData(array('name' => 'robots', 'content' => $this->record['meta_data']['seo_index']));
-		if(isset($this->record['meta_data']['seo_follow'])) $this->header->addMetaData(array('name' => 'robots', 'content' => $this->record['meta_data']['seo_follow']));
+		if(isset($this->record['meta_data']['seo_index']))
+		{
+			$this->header->addMetaData(
+				array('name' => 'robots', 'content' => $this->record['meta_data']['seo_index'])
+			);
+		}
+		if(isset($this->record['meta_data']['seo_follow']))
+		{
+			$this->header->addMetaData(
+				array('name' => 'robots', 'content' => $this->record['meta_data']['seo_follow'])
+			);
+		}
 
 		// assign item
 		$this->tpl->assign('item', $this->record);

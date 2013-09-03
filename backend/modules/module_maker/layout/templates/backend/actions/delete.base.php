@@ -34,7 +34,10 @@ class Backend{$camel_case_name}Delete extends BackendBaseActionDelete
 				array('id' => $this->id)
 			);
 
-			$this->redirect(BackendModel::createURLForAction('index') . '&report=deleted&var=' . urlencode($this->record['title']));
+			$this->redirect(
+				BackendModel::createURLForAction('index') . '&report=deleted&var=' .
+				urlencode($this->record['title'])
+			);
 		}
 		else $this->redirect(BackendModel::createURLForAction('index') . '&error=non-existing');
 	}

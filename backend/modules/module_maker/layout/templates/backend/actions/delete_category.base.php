@@ -38,7 +38,8 @@ class Backend{$camel_case_name}DeleteCategory extends BackendBaseActionDelete
 
 		// category was deleted, so redirect
 		$this->redirect(
-			BackendModel::createURLForAction('categories') . '&report=deleted-category&var=' . urlencode($this->record['title'])
+			BackendModel::createURLForAction('categories') . '&report=deleted-category&var=' .
+			urlencode($this->record['title'])
 		);
 	}
 }

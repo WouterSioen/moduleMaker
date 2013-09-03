@@ -71,6 +71,7 @@ class Backend{$camel_case_name}Model
 	public static function insert(array $item)
 	{
 		$item['created_on'] = BackendModel::getUTCDate();
+		$item['edited_on'] = BackendModel::getUTCDate();
 
 		return (int) BackendModel::getContainer()->get('database')->insert('{$underscored_name}', $item);
 	}

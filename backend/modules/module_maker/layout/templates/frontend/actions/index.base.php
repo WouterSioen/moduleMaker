@@ -27,7 +27,13 @@ class Frontend{$camel_case_name}Index extends FrontendBaseBlock
 	 *
 	 * @var	array
 	 */
-	protected $pagination = array('limit' => 10, 'offset' => 0, 'requested_page' => 1, 'num_items' => null, 'num_pages' => null);
+	protected $pagination = array(
+		'limit' => 10,
+		'offset' => 0,
+		'requested_page' => 1,
+		'num_items' => null,
+		'num_pages' => null
+	);
 
 	/**
 	 * Execute the action
@@ -60,7 +66,10 @@ class Frontend{$camel_case_name}Index extends FrontendBaseBlock
 		if($this->pagination['num_pages'] == 0) $this->pagination['num_pages'] = 1;
 
 		// redirect if the request page doesn't exist
-		if($requestedPage > $this->pagination['num_pages'] || $requestedPage < 1) $this->redirect(FrontendNavigation::getURL(404));
+		if($requestedPage > $this->pagination['num_pages'] || $requestedPage < 1)
+		{
+			$this->redirect(FrontendNavigation::getURL(404));
+		}
 
 		// populate calculated fields in pagination
 		$this->pagination['requested_page'] = $requestedPage;
