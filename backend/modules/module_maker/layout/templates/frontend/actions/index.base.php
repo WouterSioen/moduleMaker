@@ -10,7 +10,7 @@
 /**
  * This is the index-action (default), it will display the overview of {$title} posts
  *
- * @author Arend Pijls <arend.pijls@wijs.be>
+ * @author {$author_name} <{$author_email}>
  */
 class Frontend{$camel_case_name}Index extends FrontendBaseBlock
 {
