@@ -12,18 +12,18 @@
 				<translation language="nl"><![CDATA[{$title}]]></translation>
 				<translation language="en"><![CDATA[{$title}]]></translation>
 			</item>
-            <item type="label" name="{$camel_case_name}Detail">
-                <translation language="nl"><![CDATA[{$title} detail]]></translation>
-                <translation language="en"><![CDATA[{$title} detail]]></translation>
-            </item>
-            <item type="label" name="{$camel_case_name}Category">
-                <translation language="nl"><![CDATA[{$title} categorie]]></translation>
-                <translation language="en"><![CDATA[{$title} category]]></translation>
-            </item>
-            <item type="message" name="NoCategories">
-                <translation language="en"><![CDATA[no categories]]></translation>
-                <translation language="nl"><![CDATA[geen categorieën]]></translation>
-            </item>
+			<item type="label" name="{$camel_case_name}Detail">
+				<translation language="nl"><![CDATA[{$title} detail]]></translation>
+				<translation language="en"><![CDATA[{$title} detail]]></translation>
+			</item>
+			<item type="label" name="{$camel_case_name}Category">
+				<translation language="nl"><![CDATA[{$title} categorie]]></translation>
+				<translation language="en"><![CDATA[{$title} category]]></translation>
+			</item>
+			<item type="message" name="NoCategories">
+				<translation language="en"><![CDATA[no categories]]></translation>
+				<translation language="nl"><![CDATA[geen categorieën]]></translation>
+			</item>
 		</core>
 	</backend>
 	<frontend>
