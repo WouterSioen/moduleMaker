@@ -373,7 +373,8 @@ class BackendModuleMakerGenerator
 
 		// first add the meta field
 		$metaField = $module['fields'][(int) $module['metaField']];
-		$returnTitle = self::generateSnippet('backend/layout/templates/snippets/meta.base.tpl', $metaField);
+		if($isEdit) $returnTitle = self::generateSnippet('backend/layout/templates/snippets/meta_edit.base.tpl', $metaField);
+		else $returnTitle = self::generateSnippet('backend/layout/templates/snippets/meta.base.tpl', $metaField);
 
 		// loop through fields and add items
 		foreach($module['fields'] as &$field)
