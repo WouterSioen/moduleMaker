@@ -1,10 +1,10 @@
 
 	/**
-	* Get the number of items in a category
-	*
-	* @param int $categoryId
-	* @return int
-	*/
+	 * Get the number of items in a category
+	 *
+	 * @param int $categoryId
+	 * @return int
+	 */
 	public static function getCategoryCount($categoryId)
 	{
 		return (int) FrontendModel::getContainer()->get('database')->getVar(

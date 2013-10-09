@@ -1,10 +1,10 @@
 
 	/**
-	* Fetches a certain category
-	*
-	* @param string $URL
-	* @return array
-	*/
+	 * Fetches a certain category
+	 *
+	 * @param string $URL
+	 * @return array
+	 */
 	public static function getCategory($URL)
 	{
 		$item = (array) FrontendModel::getContainer()->get('database')->getRecord(

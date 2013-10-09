@@ -1,9 +1,9 @@
 
 	/**
-	* Get all categories used
-	*
-	* @return array
-	*/
+	 * Get all categories used
+	 *
+	 * @return array
+	 */
 	public static function getAllCategories()
 	{
 		$return = (array) FrontendModel::getContainer()->get('database')->getRecords(
