@@ -84,7 +84,9 @@ class Frontend{$camel_case_name}Model
 	{
 		return (int) FrontendModel::getContainer()->get('database')->getVar(
 			'SELECT COUNT(i.id) AS count
-			 FROM {$underscored_name} AS i'
+			 FROM {$underscored_name} AS i
+			 WHERE i.language = ?',
+			array(FRONTEND_LANGUAGE)
 		);
 	}
 {$getAllByCategory}{$getAllCategories}{$getCategory}{$getCategoryCount}{$search}
