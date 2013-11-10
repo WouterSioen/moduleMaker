@@ -38,10 +38,10 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 	private function getData()
 	{
 		// validate incoming parameters
-		if($this->URL->getParameter(0) === null) $this->redirect(FrontendNavigation::getURL(404));
+		if($this->URL->getParameter(1) === null) $this->redirect(FrontendNavigation::getURL(404));
 
 		// get record
-		$this->record = Frontend{$camel_case_name}Model::get($this->URL->getParameter(0));
+		$this->record = Frontend{$camel_case_name}Model::get($this->URL->getParameter(1));
 
 		// check if record is not empty
 		if(empty($this->record)) $this->redirect(FrontendNavigation::getURL(404));
