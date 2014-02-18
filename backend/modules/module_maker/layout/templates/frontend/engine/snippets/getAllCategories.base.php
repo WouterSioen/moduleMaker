@@ -1,4 +1,3 @@
-
 	/**
 	 * Get all categories used
 	 *
@@ -12,7 +11,7 @@
 			 INNER JOIN {$underscored_name} AS i ON c.id = i.category_id AND c.language = i.language
 			 INNER JOIN meta AS m ON c.meta_id = m.id
 			 GROUP BY c.id
-			 ORDER BY c.sequence AS',
+			 ORDER BY c.sequence ASC',
 			array(), 'id'
 		);
 
