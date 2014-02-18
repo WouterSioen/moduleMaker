@@ -38,12 +38,14 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 	private function getData()
 	{
         $lastParameter = $this->getLastParameter();
-        if (empty($lastParameter)) {
+        if (empty($lastParameter))
+        {
             $this->redirect(FrontendNavigation::getURL(404));
         }
         $this->record = Frontend{$camel_case_name}Model::get($lastParameter);
 
-        if (empty($this->record)) {
+        if (empty($this->record))
+        {
             $this->redirect(FrontendNavigation::getURL(404));
         }
 	}
@@ -111,8 +113,7 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
     private function getLastParameter()
     {
         $numberOfParameters = count($this->URL->getParameters());
-        $lastParameter = $this->URL->getParameter($numberOfParameters - 1);
-        return $lastParameter;
+        return $this->URL->getParameter($numberOfParameters - 1);
     }
 
 }
