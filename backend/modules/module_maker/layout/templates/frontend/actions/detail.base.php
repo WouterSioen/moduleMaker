@@ -41,8 +41,7 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 		if (empty($lastParameter)) {
 			$this->redirect(FrontendNavigation::getURL(404));
 		}
-		$this->record = Frontend{
-		$camel_case_name}Model::get($lastParameter);
+		$this->record = Frontend{$camel_case_name}Model::get($lastParameter);
 
 		if (empty($this->record)) {
 			$this->redirect(FrontendNavigation::getURL(404));
