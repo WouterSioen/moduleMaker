@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\ModuleMaker\Ajax;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,14 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\AjaxAction;
+
 /**
  * Renders a field
  *
  * @author Wouter Sioen <wouter.sioen@wijs.be>
  */
-class BackendModuleMakerAjaxRenderField extends BackendBaseAJAXAction
+class BackendModuleMakerAjaxRenderField extends AjaxAction
 {
 	/**
 	 * Execute the action

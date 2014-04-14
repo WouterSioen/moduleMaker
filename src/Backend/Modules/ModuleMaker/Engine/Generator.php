@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\ModuleMaker\Engine;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -13,7 +15,7 @@
  * @author Wouter Sioen <wouter.sioen@gmail.com>
  * @author Arend Pijls <arend.pijls@wijs.be>
  */
-class BackendModuleMakerGenerator
+class Generator
 {
 	/**
 	 * Generates a part of the add/edit action that builds the item

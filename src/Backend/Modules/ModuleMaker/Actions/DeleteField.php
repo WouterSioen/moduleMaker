@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\ModuleMaker\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,14 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\ActionDelete;
+
 /**
  * This action will delete an field from the current record
  *
  * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
-class BackendModuleMakerDeleteField extends BackendBaseActionDelete
+class DeleteField extends ActionDelete
 {
 	/**
 	 * Execute the action

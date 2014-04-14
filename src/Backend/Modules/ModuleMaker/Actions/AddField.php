@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\ModuleMaker\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,14 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\ActionAdd;
+
 /**
  * This is the add field-action, it will display a form to create a new field
  *
  * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
-class BackendModuleMakerAddField extends BackendBaseActionAdd
+class AddField extends ActionAdd
 {
 	/**
 	 * The module we're working on

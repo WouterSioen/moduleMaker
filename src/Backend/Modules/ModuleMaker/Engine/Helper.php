@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\ModuleMaker\Engine;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -12,7 +14,7 @@
  *
  * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
-class BackendModuleMakerHelper
+class Helper
 {
 	/**
 	 * Creates a valid class name

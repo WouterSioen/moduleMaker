@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\ModuleMaker\Installer;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,14 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Installer\ModuleInstaller;
+
 /**
  * Installer for the module_maker module
  *
  * @author Wouter Sioen <wouter.sioen@wijs.be>
  */
-class ModuleMakerInstaller extends ModuleInstaller
+class Installer extends ModuleInstaller
 {
 	public function install()
 	{

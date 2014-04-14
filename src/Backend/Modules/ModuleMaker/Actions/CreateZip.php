@@ -1,5 +1,9 @@
 <?php
 
+namespace Backend\Modules\ModuleMaker\Actions;
+
+use Backend\Core\Engine\Base\ActionIndex;
+
 /**
  * This is the modules-action, it will display the overview of modules.
  *
@@ -7,7 +11,7 @@
  * @author Jelmer Snoeck <jelmer.snoeck@netlash.com>
  * @author Arend Pijls <arend.pijls@wijs.be>
  */
-class BackendModuleMakerCreateZip extends BackendBaseActionIndex
+class CreateZip extends ActionIndex
 {
 	/**
 	 * Data grids.

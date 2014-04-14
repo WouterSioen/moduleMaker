@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\ModuleMaker;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,45 +9,26 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\Config as BackendBaseConfig;
+
 /**
- * This is the configuration-object for the modulemaker module
+ * This is the configuration-object for the moduleMaker
  *
- * @author Wouter Sioen <wouter.sioen@wijs.be>
+ * @author Wouter Sioen <wouter.sioen@gmail.com>
  */
-final class BackendModuleMakerConfig extends BackendBaseConfig
+class Config extends BackendBaseConfig
 {
-	/**
-	 * The default action
-	 *
-	 * @var string
-	 */
-	protected $defaultAction = 'add';
+    /**
+     * The default action
+     *
+     * @var	string
+     */
+    protected $defaultAction = 'index';
 
-	/**
-	 * The disabled actions
-	 *
-	 * @var array
-	 */
-	protected $disabledActions = array();
-
-	/**
-	 * Check if all required settings have been set
-	 *
-	 * @param string $module The module.
-	 */
-	public function __construct($module)
-	{
-		parent::__construct($module);
-
-		$this->loadEngineFiles();
-	}
-
-	/**
-	 * Loads additional engine files
-	 */
-	private function loadEngineFiles()
-	{
-		require_once 'engine/helper.php';
-		require_once 'engine/generator.php';
-	}
+    /**
+     * The disabled actions
+     *
+     * @var	array
+     */
+    protected $disabledActions = array();
 }

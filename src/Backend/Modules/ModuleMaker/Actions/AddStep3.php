@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\ModuleMaker\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,14 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\ActionAdd;
+
 /**
  * This is the add step 3-action, it will display a form to add special fields to a module
  *
  * @author Wouter Sioen <wouter.sioen@wijs.be>
  */
-class BackendModuleMakerAddStep3 extends BackendBaseActionAdd
+class AddStep3 extends ActionAdd
 {
 	/**
 	 * The module we're working on

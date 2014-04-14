@@ -6,11 +6,11 @@
  */
 
 /**
- * Interaction for the modulemaker module
+ * Interaction for the moduleMaker module
  *
  * @author Wouter Sioen <wouter.sioen@wijs.be>
  */
-jsBackend.modulemaker =
+jsBackend.moduleMaker =
 {
 	// constructor
 	init: function()
@@ -18,12 +18,12 @@ jsBackend.modulemaker =
 		// do meta
 		if($('#title').length > 0) $('#title').doMeta();
 
-		jsBackend.modulemaker.tagBoxes();
-		jsBackend.modulemaker.toggleOptions();
-		jsBackend.modulemaker.toggleCaption();
-		jsBackend.modulemaker.toggleSearch();
-		jsBackend.modulemaker.toggleTwitter();
-		jsBackend.modulemaker.renderInit();
+		jsBackend.moduleMaker.tagBoxes();
+		jsBackend.moduleMaker.toggleOptions();
+		jsBackend.moduleMaker.toggleCaption();
+		jsBackend.moduleMaker.toggleSearch();
+		jsBackend.moduleMaker.toggleTwitter();
+		jsBackend.moduleMaker.renderInit();
 	},
 
 	// initializes tagBox
@@ -135,14 +135,14 @@ jsBackend.modulemaker =
 
 		if($txtLabel.length > 0 && $ddmType.length > 0 && $chkRequired.length > 0)
 		{
-			$txtLabel.on('change', jsBackend.modulemaker.render);
-			$ddmType.on('change', jsBackend.modulemaker.render);
+			$txtLabel.on('change', jsBackend.moduleMaker.render);
+			$ddmType.on('change', jsBackend.moduleMaker.render);
 			$('#addValue-tags').live('keyup', function(e) {
-				if(e.which == '13') jsBackend.modulemaker.render;
+				if(e.which == '13') jsBackend.moduleMaker.render;
 			});
-			$('.deleteButton-tags').live('click', jsBackend.modulemaker.render);
-			$('#addValue-tags').live('change', jsBackend.modulemaker.render);
-			$chkRequired.on('change', jsBackend.modulemaker.render);
+			$('.deleteButton-tags').live('click', jsBackend.moduleMaker.render);
+			$('#addValue-tags').live('change', jsBackend.moduleMaker.render);
+			$chkRequired.on('change', jsBackend.moduleMaker.render);
 		}
 	},
 
@@ -161,4 +161,4 @@ jsBackend.modulemaker =
 	}
 }
 
-$(jsBackend.modulemaker.init);
+$(jsBackend.moduleMaker.init);

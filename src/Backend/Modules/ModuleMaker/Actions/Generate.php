@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\ModuleMaker\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,13 +9,15 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\Action;
+
 /**
  * This is the Generate action
  *
  * @author Wouter Sioen <wouter.sioen@wijs.be>
  * @author Arend Pijls <arend.pijls@wijs.be>
  */
-class BackendModuleMakerGenerate extends BackendBaseAction
+class Generate extends Action
 {
 	/**
 	 * The module we're working on
