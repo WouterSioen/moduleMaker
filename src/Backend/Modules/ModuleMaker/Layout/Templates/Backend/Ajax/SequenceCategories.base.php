@@ -12,7 +12,7 @@ class Backend{$camel_case_name}AjaxSequenceCategories extends BackendBaseAJAXAct
 		parent::execute();
 
 		// get parameters
-		$newIdSequence = trim(SpoonFilter::getPostValue('new_id_sequence', null, '', 'string'));
+		$newIdSequence = trim(\SpoonFilter::getPostValue('new_id_sequence', null, '', 'string'));
 
 		// list id
 		$ids = (array) explode(',', rtrim($newIdSequence, ','));

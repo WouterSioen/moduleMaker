@@ -85,7 +85,7 @@ class Backend{$camel_case_name}Helper
 		// get fileSizes var from model
 		if(empty($fileSizes))
 		{
-			$model = get_class_vars('Backend' . SpoonFilter::toCamelCase($module) . 'Model');
+			$model = get_class_vars('Backend' . \SpoonFilter::toCamelCase($module) . 'Model');
 			$fileSizes = $model['fileSizes'];
 		}
 
@@ -94,9 +94,9 @@ class Backend{$camel_case_name}Helper
 
 		$sourceSource = FRONTEND_FILES_PATH . '/' . $module . (empty($currentSubDirectory) ? '/' : $currentSubDirectory . '/') . 'source/' . $currentFilename;
 		$sourceDestination = FRONTEND_FILES_PATH . '/' . $module . (empty($newSubDirectory) ? '/' : $newSubDirectory . '/') . 'source/' . $newFilename;
-		if(SpoonFile::exists($sourceSource))
+		if(\SpoonFile::exists($sourceSource))
 		{
-			SpoonFile::move($sourceSource, $sourceDestination);
+			\SpoonFile::move($sourceSource, $sourceDestination);
 		}
 
 		// loop all directories
@@ -104,14 +104,14 @@ class Backend{$camel_case_name}Helper
 		{
 			$source = FRONTEND_FILES_PATH . '/' . $module . (empty($currentSubDirectory) ? '/' : $currentSubDirectory . '/') . $sizeDir . '/' . $currentFilename;
 			$destination = FRONTEND_FILES_PATH . '/' . $module . (empty($newSubDirectory) ? '/' : $newSubDirectory . '/') . $sizeDir . '/' . $newFilename;
-			if(SpoonFile::exists($source))
+			if(\SpoonFile::exists($source))
 			{
-				SpoonFile::move($source, $destination);
+				\SpoonFile::move($source, $destination);
 			}
-			elseif($createMissingFromSource && SpoonFile::exists($sourceDestination))
+			elseif($createMissingFromSource && \SpoonFile::exists($sourceDestination))
 			{
 				// create a thumbnail
-				$thumbnail = new SpoonThumbnail(
+				$thumbnail = new \SpoonThumbnail(
 					$sourceDestination,
 					$fileSizes[$sizeDir]['width'],
 					$fileSizes[$sizeDir]['height']

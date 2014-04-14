@@ -3,7 +3,7 @@
 				$imagePath = FRONTEND_FILES_PATH . '/' . $this->getModule() . '/{$underscored_label}';
 
 				// create folders if needed
-{$create_folders}				if(!SpoonDirectory::exists($imagePath . '/source')) SpoonDirectory::create($imagePath . '/source');
+{$create_folders}				if(!\SpoonDirectory::exists($imagePath . '/source')) \SpoonDirectory::create($imagePath . '/source');
 
 				// image provided?
 				if($fields['{$underscored_label}']->isFilled())

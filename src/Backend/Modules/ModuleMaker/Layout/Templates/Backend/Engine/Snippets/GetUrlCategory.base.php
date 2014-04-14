@@ -8,7 +8,7 @@
 	 */
 	public static function getURLForCategory($url, $id = null)
 	{
-		$url = SpoonFilter::urlise((string) $url);
+		$url = \SpoonFilter::urlise((string) $url);
 		$db = BackendModel::getContainer()->get('database');
 
 		// new category

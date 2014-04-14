@@ -8,7 +8,7 @@
 	 */
 	public static function getURL($url, $id = null)
 	{
-		$url = SpoonFilter::urlise((string) $url);
+		$url = \SpoonFilter::urlise((string) $url);
 		$db = BackendModel::getContainer()->get('database');
 
 		// new item

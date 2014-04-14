@@ -11,7 +11,7 @@
 				// get images from the session
 				if(!empty($files))
 				{
-					$fromSession = SpoonSession::get('uploadedFiles');
+					$fromSession = \SpoonSession::get('uploadedFiles');
 					foreach($fromSession as $sImage)
 					{
 						// check if the file is available in the files array
@@ -41,5 +41,5 @@
 							'uploaded_images', Backend{$camel_case_name}Helper::$tempFileSizes
 						);
 					}
-					SpoonSession::delete('uploadedFiles');
+					\SpoonSession::delete('uploadedFiles');
 				}

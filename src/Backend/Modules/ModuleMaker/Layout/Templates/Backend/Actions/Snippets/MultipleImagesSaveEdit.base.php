@@ -38,7 +38,7 @@
 				// get images from the session
 				if(!empty($files))
 				{
-					$fromSession = SpoonSession::get('uploadedFiles');
+					$fromSession = \SpoonSession::get('uploadedFiles');
 
 					foreach($fromSession as $sImage)
 					{
@@ -69,5 +69,5 @@
 							'uploaded_images', Backend{$camel_case_name}Helper::$tempFileSizes
 						);
 					}
-					SpoonSession::delete('uploadedFiles');
+					\SpoonSession::delete('uploadedFiles');
 				}
