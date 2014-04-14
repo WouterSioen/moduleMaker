@@ -31,7 +31,7 @@ class AddField extends ActionAdd
 	public function execute()
 	{
 		// If step 1 isn't entered, redirect back to the first step of the wizard
-		$this->record = SpoonSession::get('module');
+		$this->record = \SpoonSession::get('module');
 		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('add'));
 
 		parent::execute();
@@ -179,7 +179,7 @@ class AddField extends ActionAdd
 			$fields['label']->isFilled(BL::err('FieldIsRequired'));
 
 			// get existing fields
-			$this->record = SpoonSession::get('module');
+			$this->record = \SpoonSession::get('module');
 			if(array_key_exists('fields', $this->record))
 			{
 				foreach($this->record['fields'] as $field)
@@ -283,7 +283,7 @@ class AddField extends ActionAdd
 				$this->record['fields'][] = $item;
 
 				// save
-				SpoonSession::set('module', $this->record);
+				\SpoonSession::set('module', $this->record);
 				$this->redirect(BackendModel::createURLForAction('add_step2'));
 			}
 		}

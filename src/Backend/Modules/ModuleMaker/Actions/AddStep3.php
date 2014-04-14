@@ -38,7 +38,7 @@ class AddStep3 extends ActionAdd
 	public function execute()
 	{
 		// If step 1 isn't entered, redirect back to the first step of the wizard
-		$this->record = SpoonSession::get('module');
+		$this->record = \SpoonSession::get('module');
 		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('add'));
 
 		// If there are no fields added, redirect back to the second step of the wizard
@@ -163,7 +163,7 @@ class AddStep3 extends ActionAdd
 				$this->record['multipleImages'] = ($frmFields['multiple_images']->isChecked());
 
 				// save the object in our session
-				SpoonSession::set('module', $this->record);
+				\SpoonSession::set('module', $this->record);
 				$this->redirect(BackendModel::createURLForAction('add_step4'));
 			}
 		}

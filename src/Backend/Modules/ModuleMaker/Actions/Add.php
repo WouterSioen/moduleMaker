@@ -44,7 +44,7 @@ class Add extends ActionAdd
 	 */
 	protected function loadForm()
 	{
-		$this->record = SpoonSession::get('module');
+		$this->record = \SpoonSession::get('module');
 
 		$this->frm = new BackendForm('add');
 		$this->frm->addText('title', $this->record ? $this->record['title'] : null, null, 'inputText title', 'inputTextError title');
@@ -95,7 +95,7 @@ class Add extends ActionAdd
 				$this->record['camel_case_name'] = BackendModuleMakerHelper::buildCamelCasedName($title);
 				$this->record['underscored_name'] = BackendModuleMakerHelper::buildUnderscoredName($title);
 
-				SpoonSession::set('module', $this->record);
+				\SpoonSession::set('module', $this->record);
 
 				$this->redirect(BackendModel::createURLForAction('add_step2'));
 			}

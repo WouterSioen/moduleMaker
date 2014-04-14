@@ -43,7 +43,7 @@ class Generate extends Action
 	public function execute()
 	{
 		// If step 1 isn't entered, redirect back to the first step of the wizard
-		$this->record = SpoonSession::get('module');
+		$this->record SpoonSession::get('module');
 		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('add'));
 
 		// If there are no fields added, redirect back to the second step of the wizard
@@ -603,6 +603,6 @@ class Generate extends Action
 	{
 		$this->tpl->assign('module', $this->record);
 
-		//SpoonSession::delete('module');
+		SpoonSession::delete('module');
 	}
 }

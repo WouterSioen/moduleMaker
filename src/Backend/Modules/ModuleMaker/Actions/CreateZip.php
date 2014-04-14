@@ -81,7 +81,7 @@ class CreateZip extends ActionIndex
 					readfile(PATH_WWW . '/' . $module . '.zip');
 
 					// delete temp file
-					Spoonfile::delete(PATH_WWW . '/' . $module . '.zip');
+					\Spoonfile::delete(PATH_WWW . '/' . $module . '.zip');
 					exit();
 				}
 			}
