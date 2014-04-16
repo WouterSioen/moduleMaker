@@ -21,22 +21,21 @@ class Installer extends ModuleInstaller
 	public function install()
 	{
 		// install the module in the database
-		$this->addModule('module_maker');
+		$this->addModule('ModuleMaker');
 
 		// install the locale, this is set here beceause we need the module for this
 		$this->importLocale(dirname(__FILE__) . '/data/locale.xml');
 
-		$this->setModuleRights(1, 'module_maker');
+		$this->setModuleRights(1, 'ModuleMaker');
 
-		$this->setActionRights(1, 'module_maker', 'add');
-		$this->setActionRights(1, 'module_maker', 'add_field');
-		$this->setActionRights(1, 'module_maker', 'add_step2');
-		$this->setActionRights(1, 'module_maker', 'add_step3');
-		$this->setActionRights(1, 'module_maker', 'add_step4');
-		$this->setActionRights(1, 'module_maker', 'generate');
-
-		// add extra's
-		$this->insertExtra('module_maker', 'block', 'Module_Maker', null, null, 'N', 1000);
+		$this->setActionRights(1, 'ModuleMaker', 'Add');
+		$this->setActionRights(1, 'ModuleMaker', 'AddField');
+		$this->setActionRights(1, 'ModuleMaker', 'AddStep2');
+		$this->setActionRights(1, 'ModuleMaker', 'AddStep3');
+		$this->setActionRights(1, 'ModuleMaker', 'AddStep4');
+		$this->setActionRights(1, 'ModuleMaker', 'CreateZip');
+		$this->setActionRights(1, 'ModuleMaker', 'DeleteField');
+		$this->setActionRights(1, 'ModuleMaker', 'Generate');
 
 		$navigationModulesId = $this->setNavigation(null, 'Modules');
 		$navigationModule_MakerId = $this->setNavigation($navigationModulesId, 'ModuleMaker');

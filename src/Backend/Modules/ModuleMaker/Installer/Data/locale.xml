@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <locale>
-	<backend>
-		<module_maker>
+	<Backend>
+		<ModuleMaker>
 			<item type="label" name="AddField">
 				<translation language="en"><![CDATA[add field]]></translation>
 				<translation language="nl"><![CDATA[veld toevoegen]]></translation>
@@ -162,16 +162,12 @@
 				<translation language="en"><![CDATA[The sizes should be in the format widthxheight (400x400).]]></translation>
 				<translation language="nl"><![CDATA[De groottes moeten in het formaat breedtexhoogte zijn (400x400).]]></translation>
 			</item>
-		</module_maker>
-		<core>
+		</ModuleMaker>
+		<Core>
 			<item type="label" name="ModuleMaker">
 				<translation language="nl"><![CDATA[modulemaker]]></translation>
 				<translation language="en"><![CDATA[modulemaker]]></translation>
 			</item>
-		</core>
-	</backend>
-	<frontend>
-		<core>
-		</core>
-	</frontend>
+		</Core>
+	</Backend>
 </locale>
