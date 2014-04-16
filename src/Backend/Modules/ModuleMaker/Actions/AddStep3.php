@@ -10,6 +10,7 @@ namespace Backend\Modules\ModuleMaker\Actions;
  */
 
 use Backend\Core\Engine\Base\ActionAdd;
+use Backend\Core\Engine\Form;
 
 /**
  * This is the add step 3-action, it will display a form to add special fields to a module
@@ -85,7 +86,7 @@ class AddStep3 extends ActionAdd
 		}
 
 		// create the form
-		$this->frm = new BackendForm('add_step3');
+		$this->frm = new Form('add_step3');
 		$this->frm->addCheckbox('meta', ($this->selectedMeta !== false));
 		$this->frm->addDropDown('meta_field', $fields, $this->selectedMeta);
 

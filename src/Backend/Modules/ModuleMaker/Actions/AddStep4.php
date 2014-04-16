@@ -10,6 +10,7 @@ namespace Backend\Modules\ModuleMaker\Actions;
  */
 
 use Backend\Core\Engine\Base\ActionAdd;
+use Backend\Core\Engine\Form;
 
 /**
  * This is the add step 4-action, it will display a form to add special fields to a module
@@ -51,7 +52,7 @@ class AddStep4 extends ActionAdd
 	 */
 	protected function loadForm()
 	{
-		$this->frm = new BackendForm('add_step4');
+		$this->frm = new Form('add_step4');
 		$this->frm->addCheckbox('twitter', array_key_exists('twitter', $this->record));
 		$this->frm->addText('twitter_name', array_key_exists('twitter', $this->record) ? $this->record['twitter'] : null);
 	}

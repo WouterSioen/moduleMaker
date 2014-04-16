@@ -10,6 +10,7 @@ namespace Backend\Modules\ModuleMaker\Actions;
  */
 
 use Backend\Core\Engine\Base\ActionAdd;
+use Backend\Core\Engine\Form;
 
 /**
  * This is the add field-action, it will display a form to create a new field
@@ -148,7 +149,7 @@ class AddField extends ActionAdd
 			'image' => 'image'
 		);
 
-		$this->frm = new BackendForm('add_field');
+		$this->frm = new Form('add_field');
 		$this->frm->addText('label', null, null, 'inputText title', 'inputTextError title');
 		$this->frm->addDropDown('type', $types, null);
 		$this->frm->addText('tags', null, null, 'inputText tagBox', 'inputTextError tagBox');

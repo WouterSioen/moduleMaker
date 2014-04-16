@@ -10,6 +10,7 @@ namespace Backend\Modules\ModuleMaker\Actions;
  */
 
 use Backend\Core\Engine\Base\ActionAdd;
+use Backend\Core\Engine\Form;
 
 /**
  * This is the add-action, it will display a form to create a new item
@@ -46,7 +47,7 @@ class Add extends ActionAdd
 	{
 		$this->record = \SpoonSession::get('module');
 
-		$this->frm = new BackendForm('add');
+		$this->frm = new Form('add');
 		$this->frm->addText('title', $this->record ? $this->record['title'] : null, null, 'inputText title', 'inputTextError title');
 		$this->frm->addTextArea('description', $this->record ? $this->record['description'] : null);
 		$this->frm->addText('author_name', $this->record ? $this->record['author_name'] : null);
