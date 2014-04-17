@@ -11,6 +11,10 @@ namespace Backend\Modules\ModuleMaker\Actions;
 
 use Backend\Core\Engine\Base\ActionAdd;
 use Backend\Core\Engine\Form;
+use Backend\Core\Engine\Language;
+use Backend\Core\Engine\Model;
+use Backend\Modules\Extensions\Engine\Model as BackendExtensionsModel;
+use Backend\Modules\ModuleMaker\Engine\Helper as BackendModuleMakerHelper;
 
 /**
  * This is the add-action, it will display a form to create a new item
@@ -74,17 +78,17 @@ class Add extends ActionAdd
 
 			// validation
 			$fields = $this->frm->getFields();
-			$fields['title']->isFilled(BL::err('TitleIsRequired'));
-			$fields['description']->isFilled(BL::err('FieldIsRequired'));
-			$fields['author_name']->isFilled(BL::err('FieldIsRequired'));
-			$fields['author_url']->isFilled(BL::err('FieldIsRequired'));
-			$fields['author_email']->isFilled(BL::err('FieldIsRequired'));
+			$fields['title']->isFilled(Language::err('TitleIsRequired'));
+			$fields['description']->isFilled(Language::err('FieldIsRequired'));
+			$fields['author_name']->isFilled(Language::err('FieldIsRequired'));
+			$fields['author_url']->isFilled(Language::err('FieldIsRequired'));
+			$fields['author_email']->isFilled(Language::err('FieldIsRequired'));
 
 			// cleanup the modulename
 			$title = preg_replace('/[^A-Za-z ]/', '', $fields['title']->getValue());
 
 			// check if there is already a module with this name
-			if(BackendExtensionsModel::existsModule($title)) $fields['title']->addError(BL::err('DuplicateModuleName'));
+			if(BackendExtensionsModel::existsModule($title)) $fields['title']->addError(Language::err('DuplicateModuleName'));
 
 			if($this->frm->isCorrect())
 			{
@@ -98,7 +102,7 @@ class Add extends ActionAdd
 
 				\SpoonSession::set('module', $this->record);
 
-				$this->redirect(BackendModel::createURLForAction('add_step2'));
+				$this->redirect(Model::createURLForAction('AddStep2'));
 			}
 		}
 	}
