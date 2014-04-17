@@ -85,8 +85,7 @@ class Helper
     public static function imageRename($module, $currentFilename, $newFilename, $newSubDirectory = '', $currentSubDirectory = '', $fileSizes = null, $createMissingFromSource = false)
     {
         // get fileSizes var from model
-        if(empty($fileSizes))
-        {
+        if (empty($fileSizes)) {
             $model = get_class_vars('Backend' . \SpoonFilter::toCamelCase($module) . 'Model');
             $fileSizes = $model['fileSizes'];
         }
@@ -96,22 +95,17 @@ class Helper
 
         $sourceSource = FRONTEND_FILES_PATH . '/' . $module . (empty($currentSubDirectory) ? '/' : $currentSubDirectory . '/') . 'source/' . $currentFilename;
         $sourceDestination = FRONTEND_FILES_PATH . '/' . $module . (empty($newSubDirectory) ? '/' : $newSubDirectory . '/') . 'source/' . $newFilename;
-        if(\SpoonFile::exists($sourceSource))
-        {
+        if (\SpoonFile::exists($sourceSource)) {
             \SpoonFile::move($sourceSource, $sourceDestination);
         }
 
         // loop all directories
-        foreach($directories as $sizeDir)
-        {
+        foreach ($directories as $sizeDir) {
             $source = FRONTEND_FILES_PATH . '/' . $module . (empty($currentSubDirectory) ? '/' : $currentSubDirectory . '/') . $sizeDir . '/' . $currentFilename;
             $destination = FRONTEND_FILES_PATH . '/' . $module . (empty($newSubDirectory) ? '/' : $newSubDirectory . '/') . $sizeDir . '/' . $newFilename;
-            if(\SpoonFile::exists($source))
-            {
+            if (\SpoonFile::exists($source)) {
                 \SpoonFile::move($source, $destination);
-            }
-            elseif($createMissingFromSource && \SpoonFile::exists($sourceDestination))
-            {
+            } elseif ($createMissingFromSource && \SpoonFile::exists($sourceDestination)) {
                 // create a thumbnail
                 $thumbnail = new \SpoonThumbnail(
                     $sourceDestination,

@@ -16,9 +16,10 @@
         );
 
         // loop items and unserialize
-        foreach($return as &$row)
-        {
-            if(isset($row['meta_data'])) $row['meta_data'] = @unserialize($row['meta_data']);
+        foreach ($return as &$row) {
+            if (isset($row['meta_data'])) {
+                $row['meta_data'] = @unserialize($row['meta_data']);
+            }
         }
 
         return $return;

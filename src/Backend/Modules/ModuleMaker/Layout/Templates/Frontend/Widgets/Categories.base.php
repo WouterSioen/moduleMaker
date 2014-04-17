@@ -39,13 +39,14 @@ class Categories extends Widget
         $categories = Frontend{$camel_case_name}Model::getAllCategories();
 
         // any categories?
-        if(!empty($categories))
-        {
+        if (!empty($categories)) {
             // build link
             $link = Navigation::getURLForBlock('{$camel_case_name}', 'category');
 
             // loop and reset url
-            foreach($categories as &$row) $row['url'] = $link . '/' . $row['url'];
+            foreach ($categories as &$row) {
+                $row['url'] = $link . '/' . $row['url'];
+            }
         }
 
         // assign comments

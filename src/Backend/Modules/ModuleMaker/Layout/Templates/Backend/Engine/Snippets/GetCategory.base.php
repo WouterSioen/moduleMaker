@@ -9,8 +9,7 @@
     {
         $db = BackendModel::get('database');
 
-        if($includeCount)
-        {
+        if ($includeCount) {
             return (array) $db->getPairs(
                 'SELECT i.id, CONCAT(i.title, " (",  COUNT(p.category_id) ,")") AS title
                  FROM {$underscored_name}_categories AS i

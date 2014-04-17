@@ -1,31 +1,27 @@
 
                 // get images from the hidden field
                 $files = array();
-                if($fields['uploaded_images']->isFilled())
-                {
+                if ($fields['uploaded_images']->isFilled()) {
                     $images = json_decode(html_entity_decode($fields['uploaded_images']->getValue()));
                     $uploadedImages = array();
-                    foreach($images as $image) $files[$image->id] = $image->uploadName;
+                    foreach ($images as $image) {
+                        $files[$image->id] = $image->uploadName;
+                    }
                 }
 
                 // check existing images first
-                foreach($this->record['images'] as $key => $image)
-                {
+                foreach ($this->record['images'] as $key => $image) {
                     // if the file isn't in the uploaded files array anymore, delete it
-                    if(!array_key_exists('_' . $key, $files))
-                    {
+                    if (!array_key_exists('_' . $key, $files)) {
                         Backend{$camel_case_name}Model::deleteImage($key);
                         Model::imageDelete(
                             $this->getModule(), $image['uploadName'], null,
                             Backend{$camel_case_name}Helper::$tempFileSizes
                         );
-                    }
-                    else
-                    {
+                    } else {
                         // update the sequence if it changed
                         $underscored = '_' . $key;
-                        if($this->record['images'][$key]['sequence'] != $images->$underscored->sequence)
-                        {
+                        if ($this->record['images'][$key]['sequence'] != $images->$underscored->sequence){
                             Backend{$camel_case_name}Model::updateImage(array(
                                 'id' => $key,
                                 'sequence' => $images->$underscored->sequence
@@ -36,15 +32,12 @@
                 }
 
                 // get images from the session
-                if(!empty($files))
-                {
+                if (!empty($files)) {
                     $fromSession = \SpoonSession::get('uploadedFiles');
 
-                    foreach($fromSession as $sImage)
-                    {
+                    foreach ($fromSession as $sImage) {
                         // check if the file is available in the files array
-                        if(in_array($sImage['uploadName'], $files) && empty($sImage['warning']))
-                        {
+                        if (in_array($sImage['uploadName'], $files) && empty($sImage['warning'])) {
                             $uploadedImages[] = $sImage['uploadName'];
                             Backend{$camel_case_name}Helper::imageRename(
                                 $this->getModule(),

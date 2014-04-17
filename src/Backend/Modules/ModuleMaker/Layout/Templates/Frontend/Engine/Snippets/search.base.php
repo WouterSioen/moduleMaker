@@ -24,8 +24,7 @@
         $detailUrl = Navigation::getURLForBlock('{$camel_case_name}', 'detail');
 
         // prepare items for search
-        foreach($items as &$item)
-        {
+        foreach ($items as &$item) {
             $item['full_url'] = $detailUrl . '/' . $item['url'];
         }
 

@@ -72,17 +72,16 @@ class Upload extends AjaxAction
         $result['num'] = $numChunks;
         $result['index'] = $chunkIndex;
 
-        if($chunkIndex === ($numChunks - 1))
-        {
+        if ($chunkIndex === ($numChunks - 1)) {
             // To return a name used for uploaded file you can use the following line.
             $result['uploadName'] = $uploader->getUploadName();
             $result['uploadURL'] = $uploadURL;
             $result['originalFileName'] = TemplateModifiers::truncate($uploader->getName(), 40);
 
             // is svg?
-            if($fileExtension === 'svg') $result['isSvg'] = true;
-            else
-            {
+            if ($fileExtension === 'svg') {
+                $result['isSvg'] = true;
+            } else {
                 $result['isSvg'] = false;
 
                 // increase memory limit. parseToFile fails on big images
@@ -94,8 +93,11 @@ class Upload extends AjaxAction
                 $thumbnail->parseToFile($uploadPath . '/100x100/' . $fileName);
             }
 
-            if(\SpoonSession::exists('uploadedFiles')) $uploadedFiles = \SpoonSession::get('uploadedFiles');
-            else $uploadedFiles = array();
+            if (\SpoonSession::exists('uploadedFiles')) {
+                $uploadedFiles = \SpoonSession::get('uploadedFiles');
+            } else {
+                $uploadedFiles = array();
+            }
 
             $uploadedFiles[] = $result;
             \SpoonSession::set('uploadedFiles', $uploadedFiles);

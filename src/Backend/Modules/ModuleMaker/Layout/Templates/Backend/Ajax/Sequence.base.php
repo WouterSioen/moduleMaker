@@ -23,13 +23,14 @@ class Sequence extends AjaxAction
         $ids = (array) explode(',', rtrim($newIdSequence, ','));
 
         // loop id's and set new sequence
-        foreach($ids as $i => $id)
-        {
+        foreach ($ids as $i => $id) {
             $item['id'] = $id;
             $item['sequence'] = $i + 1;
 
             // update sequence
-            if(Backend{$camel_case_name}Model::exists($id)) Backend{$camel_case_name}Model::update($item);
+            if (Backend{$camel_case_name}Model::exists($id)) {
+                Backend{$camel_case_name}Model::update($item);
+            }
         }
 
         // success output

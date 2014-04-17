@@ -39,7 +39,9 @@ class Model
         );
 
         // no results?
-        if(empty($item)) return array();
+        if (empty($item)) {
+            return array();
+        }
 
         // create full url
         $item['full_url'] = Navigation::getURLForBlock('{$camel_case_name}', 'detail') . '/' . $item['url'];
@@ -65,14 +67,15 @@ class Model
             array(FRONTEND_LANGUAGE, (int) $offset, (int) $limit));
 
         // no results?
-        if(empty($items)) return array();
+        if (empty($items)) {
+            return array();
+        }
 
         // get detail action url
         $detailUrl = Navigation::getURLForBlock('{$camel_case_name}', 'detail');
 
         // prepare items for search
-        foreach($items as &$item)
-        {
+        foreach ($items as &$item) {
             $item['full_url'] =  $detailUrl . '/' . $item['url'];
         }
 

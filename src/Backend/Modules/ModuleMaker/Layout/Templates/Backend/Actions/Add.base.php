@@ -63,16 +63,14 @@ class Add extends ActionAdd
      */
     protected function validateForm()
     {
-        if($this->frm->isSubmitted())
-        {
+        if ($this->frm->isSubmitted()) {
             $this->frm->cleanupFields();
 
             // validation
             $fields = $this->frm->getFields();
 
 {$validate_form_add}
-            if($this->frm->isCorrect())
-            {
+            if ($this->frm->isCorrect()) {
                 // build the item
                 $item['language'] = Language::getWorkingLanguage();
 {$build_item_add}

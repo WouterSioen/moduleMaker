@@ -28,8 +28,7 @@ class DeleteCategory extends ActionDelete
         $this->id = $this->getParameter('id', 'int');
 
         // does the item exist
-        if($this->id == null || !Backend{$camel_case_name}Model::existsCategory($this->id))
-        {
+        if ($this->id == null || !Backend{$camel_case_name}Model::existsCategory($this->id)) {
             $this->redirect(
                 Model::createURLForAction('categories') . '&error=non-existing'
             );

@@ -1,5 +1,4 @@
-            if($fields['{$underscored_label}']->isFilled())
-            {
+            if ($fields['{$underscored_label}']->isFilled()) {
                 $fields['{$underscored_label}']->isAllowedExtension(
                     array('jpg', 'png', 'gif', 'jpeg'),
                     Language::err('JPGGIFAndPNGOnly')

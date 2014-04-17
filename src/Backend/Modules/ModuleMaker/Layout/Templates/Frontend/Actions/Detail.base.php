@@ -45,14 +45,12 @@ class Detail extends Block
     private function getData()
     {
         $lastParameter = $this->getLastParameter();
-        if (empty($lastParameter))
-        {
+        if (empty($lastParameter)) {
             $this->redirect(Navigation::getURL(404));
         }
         $this->record = Frontend{$camel_case_name}Model::get($lastParameter);
 
-        if (empty($this->record))
-        {
+        if (empty($this->record)) {
             $this->redirect(Navigation::getURL(404));
         }
     }
@@ -97,14 +95,12 @@ class Detail extends Block
         $this->header->addMetaKeywords($this->record['meta_keywords'], ($this->record['meta_keywords_overwrite'] == 'Y'));
 
         // advanced SEO-attributes
-        if(isset($this->record['meta_data']['seo_index']))
-        {
+        if (isset($this->record['meta_data']['seo_index'])) {
             $this->header->addMetaData(
                 array('name' => 'robots', 'content' => $this->record['meta_data']['seo_index'])
             );
         }
-        if(isset($this->record['meta_data']['seo_follow']))
-        {
+        if (isset($this->record['meta_data']['seo_follow'])) {
             $this->header->addMetaData(
                 array('name' => 'robots', 'content' => $this->record['meta_data']['seo_follow'])
             );

@@ -3,11 +3,12 @@
                 $filePath = FRONTEND_FILES_PATH . '/' . $this->getModule() . '/files';
 
                 // create folders if needed
-                if(!\SpoonDirectory::exists($filePath)) \SpoonDirectory::create($filePath);
+                if (!\SpoonDirectory::exists($filePath)) {
+                    \SpoonDirectory::create($filePath);
+                }
 
                 // file provided?
-                if($fields['{$underscored_label}']->isFilled())
-                {
+                if ($fields['{$underscored_label}']->isFilled()) {
                     // build the file name
 
                     /**

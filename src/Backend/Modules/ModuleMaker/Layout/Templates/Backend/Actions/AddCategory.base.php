@@ -54,16 +54,14 @@ class AddCategory extends ActionAdd
      */
     private function validateForm()
     {
-        if($this->frm->isSubmitted())
-        {
+        if ($this->frm->isSubmitted()) {
             $this->frm->cleanupFields();
 
             // validate fields
             $this->frm->getField('title')->isFilled(Language::err('TitleIsRequired'));
             $this->meta->validate();
 
-            if($this->frm->isCorrect())
-            {
+            if ($this->frm->isCorrect()) {
                 // build item
                 $item['title'] = $this->frm->getField('title')->getValue();
                 $item['language'] = Language::getWorkingLanguage();

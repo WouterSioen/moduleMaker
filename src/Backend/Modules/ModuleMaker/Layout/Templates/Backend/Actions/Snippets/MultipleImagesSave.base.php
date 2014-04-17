@@ -1,22 +1,20 @@
 
                 // get images from the hidden field
                 $files = array();
-                if($fields['uploaded_images']->isFilled())
-                {
+                if ($fields['uploaded_images']->isFilled()) {
                     $images = json_decode(html_entity_decode($fields['uploaded_images']->getValue()));
                     $uploadedImages = array();
-                    foreach($images as $image) $files[$image->id] = $image->uploadName;
+                    foreach ($images as $image) {
+                        $files[$image->id] = $image->uploadName;
+                    }
                 }
 
                 // get images from the session
-                if(!empty($files))
-                {
+                if (!empty($files)) {
                     $fromSession = \SpoonSession::get('uploadedFiles');
-                    foreach($fromSession as $sImage)
-                    {
+                    foreach ($fromSession as $sImage) {
                         // check if the file is available in the files array
-                        if(in_array($sImage['uploadName'], $files) && empty($sImage['warning']))
-                        {
+                        if (in_array($sImage['uploadName'], $files) && empty($sImage['warning'])) {
                             $uploadedImages[] = $sImage['uploadName'];
                             Backend{$camel_case_name}Helper::imageRename(
                                 $this->getModule(),

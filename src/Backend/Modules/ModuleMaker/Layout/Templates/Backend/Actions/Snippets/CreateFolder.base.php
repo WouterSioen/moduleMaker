@@ -1,1 +1,3 @@
-                if(!\SpoonDirectory::exists($imagePath . '/{$option}')) \SpoonDirectory::create($imagePath . '/{$option}');
+                if (!\SpoonDirectory::exists($imagePath . '/{$option}')) {
+                    \SpoonDirectory::create($imagePath . '/{$option}');
+                }

@@ -47,8 +47,7 @@ class Edit extends ActionEdit
     protected function loadData()
     {
         $this->id = $this->getParameter('id', 'int', null);
-        if($this->id == null || !Backend{$camel_case_name}Model::exists($this->id))
-        {
+        if ($this->id == null || !Backend{$camel_case_name}Model::exists($this->id)) {
             $this->redirect(
                 Model::createURLForAction('index') . '&error=non-existing'
             );
@@ -83,16 +82,14 @@ class Edit extends ActionEdit
      */
     protected function validateForm()
     {
-        if($this->frm->isSubmitted())
-        {
+        if ($this->frm->isSubmitted()) {
             $this->frm->cleanupFields();
 
             // validation
             $fields = $this->frm->getFields();
 
 {$validate_form_edit}
-            if($this->frm->isCorrect())
-            {
+            if ($this->frm->isCorrect()) {
                 $item['id'] = $this->id;
                 $item['language'] = Language::getWorkingLanguage();
 

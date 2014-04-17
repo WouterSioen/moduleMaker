@@ -18,8 +18,7 @@
 
         $url = FRONTEND_FILES_URL . '/{$underscored_name}';
 
-        foreach($images as &$image)
-        {
+        foreach ($images as &$image) {
             $image['uploadURL'] = $url;
             $image['uploadName'] = $image['name'];
             $image['warning'] = '';

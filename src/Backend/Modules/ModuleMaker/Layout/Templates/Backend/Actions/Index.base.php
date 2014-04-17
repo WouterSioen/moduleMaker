@@ -52,8 +52,7 @@ class Index extends ActionIndex
         );
 {$sequence_extra}
         // check if this action is allowed
-        if(Authentication::isAllowedAction('edit'))
-        {
+        if (Authentication::isAllowedAction('edit')) {
             $this->dataGrid->addColumn(
                 'edit', null, Language::lbl('Edit'),
                 Model::createURLForAction('edit') . '&amp;id=[id]',

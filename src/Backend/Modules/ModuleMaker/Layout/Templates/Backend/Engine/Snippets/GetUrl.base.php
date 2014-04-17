@@ -12,33 +12,27 @@
         $db = BackendModel::get('database');
 
         // new item
-        if($id === null)
-        {
+        if ($id === null) {
             // already exists
-            if((bool) $db->getVar(
+            if ((bool) $db->getVar(
                 'SELECT 1
                  FROM {$underscored_name} AS i
                  INNER JOIN meta AS m ON i.meta_id = m.id
                  WHERE i.language = ? AND m.url = ?
                  LIMIT 1',
-                array(Language::getWorkingLanguage(), $url)))
-            {
+                array(Language::getWorkingLanguage(), $url))) {
                 $url = BackendModel::addNumber($url);
                 return self::getURL($url);
             }
-        }
-        // current item should be excluded
-        else
-        {
-            // already exists
-            if((bool) $db->getVar(
+        } else {
+            // current item should be excluded
+            if ((bool) $db->getVar(
                 'SELECT 1
                  FROM {$underscored_name} AS i
                  INNER JOIN meta AS m ON i.meta_id = m.id
                  WHERE i.language = ? AND m.url = ? AND i.id != ?
                  LIMIT 1',
-                array(Language::getWorkingLanguage(), $url, $id)))
-            {
+                array(Language::getWorkingLanguage(), $url, $id))) {
                 $url = BackendModel::addNumber($url);
                 return self::getURL($url, $id);
             }

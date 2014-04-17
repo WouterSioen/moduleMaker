@@ -58,11 +58,15 @@ class Category extends Block
      */
     private function getData()
     {
-        if($this->URL->getParameter(0) === null) $this->redirect(Navigation::getURL(404));
+        if ($this->URL->getParameter(0) === null) {
+            $this->redirect(Navigation::getURL(404));
+        }
 
         // get category
         $this->category = Frontend{$camel_case_name}Model::getCategory($this->URL->getParameter(0));
-        if(empty($this->category)) $this->redirect(Navigation::getURL(404));
+        if (empty($this->category)) {
+            $this->redirect(Navigation::getURL(404));
+        }
 
         // requested page
         $requestedPage = $this->URL->getParameter('page', 'int', 1);
@@ -77,11 +81,12 @@ class Category extends Block
         $this->pagination['num_pages'] = (int) ceil($this->pagination['num_items'] / $this->pagination['limit']);
 
         // num pages is always equal to at least 1
-        if($this->pagination['num_pages'] == 0) $this->pagination['num_pages'] = 1;
+        if ($this->pagination['num_pages'] == 0) {
+            $this->pagination['num_pages'] = 1;
+        }
 
         // redirect if the request page doesn't exist
-        if($requestedPage > $this->pagination['num_pages'] || $requestedPage < 1)
-        {
+        if ($requestedPage > $this->pagination['num_pages'] || $requestedPage < 1) {
             $this->redirect(Navigation::getURL(404));
         }
 
@@ -115,14 +120,12 @@ class Category extends Block
         $this->header->addMetaKeywords($this->category['meta_keywords'], ($this->category['meta_keywords_overwrite'] == 'Y'));
 
         // advanced SEO-attributes
-        if(isset($this->category['meta_data']['seo_index']))
-        {
+        if (isset($this->category['meta_data']['seo_index'])) {
             $this->header->addMetaData(
                 array('name' => 'robots', 'content' => $this->category['meta_data']['seo_index'])
             );
         }
-        if(isset($this->category['meta_data']['seo_follow']))
-        {
+        if (isset($this->category['meta_data']['seo_follow'])) {
             $this->header->addMetaData(
                 array('name' => 'robots', 'content' => $this->category['meta_data']['seo_follow'])
             );

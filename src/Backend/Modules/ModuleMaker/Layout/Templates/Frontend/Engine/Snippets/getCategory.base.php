@@ -19,7 +19,9 @@
         );
 
         // no results?
-        if(empty($item)) return array();
+        if (empty($item)) {
+            return array();
+        }
 
         // create full url
         $item['full_url'] = Navigation::getURLForBlock('{$camel_case_name}', 'category') . '/' . $item['url'];

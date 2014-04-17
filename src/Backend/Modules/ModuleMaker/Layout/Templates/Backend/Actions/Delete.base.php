@@ -28,8 +28,7 @@ class Delete extends ActionDelete
         $this->id = $this->getParameter('id', 'int');
 
         // does the item exist
-        if($this->id !== null && Backend{$camel_case_name}Model::exists($this->id))
-        {
+        if ($this->id !== null && Backend{$camel_case_name}Model::exists($this->id)) {
             parent::execute();
             $this->record = (array) Backend{$camel_case_name}Model::get($this->id);
 

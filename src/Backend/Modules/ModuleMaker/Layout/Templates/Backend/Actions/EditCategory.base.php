@@ -44,8 +44,7 @@ class EditCategory extends ActionEdit
     private function getData()
     {
         $this->id = $this->getParameter('id', 'int');
-        if($this->id == null || !Backend{$camel_case_name}Model::existsCategory($this->id))
-        {
+        if ($this->id == null || !Backend{$camel_case_name}Model::existsCategory($this->id)) {
             $this->redirect(
                 Model::createURLForAction('categories') . '&error=non-existing'
             );
@@ -83,16 +82,14 @@ class EditCategory extends ActionEdit
      */
     private function validateForm()
     {
-        if($this->frm->isSubmitted())
-        {
+        if ($this->frm->isSubmitted()) {
             $this->frm->cleanupFields();
 
             // validate fields
             $this->frm->getField('title')->isFilled(Language::err('TitleIsRequired'));
             $this->meta->validate();
 
-            if($this->frm->isCorrect())
-            {
+            if ($this->frm->isCorrect()) {
                 // build item
                 $item['id'] = $this->id;
                 $item['language'] = $this->record['language'];

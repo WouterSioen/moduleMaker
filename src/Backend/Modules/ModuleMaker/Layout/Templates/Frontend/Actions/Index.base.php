@@ -70,11 +70,10 @@ class Index extends Block
         $this->pagination['num_pages'] = (int) ceil($this->pagination['num_items'] / $this->pagination['limit']);
 
         // num pages is always equal to at least 1
-        if($this->pagination['num_pages'] == 0) $this->pagination['num_pages'] = 1;
+        if ($this->pagination['num_pages'] == 0) $this->pagination['num_pages'] = 1;
 
         // redirect if the request page doesn't exist
-        if($requestedPage > $this->pagination['num_pages'] || $requestedPage < 1)
-        {
+        if ($requestedPage > $this->pagination['num_pages'] || $requestedPage < 1) {
             $this->redirect(Navigation::getURL(404));
         }
 
