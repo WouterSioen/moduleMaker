@@ -1,5 +1,7 @@
 <?php
 
+namespace Frontend\Modules\{$camel_case_name};
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,19 +9,21 @@
  * file that was distributed with this source code.
  */
 
+use Frontend\Core\Engine\Base\Config as BaseConfig;
+
 /**
  * This is the configuration-object for the {$title} module
  *
  * @author {$author_name} <{$author_email}>
  */
-final class Frontend{$camel_case_name}Config extends FrontendBaseConfig
+final class Config extends BaseConfig
 {
 	/**
 	 * The default action
 	 *
 	 * @var string
 	 */
-	protected $defaultAction = 'index';
+	protected $defaultAction = 'Index';
 
 	/**
 	 * The disabled actions
