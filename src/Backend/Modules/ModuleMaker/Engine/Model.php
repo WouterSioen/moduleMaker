@@ -9,6 +9,8 @@ namespace Backend\Modules\ModuleMaker\Engine;
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Exception;
+
 /**
  * In this file we store all generic functions that we will be using in the modulemaker module
  *
@@ -30,7 +32,7 @@ class Model
 		foreach($dirs as $type => $dir)
 		{
 			// create a new dir if this is the main dir
-			if($type == 'main')
+			if($type === 'main')
 			{
 				mkdir($dir);
 				$mainDir = $dir . '/';

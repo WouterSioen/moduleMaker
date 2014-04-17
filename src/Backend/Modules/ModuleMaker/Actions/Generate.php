@@ -10,6 +10,9 @@ namespace Backend\Modules\ModuleMaker\Actions;
  */
 
 use Backend\Core\Engine\Base\Action;
+use Backend\Core\Engine\Model;
+use Backend\Modules\ModuleMaker\Engine\Model as BackendModuleMakerModel;
+use Backend\Modules\ModuleMaker\Engine\Generator as BackendModuleMakerGenerator;
 
 /**
  * This is the Generate action
@@ -28,9 +31,9 @@ class Generate extends Action
 
 	/**
 	 * Some variables used in multiple functions
-	 * $backendPath:		the path to the backend part of the module (string)
-	 * $frontendPath:		the path to the frontend part of the module (string)
-	 * $templatesPath		The path where our templates and snippets are stored (string)
+	 * $backendPath:		the path to the Backend part of the module (string)
+	 * $frontendPath:		the path to the Frontend part of the module (string)
+	 * $templatesPath		The path where our templates and Snippets are stored (string)
 	 * $variables:			A part of the records variable used for string replacement (array)
 	 * 
 	 * @var mixed
@@ -43,17 +46,17 @@ class Generate extends Action
 	public function execute()
 	{
 		// If step 1 isn't entered, redirect back to the first step of the wizard
-		$this->record SpoonSession::get('module');
-		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('add'));
+		$this->record = \SpoonSession::get('module');
+		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(Model::createURLForAction('Add'));
 
 		// If there are no fields added, redirect back to the second step of the wizard
-		if(!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(BackendModel::createURLForAction('add_step2'));
+		if(!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(Model::createURLForAction('AddStep2'));
 
 		parent::execute();
 
 		// initialize some variables
-		$this->backendPath = BACKEND_MODULES_PATH . '/' . $this->record['underscored_name'] . '/';
-		$this->frontendPath = FRONTEND_MODULES_PATH . '/' . $this->record['underscored_name'] . '/';
+		$this->backendPath = BACKEND_MODULES_PATH . '/' . $this->record['camel_case_name'] . '/';
+		$this->frontendPath = FRONTEND_MODULES_PATH . '/' . $this->record['camel_case_name'] . '/';
 		$this->variables = (array) $this->record;
 		unset($this->variables['fields']);
 
@@ -61,13 +64,13 @@ class Generate extends Action
 		$this->generateBaseFiles();
 		$this->generateInstallerFiles();
 
-		// backend
+		// Backend
 		$this->generateBackendFiles();
 		$this->generateBackendModel();
 		$this->generateBackendActions();
 		$this->generateBackendCategoryActions();
 
-		// frontend
+		// Frontend
 		$this->generateFrontendFiles();
 		$this->generateFrontendModel();
 		$this->generateFrontendActions();
@@ -79,7 +82,7 @@ class Generate extends Action
 	}
 
 	/**
-	 * Generates the backend actions (and templates) (index, add, edit and delete)
+	 * Generates the Backend Actions (and templates) (index, add, edit and delete)
 	 */
 	protected function generateBackendActions()
 	{
@@ -87,17 +90,17 @@ class Generate extends Action
 		if($this->record['useSequence'])
 		{
 			$this->variables['sequence_extra'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/actions/snippets/sequence.base.php'
+				'Backend/Actions/Snippets/Sequence.base.php'
 			);
 		}
 		$this->variables['meta_field'] = $this->record['fields'][(int) $this->record['metaField']]['underscored_label'];
 
 		// generate index
 		BackendModuleMakerGenerator::generateFile(
-			'backend/actions/index.base.php', $this->variables, $this->backendPath . 'actions/index.php'
+			'Backend/Actions/Index.base.php', $this->variables, $this->backendPath . 'Actions/Index.php'
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'backend/layout/templates/index.base.tpl', $this->variables, $this->backendPath . 'layout/templates/index.tpl'
+			'Backend/Layout/Templates/Index.base.tpl', $this->variables, $this->backendPath . 'Layout/Templates/Index.tpl'
 		);
 
 		// generate add action
@@ -108,7 +111,7 @@ class Generate extends Action
 		$this->variables['search_index'] = BackendModuleMakerGenerator::generateSearchIndex($this->record);
 		$this->variables['save_tags'] = BackendModuleMakerGenerator::generateSaveTags($this->record);
 		$this->variables['parse_meta'] = BackendModuleMakerGenerator::generateSnippet(
-			'backend/actions/snippets/parse_meta.base.php'
+			'Backend/Actions/Snippets/ParseMeta.base.php'
 		);
 
 		// get variables for multiple images
@@ -116,7 +119,7 @@ class Generate extends Action
 
 		// build and save the file
 		BackendModuleMakerGenerator::generateFile(
-			'backend/actions/add.base.php', $this->variables, $this->backendPath . 'actions/add.php'
+			'Backend/Actions/Add.base.php', $this->variables, $this->backendPath . 'Actions/Add.php'
 		);
 
 		// generate add template
@@ -126,7 +129,7 @@ class Generate extends Action
 
 		// build and save the file
 		BackendModuleMakerGenerator::generateFile(
-			'backend/layout/templates/add.base.tpl', $this->variables, $this->backendPath . 'layout/templates/add.tpl'
+			'Backend/Layout/Templates/Add.base.tpl', $this->variables, $this->backendPath . 'Layout/Templates/Add.tpl'
 		);
 
 		// generate edit action
@@ -142,18 +145,18 @@ class Generate extends Action
 
 		// build and save the file
 		BackendModuleMakerGenerator::generateFile(
-			'backend/actions/edit.base.php', $this->variables, $this->backendPath . 'actions/edit.php'
+			'Backend/Actions/Edit.base.php', $this->variables, $this->backendPath . 'Actions/Edit.php'
 		);
 
 		// generate edit template
 		list($this->variables['template_title'], $this->variables['template'], $this->variables['template_side']) = BackendModuleMakerGenerator::generateTemplate($this->record, true);
 		BackendModuleMakerGenerator::generateFile(
-			'backend/layout/templates/edit.base.tpl', $this->variables, $this->backendPath . 'layout/templates/edit.tpl'
+			'Backend/Layout/Templates/Edit.base.tpl', $this->variables, $this->backendPath . 'Layout/Templates/Edit.tpl'
 		);
 
 		// generate delete
 		BackendModuleMakerGenerator::generateFile(
-			'backend/actions/delete.base.php', $this->variables, $this->backendPath . 'actions/delete.php'
+			'Backend/Actions/Delete.base.php', $this->variables, $this->backendPath . 'Actions/Delete.php'
 		);
 
 		// unset the custom variables
@@ -169,7 +172,7 @@ class Generate extends Action
 	}
 
 	/**
-	 * Generates the backend category actions (and templates) (categories, add_category, edit_category and delete_category)
+	 * Generates the Backend category Actions (and templates) (categories, add_category, edit_category and delete_category)
 	 */
 	protected function generateBackendCategoryActions()
 	{
@@ -177,36 +180,36 @@ class Generate extends Action
 
 		// generate categories
 		BackendModuleMakerGenerator::generateFile(
-			'backend/actions/categories.base.php', $this->variables, $this->backendPath . 'actions/categories.php'
+			'Backend/Actions/Categories.base.php', $this->variables, $this->backendPath . 'Actions/Categories.php'
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'backend/layout/templates/categories.base.tpl', $this->variables, $this->backendPath . 'layout/templates/categories.tpl'
+			'Backend/Layout/Templates/Categories.base.tpl', $this->variables, $this->backendPath . 'Layout/Templates/Categories.tpl'
 		);
 
 		// generate add_category
 		BackendModuleMakerGenerator::generateFile(
-			'backend/actions/add_category.base.php', $this->variables, $this->backendPath . 'actions/add_category.php'
+			'Backend/Actions/AddCategory.base.php', $this->variables, $this->backendPath . 'Actions/AddCategory.php'
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'backend/layout/templates/add_category.base.tpl', $this->variables, $this->backendPath . 'layout/templates/add_category.tpl'
+			'Backend/Layout/Templates/AddCategory.base.tpl', $this->variables, $this->backendPath . 'Layout/Templates/AddCategory.tpl'
 		);
 
 		// generate edit_category
 		BackendModuleMakerGenerator::generateFile(
-			'backend/actions/edit_category.base.php', $this->variables, $this->backendPath . 'actions/edit_category.php'
+			'Backend/Actions/EditCategory.base.php', $this->variables, $this->backendPath . 'Actions/EditCategory.php'
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'backend/layout/templates/edit_category.base.tpl', $this->variables, $this->backendPath . 'layout/templates/edit_category.tpl'
+			'Backend/Layout/Templates/EditCategory.base.tpl', $this->variables, $this->backendPath . 'Layout/Templates/EditCategory.tpl'
 		);
 
 		// generate delete_category
 		BackendModuleMakerGenerator::generateFile(
-			'backend/actions/delete_category.base.php', $this->variables, $this->backendPath . 'actions/delete_category.php'
+			'Backend/Actions/DeleteCategory.base.php', $this->variables, $this->backendPath . 'Actions/DeleteCategory.php'
 		);
 	}
 
 	/**
-	 * Generates the backend files (module.js, sequence.php)
+	 * Generates the Backend files (module.js, sequence.php)
 	 */
 	protected function generateBackendFiles()
 	{
@@ -214,62 +217,62 @@ class Generate extends Action
 		if($this->record['multipleImages'])
 		{
 			$this->variables['multiJs'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/js/snippets/multifiles.base.js', $this->variables
+				'Backend/Js/Snippets/Multifiles.base.js', $this->variables
 			);
 		}
 		else $this->variables['multiJs'] = '';
 		$this->variables['do_meta'] = BackendModuleMakerGenerator::generateSnippet(
-			'backend/js/snippets/do_meta.base.js', $this->record['fields'][$this->record['metaField']]
+			'Backend/Js/Snippets/DoMeta.base.js', $this->record['fields'][$this->record['metaField']]
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'backend/js/javascript.base.js', $this->variables, $this->backendPath . 'js/' . $this->record['underscored_name'] . '.js'
+			'Backend/Js/Javascript.base.js', $this->variables, $this->backendPath . 'js/' . $this->record['underscored_name'] . '.js'
 		);
 		unset($this->variables['multiJs'], $this->variables['do_meta']);
 
-		// add a sequence ajax action if necessary
+		// add a sequence Ajax action if necessary
 		if($this->record['useSequence'])
 		{
 			BackendModuleMakerGenerator::generateFile(
-				'backend/ajax/sequence.base.php', $this->variables, $this->backendPath . 'ajax/sequence.php'
+				'Backend/Ajax/Sequence.base.php', $this->variables, $this->backendPath . 'Ajax/Sequence.php'
 			);
 		}
 
-		// add a sequence categories ajax action if necessary
+		// add a sequence categories Ajax action if necessary
 		if($this->record['useCategories'])
 		{
 			BackendModuleMakerGenerator::generateFile(
-				'backend/ajax/sequence_categories.base.php', $this->variables, $this->backendPath . 'ajax/sequence_categories.php'
+				'Backend/Ajax/SequenceCategories.base.php', $this->variables, $this->backendPath . 'Ajax/SequenceCategories.php'
 			);
 		}
 
-		// add an upload ajax action if necessary
+		// add an upload Ajax action if necessary
 		if($this->record['multipleImages'])
 		{
 			BackendModuleMakerGenerator::generateFile(
-				'backend/ajax/upload.base.php', $this->variables, $this->backendPath . 'ajax/upload.php'
+				'Backend/Ajax/Upload.base.php', $this->variables, $this->backendPath . 'Ajax/Upload.php'
 			);
 		}
 
 		// if we use the fineuploader, we should copy the needed js and css files
 		if($this->record['multipleImages'])
 		{
-			SpoonDirectory::copy(
-				BACKEND_MODULE_PATH . '/layout/templates/backend/js/fineuploader', $this->backendPath . 'js/fineuploader'
+			\SpoonDirectory::copy(
+				BACKEND_MODULE_PATH . '/Layout/Templates/Backend/Js/fineuploader', $this->backendPath . 'Js/fineuploader'
 			);
 			BackendModuleMakerGenerator::generateFile(
-				'backend/layout/css/fineuploader.css', null, $this->backendPath . 'layout/css/fineuploader.css'
+				'Backend/Layout/Css/fineuploader.css', null, $this->backendPath . 'Layout/Css/fineuploader.css'
 			);
 		}
 	}
 
 	/**
-	 * Generates the backend model.php file
+	 * Generates the Backend model.php file
 	 */
 	protected function generateBackendModel()
 	{
 		// add the createURL function
 		$this->variables['get_url'] = BackendModuleMakerGenerator::generateSnippet(
-			'backend/engine/snippets/get_url.base.php', $this->variables
+			'Backend/Engine/Snippets/GetUrl.base.php', $this->variables
 		);
 		$this->variables['meta_field'] = $this->record['fields'][(int) $this->record['metaField']]['underscored_label'];
 
@@ -277,7 +280,7 @@ class Generate extends Action
 		if($this->record['useSequence'])
 		{
 			$this->variables['get_max_sequence'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/get_max_sequence.base.php', $this->variables
+				'Backend/Engine/Snippets/GetMaxSequence.base.php', $this->variables
 			);
 		}
 		else $this->variables['get_max_sequence'] = '';
@@ -285,16 +288,16 @@ class Generate extends Action
 		if($this->record['multipleImages'])
 		{
 			$this->variables['insert_image'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/insert_image.base.php', $this->variables
+				'Backend/Engine/Snippets/InsertImage.base.php', $this->variables
 			);
 			$this->variables['update_image'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/update_image.base.php', $this->variables
+				'Backend/Engine/Snippets/UpdateImage.base.php', $this->variables
 			);
 			$this->variables['get_images'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/get_images.base.php', $this->variables
+				'Backend/Engine/Snippets/GetImages.base.php', $this->variables
 			);
 			$this->variables['delete_image'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/delete_image.base.php', $this->variables
+				'Backend/Engine/Snippets/DeleteImage.base.php', $this->variables
 			);
 		}
 		else $this->variables['insert_image'] = $this->variables['update_image'] = $this->variables['get_images'] = $this->variables['delete_image'] = '';
@@ -315,25 +318,25 @@ class Generate extends Action
 		if($this->record['useCategories'])
 		{
 			$this->variables['datagrid_categories'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/datagrid_categories.base.php', $this->variables
+				'Backend/Engine/Snippets/DatagridCategories.base.php', $this->variables
 			);
 			$this->variables['delete_category'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/delete_category.base.php', $this->variables
+				'Backend/Engine/Snippets/DeleteCategory.base.php', $this->variables
 			);
 			$this->variables['exists_category'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/exists_category.base.php', $this->variables
+				'Backend/Engine/Snippets/ExistsCategory.base.php', $this->variables
 			);
 			$this->variables['get_category'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/get_category.base.php', $this->variables
+				'Backend/Engine/Snippets/GetCategory.base.php', $this->variables
 			);
 			$this->variables['get_url_category'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/get_url_category.base.php', $this->variables
+				'Backend/Engine/Snippets/GetUrlCategory.base.php', $this->variables
 			);
 			$this->variables['insert_category'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/insert_category.base.php', $this->variables
+				'Backend/Engine/Snippets/InsertCategory.base.php', $this->variables
 			);
 			$this->variables['update_category'] = BackendModuleMakerGenerator::generateSnippet(
-				'backend/engine/snippets/update_category.base.php', $this->variables
+				'Backend/Engine/Snippets/UpdateCategory.base.php', $this->variables
 			);
 		}
 		else
@@ -345,7 +348,7 @@ class Generate extends Action
 
 		// generate the file
 		BackendModuleMakerGenerator::generateFile(
-			'backend/engine/model.base.php', $this->variables, $this->backendPath . 'engine/model.php'
+			'Backend/Engine/Model.base.php', $this->variables, $this->backendPath . 'Engine/Model.php'
 		);
 
 		unset(
@@ -358,7 +361,7 @@ class Generate extends Action
 		if($this->record['multipleImages'])
 		{
 			BackendModuleMakerGenerator::generateFile(
-				'backend/engine/helper.base.php', $this->variables, $this->backendPath . 'engine/helper.php'
+				'Backend/Engine/Helper.base.php', $this->variables, $this->backendPath . 'Engine/Helper.php'
 			);
 		}
 	}
@@ -370,17 +373,17 @@ class Generate extends Action
 	{
 		// generate info.xml file
 		BackendModuleMakerGenerator::generateFile(
-			'backend/info.base.xml', $this->variables, $this->backendPath . 'info.xml'
+			'Backend/info.base.xml', $this->variables, $this->backendPath . 'info.xml'
 		);
 
-		// generate config.php file for the backend
+		// generate config.php file for the Backend
 		BackendModuleMakerGenerator::generateFile(
-			'backend/config.base.php', $this->variables, $this->backendPath . 'config.php'
+			'Backend/Config.base.php', $this->variables, $this->backendPath . 'Config.php'
 		);
 
-		// generate config.php file for the frontend
+		// generate config.php file for the Frontend
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/config.base.php', $this->variables, $this->frontendPath . 'config.php'
+			'Frontend/Config.base.php', $this->variables, $this->frontendPath . 'Config.php'
 		);
 	}
 
@@ -389,35 +392,35 @@ class Generate extends Action
 	 */
 	protected function generateFolders()
 	{
-		// the backend
+		// the Backend
 		$backendDirs = array(
 			'main' => $this->backendPath,
 			'sub' => array(
-				'actions', 'ajax', 'js', 'cronjobs', 'engine',
-				'installer' => array('data'),
-				'layout' => array('templates', 'css')
+				'Actions', 'Ajax', 'Js', 'Cronjobs', 'Engine',
+				'Installer' => array('Data'),
+				'Layout' => array('Templates', 'Css')
 			)
 		);
 
-		// make the backend directories
+		// make the Backend directories
 		BackendModuleMakerModel::makeDirs($backendDirs);
 
-		// the frontend
+		// the Frontend
 		$frontendDirs = array(
 			'main' => $this->frontendPath,
 			'sub' => array(
-				'actions', 'engine', 'widgets',
-				'layout' => array('templates', 'widgets'),
-				'js'
+				'Actions', 'Engine', 'Widgets',
+				'Layout' => array('Templates', 'Widgets'),
+				'Js'
 			)
 		);
 
-		// make the frontend directories
+		// make the Frontend directories
 		BackendModuleMakerModel::makeDirs($frontendDirs);
 	}
 
 	/**
-	 * Generates the backend actions (and templates) (index, add, edit and delete)
+	 * Generates the Backend Actions (and templates) (index, add, edit and delete)
 	 */
 	protected function generateFrontendActions()
 	{
@@ -426,34 +429,34 @@ class Generate extends Action
 
 		// generate index
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/actions/index.base.php', $this->variables, $this->frontendPath . 'actions/index.php'
+			'Frontend/Actions/Index.base.php', $this->variables, $this->frontendPath . 'Actions/Index.php'
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/layout/templates/index.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/index.tpl'
+			'Frontend/Layout/templates/Index.base.tpl', $this->variables, $this->frontendPath . 'Layout/Templates/Index.tpl'
 		);
 
 		// create twittercard variable if necessary
 		if(array_key_exists('twitter', $this->record))
 		{
 			$this->variables['twitterCard'] = BackendModuleMakerGenerator::generateSnippet(
-				'frontend/actions/snippets/twittercard.base.php', $this->record
+				'Frontend/Actions/Snippets/Twittercard.base.php', $this->record
 			);
 		}
 		else $this->variables['twitterCard'] = '';
 
 		// generate detail
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/actions/detail.base.php', $this->variables, $this->frontendPath . 'actions/detail.php'
+			'Frontend/Actions/Detail.base.php', $this->variables, $this->frontendPath . 'Actions/Detail.php'
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/layout/templates/detail.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/detail.tpl'
+			'Frontend/Layout/Templates/Detail.base.tpl', $this->variables, $this->frontendPath . 'Layout/Templates/Detail.tpl'
 		);
 
 		unset($this->variables['pageTitle'], $this->variables['twitterCard']);
 	}
 
 	/**
-	 * Generates the frontend category action
+	 * Generates the Frontend category action
 	 */
 	protected function generateFrontendCategoryActions()
 	{
@@ -461,15 +464,15 @@ class Generate extends Action
 
 		// generate category action
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/actions/category.base.php', $this->variables, $this->frontendPath . 'actions/category.php'
+			'Frontend/Actions/Category.base.php', $this->variables, $this->frontendPath . 'Actions/Category.php'
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/layout/templates/category.base.tpl', $this->variables, $this->frontendPath . 'layout/templates/category.tpl'
+			'Frontend/Layout/templates/Category.base.tpl', $this->variables, $this->frontendPath . 'Layout/Templates/Category.tpl'
 		);
 	}
 
 	/**
-	 * Generates the frontend categories widget
+	 * Generates the Frontend categories widget
 	 */
 	protected function generateFrontendCategoryWidget()
 	{
@@ -477,26 +480,26 @@ class Generate extends Action
 
 		// generate categories widget
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/widgets/categories.base.php', $this->variables, $this->frontendPath . 'widgets/categories.php'
+			'Frontend/Widgets/Categories.base.php', $this->variables, $this->frontendPath . 'Widgets/Categories.php'
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/layout/widgets/categories.base.tpl', $this->variables, $this->frontendPath . 'layout/widgets/categories.tpl'
+			'Frontend/Layout/Widgets/Categories.base.tpl', $this->variables, $this->frontendPath . 'Layout/Widgets/Categories.tpl'
 		);
 	}
 
 	/**
-	 * Generates the frontend files (module.js, sequence.php)
+	 * Generates the Frontend files (module.js, sequence.php)
 	 */
 	protected function generateFrontendFiles()
 	{
 		// generate module.js file
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/js/javascript.base.js', $this->variables, $this->frontendPath . 'js/' . $this->record['underscored_name'] . '.js'
+			'Frontend/Js/Javascript.base.js', $this->variables, $this->frontendPath . 'Js/' . $this->record['underscored_name'] . '.js'
 		);
 	}
 
 	/**
-	 * Generates the frontend model.php file
+	 * Generates the Frontend model.php file
 	 */
 	protected function generateFrontendModel()
 	{
@@ -511,16 +514,16 @@ class Generate extends Action
 		if($this->record['useCategories'])
 		{
 			$this->variables['getAllByCategory'] = BackendModuleMakerGenerator::generateSnippet(
-				'frontend/engine/snippets/getAllByCategory.base.php', $this->variables
+				'Frontend/Engine/Snippets/getAllByCategory.base.php', $this->variables
 			);
 			$this->variables['getAllCategories'] = BackendModuleMakerGenerator::generateSnippet(
-				'frontend/engine/snippets/getAllCategories.base.php', $this->variables
+				'Frontend/Engine/Snippets/getAllCategories.base.php', $this->variables
 			);
 			$this->variables['getCategory'] = BackendModuleMakerGenerator::generateSnippet(
-				'frontend/engine/snippets/getCategory.base.php', $this->variables
+				'Frontend/Engine/Snippets/getCategory.base.php', $this->variables
 			);
 			$this->variables['getCategoryCount'] = BackendModuleMakerGenerator::generateSnippet(
-				'frontend/engine/snippets/getCategoryCount.base.php', $this->variables
+				'Frontend/Engine/Snippets/getCategoryCount.base.php', $this->variables
 			);
 		}
 		else
@@ -537,13 +540,13 @@ class Generate extends Action
 			$this->variables['meta_field'] = $this->record['fields'][(int) $this->record['metaField']]['underscored_label'];
 
 			$this->variables['search'] = BackendModuleMakerGenerator::generateSnippet(
-				'frontend/engine/snippets/search.base.php', $this->variables
+				'Frontend/Engine/Snippets/Search.base.php', $this->variables
 			);
 		}
 
 		// generate the file
 		BackendModuleMakerGenerator::generateFile(
-			'frontend/engine/model.base.php', $this->variables, $this->frontendPath . 'engine/model.php'
+			'Frontend/Engine/Model.base.php', $this->variables, $this->frontendPath . 'Engine/Model.php'
 		);
 
 		unset(
@@ -558,25 +561,25 @@ class Generate extends Action
 	 */
 	protected function generateInstallerFiles()
 	{
-		list($this->variables['install_extras'], $this->variables['backend_navigation']) = BackendModuleMakerGenerator::generateInstall($this->variables);
+		list($this->variables['install_extras'], $this->variables['Backend_navigation']) = BackendModuleMakerGenerator::generateInstall($this->variables);
 
 		// generate installer.php
 		BackendModuleMakerGenerator::generateFile(
-			'backend/installer/installer.base.php', $this->variables, $this->backendPath . 'installer/installer.php'
+			'Backend/Installer/Installer.base.php', $this->variables, $this->backendPath . 'Installer/Installer.php'
 		);
 
 		if($this->record['multipleImages'])
 		{
 			BackendModuleMakerGenerator::generateFile(
-				'backend/installer/data/qqFileUploader.php', null, $this->backendPath . 'installer/data/qqFileUploader.php'
+				'Backend/Installer/Data/qqFileUploader.php', null, $this->backendPath . 'Installer/Data/qqFileUploader.php'
 			);
 		}
 
-		unset($this->variables['install_extras'], $this->variables['backend_navigation']);
+		unset($this->variables['install_extras'], $this->variables['Backend_navigation']);
 
 		// generate locale.xml
 		BackendModuleMakerGenerator::generateFile(
-			'backend/installer/data/locale.base.xml', $this->variables, $this->backendPath . 'installer/data/locale.xml'
+			'Backend/Installer/Data/locale.base.xml', $this->variables, $this->backendPath . 'Installer/Data/locale.xml'
 		);
 
 		// generate install.sql
@@ -584,16 +587,16 @@ class Generate extends Action
 		if($this->record['useCategories'])
 		{
 			$sql .= BackendModuleMakerGenerator::generateSnippet(
-				'backend/installer/snippets/categories.base.sql', $this->variables
+				'Backend/Installer/Snippets/Categories.base.sql', $this->variables
 			);
 		}
 		if($this->record['multipleImages'])
 		{
 			$sql .= BackendModuleMakerGenerator::generateSnippet(
-				'backend/installer/snippets/multiple_images.base.sql', $this->variables
+				'Backend/Installer/Snippets/MultipleImages.base.sql', $this->variables
 			);
 		}
-		BackendModuleMakerModel::makeFile($this->backendPath . 'installer/data/install.sql', $sql);
+		BackendModuleMakerModel::makeFile($this->backendPath . 'Installer/data/install.sql', $sql);
 	}
 
 	/**
@@ -603,6 +606,6 @@ class Generate extends Action
 	{
 		$this->tpl->assign('module', $this->record);
 
-		SpoonSession::delete('module');
+		\SpoonSession::delete('module');
 	}
 }

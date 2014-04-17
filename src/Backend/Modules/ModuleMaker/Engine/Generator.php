@@ -75,7 +75,7 @@ class Generator
 		$content = self::generateSnippet($template, $variables);
 
 		// write the file
-		BackendModuleMakerModel::makeFile($path, $content);
+		Model::makeFile($path, $content);
 	}
 
 	/**
@@ -152,7 +152,7 @@ class Generator
 		elseif($metaField['default'] !== '')
 		{
 			if($metaField['type'] == 'number') $default = ' ,' . $metaField['default'];
-			elseif($metaField['type'] == 'dropdown') $default = ", BL::lbl('" . BackendModuleMakerHelper::buildCamelCasedName($metaField['default']) . "')";
+			elseif($metaField['type'] == 'dropdown') $default = ", BL::lbl('" . Helper::buildCamelCasedName($metaField['default']) . "')";
 			else $default = " ,'" . $metaField['default'] . "'";
 		}
 
@@ -173,7 +173,7 @@ class Generator
 				$options = explode(',', $field['options']);
 				foreach($options as $option)
 				{
-					$return .= "\t\t\$" . $field['type'] . $field['camel_cased_label'] . "Values[] = array('label' => BL::lbl('" . BackendModuleMakerHelper::buildCamelCasedName($option) . "'), 'value' => '" . $option . "');\n";
+					$return .= "\t\t\$" . $field['type'] . $field['camel_cased_label'] . "Values[] = array('label' => BL::lbl('" . Helper::buildCamelCasedName($option) . "'), 'value' => '" . $option . "');\n";
 				}
 			}
 			elseif($field['type'] == 'dropdown')
@@ -185,7 +185,7 @@ class Generator
 				$return .= "\t\t\$" . $field['type'] . $field['camel_cased_label'] . 'Values = array(';
 				foreach($options as $option)
 				{
-					$return .= "BL::lbl('" . BackendModuleMakerHelper::buildCamelCasedName($option) . "'), ";
+					$return .= "BL::lbl('" . Helper::buildCamelCasedName($option) . "'), ";
 				}
 				$return = rtrim($return, ', ');
 				$return .= ");\n";
@@ -203,7 +203,7 @@ class Generator
 			elseif($field['default'] !== '')
 			{
 				if($field['type'] == 'number') $default = ', ' . $field['default'];
-				elseif($field['type'] == 'dropdown') $default = ", BL::lbl('" . BackendModuleMakerHelper::buildCamelCasedName($field['default']) . "')";
+				elseif($field['type'] == 'dropdown') $default = ", BL::lbl('" . Helper::buildCamelCasedName($field['default']) . "')";
 				elseif($field['type'] == 'checkbox') $default = ($field['default'] == 'N') ? ', false': ', true';
 				else $default = ", '" . $field['default'] . "'";
 			}
@@ -309,7 +309,7 @@ class Generator
 	public static function generateSnippet($template, $variables = null)
 	{
 		// get the content of the file
-		$content = BackendModuleMakerModel::readFile(BACKEND_MODULE_PATH . '/layout/templates/' . $template);
+		$content = Model::readFile(BACKEND_MODULE_PATH . '/layout/templates/' . $template);
 
 		// replace the variables
 		if($variables && is_array($variables) && !empty($variables))

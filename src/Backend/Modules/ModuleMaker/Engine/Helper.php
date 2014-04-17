@@ -132,8 +132,8 @@ class Helper
 		if(count($valid_files))
 		{
 			// create the archive
-			$zip = new ZipArchive();
-			if($zip->open($destination, $overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) return false;
+			$zip = new \ZipArchive();
+			if($zip->open($destination, $overwrite ? \ZIPARCHIVE::OVERWRITE : \ZIPARCHIVE::CREATE) !== true) return false;
 
 			// add the files
 			foreach($valid_files as $file)
