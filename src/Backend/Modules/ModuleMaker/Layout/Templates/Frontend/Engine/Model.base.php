@@ -9,7 +9,7 @@ namespace Frontend\Modules\{$camel_case_name}\Engine;
  * file that was distributed with this source code.
  */
 
-use Frontend\Core\Engine\Model;
+use Frontend\Core\Engine\Model as FrontendModel;
 use Frontend\Core\Engine\Navigation;
 
 /**
