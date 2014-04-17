@@ -580,6 +580,6 @@ class Generate extends Action
     {
         $this->tpl->assign('module', $this->record);
 
-        //\SpoonSession::delete('module');
+        \SpoonSession::delete('module');
     }
 }
