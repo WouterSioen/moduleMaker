@@ -1,3 +1,3 @@
 
-		// drag and drop sequencing
-		$this->dataGrid->enableSequenceByDragAndDrop();
+        // drag and drop sequencing
+        $this->dataGrid->enableSequenceByDragAndDrop();

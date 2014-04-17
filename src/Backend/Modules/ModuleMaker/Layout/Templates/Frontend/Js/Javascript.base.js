@@ -12,11 +12,11 @@
  */
 jsFrontend.{$underscored_name} =
 {
-	// constructor
-	init: function()
-	{
+    // constructor
+    init: function()
+    {
 
-	}
+    }
 }
 
 $(jsFrontend.{$underscored_name}.init);

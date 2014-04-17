@@ -1,1 +1,1 @@
-		$this->frm->addText('{$underscored_label}'{$default});
+        $this->frm->addText('{$underscored_label}'{$default});

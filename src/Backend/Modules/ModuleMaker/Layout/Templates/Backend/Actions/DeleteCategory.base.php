@@ -20,32 +20,32 @@ use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}
  */
 class DeleteCategory extends ActionDelete
 {
-	/**
-	 * Execute the action
-	 */
-	public function execute()
-	{
-		$this->id = $this->getParameter('id', 'int');
+    /**
+     * Execute the action
+     */
+    public function execute()
+    {
+        $this->id = $this->getParameter('id', 'int');
 
-		// does the item exist
-		if($this->id == null || !Backend{$camel_case_name}Model::existsCategory($this->id))
-		{
-			$this->redirect(
-				Model::createURLForAction('categories') . '&error=non-existing'
-			);
-		}
+        // does the item exist
+        if($this->id == null || !Backend{$camel_case_name}Model::existsCategory($this->id))
+        {
+            $this->redirect(
+                Model::createURLForAction('categories') . '&error=non-existing'
+            );
+        }
 
-		// fetch the category
-		$this->record = (array) Backend{$camel_case_name}Model::getCategory($this->id);
+        // fetch the category
+        $this->record = (array) Backend{$camel_case_name}Model::getCategory($this->id);
 
-		// delete item
-		Backend{$camel_case_name}Model::deleteCategory($this->id);
-		Model::triggerEvent($this->getModule(), 'after_delete_category', array('item' => $this->record));
+        // delete item
+        Backend{$camel_case_name}Model::deleteCategory($this->id);
+        Model::triggerEvent($this->getModule(), 'after_delete_category', array('item' => $this->record));
 
-		// category was deleted, so redirect
-		$this->redirect(
-			Model::createURLForAction('categories') . '&report=deleted-category&var=' .
-			urlencode($this->record['title'])
-		);
-	}
+        // category was deleted, so redirect
+        $this->redirect(
+            Model::createURLForAction('categories') . '&report=deleted-category&var=' .
+            urlencode($this->record['title'])
+        );
+    }
 }

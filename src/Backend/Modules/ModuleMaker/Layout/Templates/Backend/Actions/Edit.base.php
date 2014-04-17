@@ -25,87 +25,87 @@ use Backend\Modules\Users\Engine\Model as BackendUsersModel;
  */
 class Edit extends ActionEdit
 {
-	/**
-	 * Execute the action
-	 */
-	public function execute()
-	{
-		parent::execute();
+    /**
+     * Execute the action
+     */
+    public function execute()
+    {
+        parent::execute();
 {$multiFilesJs}
-		$this->loadData();
-		$this->loadForm();
-		$this->validateForm();
+        $this->loadData();
+        $this->loadForm();
+        $this->validateForm();
 
-		$this->parse();
-		$this->display();
-	}
+        $this->parse();
+        $this->display();
+    }
 
-	/**
-	 * Load the item data
-	 */
-	protected function loadData()
-	{
-		$this->id = $this->getParameter('id', 'int', null);
-		if($this->id == null || !Backend{$camel_case_name}Model::exists($this->id))
-		{
-			$this->redirect(
-				Model::createURLForAction('index') . '&error=non-existing'
-			);
-		}
+    /**
+     * Load the item data
+     */
+    protected function loadData()
+    {
+        $this->id = $this->getParameter('id', 'int', null);
+        if($this->id == null || !Backend{$camel_case_name}Model::exists($this->id))
+        {
+            $this->redirect(
+                Model::createURLForAction('index') . '&error=non-existing'
+            );
+        }
 
-		$this->record = Backend{$camel_case_name}Model::get($this->id);{$load_data_edit}
-	}
+        $this->record = Backend{$camel_case_name}Model::get($this->id);{$load_data_edit}
+    }
 
-	/**
-	 * Load the form
-	 */
-	protected function loadForm()
-	{
-		// create form
-		$this->frm = new Form('edit');
+    /**
+     * Load the form
+     */
+    protected function loadForm()
+    {
+        // create form
+        $this->frm = new Form('edit');
 
 {$multiFilesLoad}{$load_form_edit}
-	}
+    }
 
-	/**
-	 * Parse the page
-	 */
-	protected function parse()
-	{
-		parent::parse();{$parse_meta}
+    /**
+     * Parse the page
+     */
+    protected function parse()
+    {
+        parent::parse();{$parse_meta}
 
-		$this->tpl->assign('item', $this->record);
-	}
+        $this->tpl->assign('item', $this->record);
+    }
 
-	/**
-	 * Validate the form
-	 */
-	protected function validateForm()
-	{
-		if($this->frm->isSubmitted())
-		{
-			$this->frm->cleanupFields();
+    /**
+     * Validate the form
+     */
+    protected function validateForm()
+    {
+        if($this->frm->isSubmitted())
+        {
+            $this->frm->cleanupFields();
 
-			// validation
-			$fields = $this->frm->getFields();
+            // validation
+            $fields = $this->frm->getFields();
 
 {$validate_form_edit}
-			if($this->frm->isCorrect())
-			{
-				$item['id'] = $this->id;
-				$item['language'] = Language::getWorkingLanguage();
+            if($this->frm->isCorrect())
+            {
+                $item['id'] = $this->id;
+                $item['language'] = Language::getWorkingLanguage();
 
 {$build_item_edit}
-				Backend{$camel_case_name}Model::update($item);
-				$item['id'] = $this->id;
+                Backend{$camel_case_name}Model::update($item);
+                $item['id'] = $this->id;
 {$multiFilesSave}{$save_tags}{$search_index}
-				Model::triggerEvent(
-					$this->getModule(), 'after_edit', $item
-				);
-				$this->redirect(
-					Model::createURLForAction('index') . '&report=edited&highlight=row-' . $item['id']
-				);
-			}
-		}
-	}
+                Model::triggerEvent(
+                    $this->getModule(), 'after_edit', $item
+                );
+                $this->redirect(
+                    Model::createURLForAction('index') . '&report=edited&highlight=row-' . $item['id']
+                );
+            }
+        }
+    }
 }

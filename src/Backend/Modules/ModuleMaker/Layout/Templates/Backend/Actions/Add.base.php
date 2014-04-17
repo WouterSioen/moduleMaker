@@ -25,66 +25,66 @@ use Backend\Modules\Users\Engine\Model as BackendUsersModel;
  */
 class Add extends ActionAdd
 {
-	/**
-	 * Execute the actions
-	 */
-	public function execute()
-	{
-		parent::execute();
+    /**
+     * Execute the actions
+     */
+    public function execute()
+    {
+        parent::execute();
 {$multiFilesJs}
-		$this->loadForm();
-		$this->validateForm();
+        $this->loadForm();
+        $this->validateForm();
 
-		$this->parse();
-		$this->display();
-	}
+        $this->parse();
+        $this->display();
+    }
 
-	/**
-	 * Load the form
-	 */
-	protected function loadForm()
-	{
-		$this->frm = new Form('add');
+    /**
+     * Load the form
+     */
+    protected function loadForm()
+    {
+        $this->frm = new Form('add');
 
 {$multiFilesLoad}{$load_form_add}
-	}
+    }
 
-	/**
-	 * Parse the page
-	 */
-	protected function parse()
-	{
-		parent::parse();{$parse_meta}
-	}
+    /**
+     * Parse the page
+     */
+    protected function parse()
+    {
+        parent::parse();{$parse_meta}
+    }
 
-	/**
-	 * Validate the form
-	 */
-	protected function validateForm()
-	{
-		if($this->frm->isSubmitted())
-		{
-			$this->frm->cleanupFields();
+    /**
+     * Validate the form
+     */
+    protected function validateForm()
+    {
+        if($this->frm->isSubmitted())
+        {
+            $this->frm->cleanupFields();
 
-			// validation
-			$fields = $this->frm->getFields();
+            // validation
+            $fields = $this->frm->getFields();
 
 {$validate_form_add}
-			if($this->frm->isCorrect())
-			{
-				// build the item
-				$item['language'] = Language::getWorkingLanguage();
+            if($this->frm->isCorrect())
+            {
+                // build the item
+                $item['language'] = Language::getWorkingLanguage();
 {$build_item_add}
-				// insert it
-				$item['id'] = Backend{$camel_case_name}Model::insert($item);
+                // insert it
+                $item['id'] = Backend{$camel_case_name}Model::insert($item);
 {$multiFilesSave}{$save_tags}{$search_index}
-				Model::triggerEvent(
-					$this->getModule(), 'after_add', $item
-				);
-				$this->redirect(
-					Model::createURLForAction('index') . '&report=added&highlight=row-' . $item['id']
-				);
-			}
-		}
-	}
+                Model::triggerEvent(
+                    $this->getModule(), 'after_add', $item
+                );
+                $this->redirect(
+                    Model::createURLForAction('index') . '&report=added&highlight=row-' . $item['id']
+                );
+            }
+        }
+    }
 }

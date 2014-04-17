@@ -1,8 +1,8 @@
 
-		<div id="tabImages">
-			{$hidUploadedImages}
+        <div id="tabImages">
+            {$hidUploadedImages}
 
-			<div id="jsImageUploader" class="buttonHolder"></div>
+            <div id="jsImageUploader" class="buttonHolder"></div>
 
-			<ul id="jsFileList" class="fileList clearfix"></ul>
-		</div>
+            <ul id="jsFileList" class="fileList clearfix"></ul>
+        </div>

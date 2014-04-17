@@ -23,48 +23,48 @@ use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}
  */
 class Categories extends ActionIndex
 {
-	/**
-	 * Execute the action
-	 */
-	public function execute()
-	{
-		parent::execute();
-		$this->loadDataGrid();
+    /**
+     * Execute the action
+     */
+    public function execute()
+    {
+        parent::execute();
+        $this->loadDataGrid();
 
-		$this->parse();
-		$this->display();
-	}
+        $this->parse();
+        $this->display();
+    }
 
-	/**
-	 * Load the dataGrid
-	 */
-	private function loadDataGrid()
-	{
-		$this->dataGrid = new DataGridDB(
-			Backend{$camel_case_name}Model::QRY_DATAGRID_BROWSE_CATEGORIES,
-			Language::getWorkingLanguage()
-		);
+    /**
+     * Load the dataGrid
+     */
+    private function loadDataGrid()
+    {
+        $this->dataGrid = new DataGridDB(
+            Backend{$camel_case_name}Model::QRY_DATAGRID_BROWSE_CATEGORIES,
+            Language::getWorkingLanguage()
+        );
 
-		// check if this action is allowed
-		if(Authentication::isAllowedAction('edit_category'))
-		{
-			$this->dataGrid->addColumn(
-				'edit', null, Language::lbl('Edit'),
-				Model::createURLForAction('edit_category') . '&amp;id=[id]',
-				Language::lbl('Edit')
-			);
-		}
+        // check if this action is allowed
+        if(Authentication::isAllowedAction('edit_category'))
+        {
+            $this->dataGrid->addColumn(
+                'edit', null, Language::lbl('Edit'),
+                Model::createURLForAction('edit_category') . '&amp;id=[id]',
+                Language::lbl('Edit')
+            );
+        }
 
-		// sequence
-		$this->dataGrid->enableSequenceByDragAndDrop();
-		$this->dataGrid->setAttributes(array('data-action' => 'sequence_categories'));
-	}
+        // sequence
+        $this->dataGrid->enableSequenceByDragAndDrop();
+        $this->dataGrid->setAttributes(array('data-action' => 'sequence_categories'));
+    }
 
-	/**
-	 * Parse & display the page
-	 */
-	protected function parse()
-	{
-		$this->tpl->assign('dataGrid', (string) $this->dataGrid->getContent());
-	}
+    /**
+     * Parse & display the page
+     */
+    protected function parse()
+    {
+        $this->tpl->assign('dataGrid', (string) $this->dataGrid->getContent());
+    }
 }

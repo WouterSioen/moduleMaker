@@ -1,3 +1,3 @@
 
-			// validate meta
-			$this->meta->validate();
+            // validate meta
+            $this->meta->validate();

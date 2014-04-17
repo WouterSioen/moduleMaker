@@ -23,54 +23,54 @@ use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}
  */
 class Index extends ActionIndex
 {
-	/**
-	 * Execute the action
-	 */
-	public function execute()
-	{
-		parent::execute();
-		$this->loadDataGrid();
+    /**
+     * Execute the action
+     */
+    public function execute()
+    {
+        parent::execute();
+        $this->loadDataGrid();
 
-		$this->parse();
-		$this->display();
-	}
+        $this->parse();
+        $this->display();
+    }
 
-	/**
-	 * Load the dataGrid
-	 */
-	protected function loadDataGrid()
-	{
-		$this->dataGrid = new DataGridDB(
-			Backend{$camel_case_name}Model::QRY_DATAGRID_BROWSE,
-			Language::getWorkingLanguage()
-		);
+    /**
+     * Load the dataGrid
+     */
+    protected function loadDataGrid()
+    {
+        $this->dataGrid = new DataGridDB(
+            Backend{$camel_case_name}Model::QRY_DATAGRID_BROWSE,
+            Language::getWorkingLanguage()
+        );
 
-		// reform date
-		$this->dataGrid->setColumnFunction(
-			array('BackendDataGridFunctions', 'getLongDate'),
-			array('[created_on]'), 'created_on', true
-		);
+        // reform date
+        $this->dataGrid->setColumnFunction(
+            array('BackendDataGridFunctions', 'getLongDate'),
+            array('[created_on]'), 'created_on', true
+        );
 {$sequence_extra}
-		// check if this action is allowed
-		if(Authentication::isAllowedAction('edit'))
-		{
-			$this->dataGrid->addColumn(
-				'edit', null, Language::lbl('Edit'),
-				Model::createURLForAction('edit') . '&amp;id=[id]',
-				Language::lbl('Edit')
-			);
-			$this->dataGrid->setColumnURL(
-				'{$meta_field}', Model::createURLForAction('edit') . '&amp;id=[id]'
-			);
-		}
-	}
+        // check if this action is allowed
+        if(Authentication::isAllowedAction('edit'))
+        {
+            $this->dataGrid->addColumn(
+                'edit', null, Language::lbl('Edit'),
+                Model::createURLForAction('edit') . '&amp;id=[id]',
+                Language::lbl('Edit')
+            );
+            $this->dataGrid->setColumnURL(
+                '{$meta_field}', Model::createURLForAction('edit') . '&amp;id=[id]'
+            );
+        }
+    }
 
-	/**
-	 * Parse the page
-	 */
-	protected function parse()
-	{
-		// parse the dataGrid if there are results
-		$this->tpl->assign('dataGrid', (string) $this->dataGrid->getContent());
-	}
+    /**
+     * Parse the page
+     */
+    protected function parse()
+    {
+        // parse the dataGrid if there are results
+        $this->tpl->assign('dataGrid', (string) $this->dataGrid->getContent());
+    }
 }

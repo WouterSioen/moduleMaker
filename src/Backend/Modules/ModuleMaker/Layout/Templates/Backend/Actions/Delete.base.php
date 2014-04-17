@@ -20,31 +20,31 @@ use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}
  */
 class Delete extends ActionDelete
 {
-	/**
-	 * Execute the action
-	 */
-	public function execute()
-	{
-		$this->id = $this->getParameter('id', 'int');
+    /**
+     * Execute the action
+     */
+    public function execute()
+    {
+        $this->id = $this->getParameter('id', 'int');
 
-		// does the item exist
-		if($this->id !== null && Backend{$camel_case_name}Model::exists($this->id))
-		{
-			parent::execute();
-			$this->record = (array) Backend{$camel_case_name}Model::get($this->id);
+        // does the item exist
+        if($this->id !== null && Backend{$camel_case_name}Model::exists($this->id))
+        {
+            parent::execute();
+            $this->record = (array) Backend{$camel_case_name}Model::get($this->id);
 
-			Backend{$camel_case_name}Model::delete($this->id);
+            Backend{$camel_case_name}Model::delete($this->id);
 
-			Model::triggerEvent(
-				$this->getModule(), 'after_delete',
-				array('id' => $this->id)
-			);
+            Model::triggerEvent(
+                $this->getModule(), 'after_delete',
+                array('id' => $this->id)
+            );
 
-			$this->redirect(
-				Model::createURLForAction('index') . '&report=deleted&var=' .
-				urlencode($this->record['title'])
-			);
-		}
-		else $this->redirect(Model::createURLForAction('index') . '&error=non-existing');
-	}
+            $this->redirect(
+                Model::createURLForAction('index') . '&report=deleted&var=' .
+                urlencode($this->record['title'])
+            );
+        }
+        else $this->redirect(Model::createURLForAction('index') . '&error=non-existing');
+    }
 }

@@ -1,1 +1,1 @@
-				$item['sequence'] = Backend{$camel_case_name}Model::getMaximumSequence() + 1;
+                $item['sequence'] = Backend{$camel_case_name}Model::getMaximumSequence() + 1;

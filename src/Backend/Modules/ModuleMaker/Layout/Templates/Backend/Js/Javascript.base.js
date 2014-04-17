@@ -12,10 +12,10 @@
  */
 jsBackend.{$underscored_name} =
 {
-	// constructor
-	init: function()
-	{{$do_meta}{$multiJs}
-	}
+    // constructor
+    init: function()
+    {{$do_meta}{$multiJs}
+    }
 }
 
 $(jsBackend.{$underscored_name}.init);

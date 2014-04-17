@@ -1,1 +1,1 @@
-				$item['{$underscored_label}'] = $fields['{$underscored_label}']->getValue();
+                $item['{$underscored_label}'] = $fields['{$underscored_label}']->getValue();

@@ -1,1 +1,1 @@
-		$this->frm->addImage('{$underscored_label}');
+        $this->frm->addImage('{$underscored_label}');

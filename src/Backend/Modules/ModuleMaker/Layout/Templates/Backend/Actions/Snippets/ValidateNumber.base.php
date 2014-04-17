@@ -1,1 +1,1 @@
-			$fields['{$underscored_label}']->isInteger(Language::err('InvalidInteger'));
+            $fields['{$underscored_label}']->isInteger(Language::err('InvalidInteger'));

@@ -1,1 +1,1 @@
-		$this->frm->addHidden('uploaded_images');
+        $this->frm->addHidden('uploaded_images');

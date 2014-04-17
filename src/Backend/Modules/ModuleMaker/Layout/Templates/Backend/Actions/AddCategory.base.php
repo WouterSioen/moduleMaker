@@ -22,64 +22,64 @@ use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}
  */
 class AddCategory extends ActionAdd
 {
-	/**
-	 * Execute the action
-	 */
-	public function execute()
-	{
-		parent::execute();
+    /**
+     * Execute the action
+     */
+    public function execute()
+    {
+        parent::execute();
 
-		$this->loadForm();
-		$this->validateForm();
+        $this->loadForm();
+        $this->validateForm();
 
-		$this->parse();
-		$this->display();
-	}
+        $this->parse();
+        $this->display();
+    }
 
-	/**
-	 * Load the form
-	 */
-	private function loadForm()
-	{
-		$this->frm = new Form('addCategory');
-		$this->frm->addText('title');
+    /**
+     * Load the form
+     */
+    private function loadForm()
+    {
+        $this->frm = new Form('addCategory');
+        $this->frm->addText('title');
 
-		$this->meta = new BackendMeta($this->frm, null, 'title', true);
-		$this->meta->setURLCallback('Backend{$camel_case_name}Model', 'getURLForCategory');
-	}
+        $this->meta = new BackendMeta($this->frm, null, 'title', true);
+        $this->meta->setURLCallback('Backend{$camel_case_name}Model', 'getURLForCategory');
+    }
 
-	/**
-	 * Validate the form
-	 */
-	private function validateForm()
-	{
-		if($this->frm->isSubmitted())
-		{
-			$this->frm->cleanupFields();
+    /**
+     * Validate the form
+     */
+    private function validateForm()
+    {
+        if($this->frm->isSubmitted())
+        {
+            $this->frm->cleanupFields();
 
-			// validate fields
-			$this->frm->getField('title')->isFilled(Language::err('TitleIsRequired'));
-			$this->meta->validate();
+            // validate fields
+            $this->frm->getField('title')->isFilled(Language::err('TitleIsRequired'));
+            $this->meta->validate();
 
-			if($this->frm->isCorrect())
-			{
-				// build item
-				$item['title'] = $this->frm->getField('title')->getValue();
-				$item['language'] = Language::getWorkingLanguage();
-				$item['meta_id'] = $this->meta->save();
-				$item['sequence'] = Backend{$camel_case_name}Model::getMaximumCategorySequence() + 1;
+            if($this->frm->isCorrect())
+            {
+                // build item
+                $item['title'] = $this->frm->getField('title')->getValue();
+                $item['language'] = Language::getWorkingLanguage();
+                $item['meta_id'] = $this->meta->save();
+                $item['sequence'] = Backend{$camel_case_name}Model::getMaximumCategorySequence() + 1;
 
-				// save the data
-				$item['id'] = Backend{$camel_case_name}Model::insertCategory($item);
-				Model::triggerEvent($this->getModule(), 'after_add_category', array('item' => $item));
+                // save the data
+                $item['id'] = Backend{$camel_case_name}Model::insertCategory($item);
+                Model::triggerEvent($this->getModule(), 'after_add_category', array('item' => $item));
 
-				// everything is saved, so redirect to the overview
-				$this->redirect(
-					Model::createURLForAction('categories') .
-					'&report=added-category&var=' . urlencode($item['title']) .
-					'&highlight=row-' . $item['id']
-				);
-			}
-		}
-	}
+                // everything is saved, so redirect to the overview
+                $this->redirect(
+                    Model::createURLForAction('categories') .
+                    '&report=added-category&var=' . urlencode($item['title']) .
+                    '&highlight=row-' . $item['id']
+                );
+            }
+        }
+    }
 }

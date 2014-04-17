@@ -1,1 +1,1 @@
-		$this->frm->addEditor('{$underscored_label}'{$default});
+        $this->frm->addEditor('{$underscored_label}'{$default});

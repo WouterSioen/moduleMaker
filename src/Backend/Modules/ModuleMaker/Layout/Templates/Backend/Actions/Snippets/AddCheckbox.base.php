@@ -1,1 +1,1 @@
-		$this->frm->addCheckbox('{$underscored_label}'{$default});
+        $this->frm->addCheckbox('{$underscored_label}'{$default});

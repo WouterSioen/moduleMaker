@@ -1,1 +1,1 @@
-		$this->frm->addFile('{$underscored_label}');
+        $this->frm->addFile('{$underscored_label}');
