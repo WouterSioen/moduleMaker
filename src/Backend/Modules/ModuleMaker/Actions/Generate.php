@@ -300,7 +300,7 @@ class Generate extends Action
 
         // select the sequence for the datagrid if we have sequencing
         $this->variables['datagrid_extra'] = ($this->record['useSequence']) ? ', i.sequence' : '';
-        $this->variables['datagrid_order'] = ($this->record['useSequence']) ? "\n\t\t ORDER BY i.sequence" : '';
+        $this->variables['datagrid_order'] = ($this->record['useSequence']) ? "\n         ORDER BY i.sequence" : '';
 
         // create custom variables for the categories
         if ($this->record['useCategories']) {
@@ -580,6 +580,6 @@ class Generate extends Action
     {
         $this->tpl->assign('module', $this->record);
 
-        \SpoonSession::delete('module');
+        //\SpoonSession::delete('module');
     }
 }

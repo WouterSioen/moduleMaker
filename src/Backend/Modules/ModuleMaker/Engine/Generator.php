@@ -84,7 +84,7 @@ class Generator
     public static function generateInstall($module)
     {
         $extras = $navigation = '';
-        if($module['useSequence']) $extras .= "\n\t\t\$this->setActionRights(1, '" . $module['underscored_name'] . "', 'sequence');";
+        if($module['useSequence']) $extras .= "\n        \$this->setActionRights(1, '" . $module['underscored_name'] . "', 'sequence');";
         if ($module['useCategories']) {
             $extras .= self::generateSnippet('Backend/Installer/Snippets/Categories.base.php', $module);
             $navigation = self::generateSnippet('Backend/Installer/Snippets/NavigationCategories.base.php', $module);
@@ -144,7 +144,7 @@ class Generator
             else $default = " ,'" . $metaField['default'] . "'";
         }
 
-        $return .= "\t\t\$this->frm->addText('" . $metaField['underscored_label'] . "'" . $default . (($default) ? '' : ', null') . ", null, 'inputText title', 'inputTextError title');\n";
+        $return .= "        \$this->frm->addText('" . $metaField['underscored_label'] . "'" . $default . (($default) ? '' : ', null') . ", null, 'inputText title', 'inputTextError title');\n";
 
         // loop through fields and create and addField statement for each field
         foreach ($module['fields'] as $field) {
@@ -155,19 +155,19 @@ class Generator
 
             // for fields with multiple options: add them
             if ($field['type'] == 'Multicheckbox' || $field['type'] == 'Radiobutton') {
-                $return .= "\n\t\t// build array with options for the " . $field['label'] . ' ' . $field['type'] . "\n";
+                $return .= "\n        // build array with options for the " . $field['label'] . ' ' . $field['type'] . "\n";
 
                 // split the options on the comma and add them to an array
                 $options = explode(',', $field['options']);
                 foreach ($options as $option) {
-                    $return .= "\t\t\$" . $field['type'] . $field['camel_cased_label'] . "Values[] = array('label' => BL::lbl('" . Helper::buildCamelCasedName($option) . "'), 'value' => '" . $option . "');\n";
+                    $return .= "        \$" . $field['type'] . $field['camel_cased_label'] . "Values[] = array('label' => BL::lbl('" . Helper::buildCamelCasedName($option) . "'), 'value' => '" . $option . "');\n";
                 }
             } elseif ($field['type'] == 'Dropdown') {
-                $return .= "\n\t\t// build array with options for the " . $field['label'] . ' ' . $field['type'] . "\n";
+                $return .= "\n        // build array with options for the " . $field['label'] . ' ' . $field['type'] . "\n";
 
                 // split the options on the comma and add them to an array
                 $options = explode(',', $field['options']);
-                $return .= "\t\t\$" . $field['type'] . $field['camel_cased_label'] . 'Values = array(';
+                $return .= "        \$" . $field['type'] . $field['camel_cased_label'] . 'Values = array(';
                 foreach ($options as $option) {
                     $return .= "BL::lbl('" . Helper::buildCamelCasedName($option) . "'), ";
                 }
@@ -391,11 +391,11 @@ class Generator
     {
         $returnTop = $returnBottom = '';
 
-        $returnTop .= "\n\t\t\t<li><a href=\"#tabSEO\">{\$lblSEO|ucfirst}</a></li>";
+        $returnTop .= "\n            <li><a href=\"#tabSEO\">{\$lblSEO|ucfirst}</a></li>";
         $returnBottom .= self::generateSnippet('Backend/Layout/Templates/Snippets/Seo.base.tpl');
 
         if ($module['multipleImages']) {
-            $returnTop .= "\n\t\t\t<li><a href=\"#tabImages\">{\$lblImages|ucfirst}</a></li>";
+            $returnTop .= "\n            <li><a href=\"#tabImages\">{\$lblImages|ucfirst}</a></li>";
             $returnBottom .= self::generateSnippet('Backend/Layout/Templates/Snippets/Images.base.tpl');
         }
 
@@ -433,7 +433,7 @@ class Generator
                 $return .= self::generateSnippet('Backend/Actions/Snippets/Validate' . $field['type'] . '.base.php', $field);
             }
 
-            if(($field['type'] == 'Image' || $field['type'] == 'File') && $field['required'] && !$isEdit) $return .= "\t\t\telse \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
+            if(($field['type'] == 'Image' || $field['type'] == 'File') && $field['required'] && !$isEdit) $return .= "            else \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
         }
 
         // add validate category if necessary
