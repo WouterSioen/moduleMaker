@@ -212,6 +212,7 @@ class Generator
         // Add the meta
         $metaField = $module['fields'][(int) $module['metaField']];
         $metaField['module'] = $module['camel_case_name'];
+        $metaField['camel_case_name'] = $module['camel_case_name'];
 
         if($isEdit) $return .= self::generateSnippet('Backend/Actions/Snippets/LoadMetaEdit.base.php', $metaField);
         else $return .= self::generateSnippet('Backend/Actions/Snippets/LoadMetaAdd.base.php', $metaField);
