@@ -11,6 +11,9 @@ namespace Backend\Modules\ModuleMaker\Actions;
 
 use Backend\Core\Engine\Base\ActionAdd;
 use Backend\Core\Engine\Form;
+use Backend\Core\Engine\Language;
+use Backend\Core\Engine\Model;
+use Backend\Modules\ModuleMaker\Engine\Helper as BackendModuleMakerHelper;
 
 /**
  * This is the add field-action, it will display a form to create a new field
@@ -33,7 +36,7 @@ class AddField extends ActionAdd
 	{
 		// If step 1 isn't entered, redirect back to the first step of the wizard
 		$this->record = \SpoonSession::get('module');
-		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('add'));
+		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(Model::createURLForAction('Add'));
 
 		parent::execute();
 
@@ -177,7 +180,7 @@ class AddField extends ActionAdd
 
 			// validation
 			$fields = $this->frm->getFields();
-			$fields['label']->isFilled(BL::err('FieldIsRequired'));
+			$fields['label']->isFilled(Language::err('FieldIsRequired'));
 
 			// get existing fields
 			$this->record = \SpoonSession::get('module');
@@ -188,7 +191,7 @@ class AddField extends ActionAdd
 					// check if we already have a type with the same label
 					if(strtolower($field['label']) == strtolower($fields['label']->getValue()))
 					{
-						$fields['label']->addError(BL::err('LabelAlreadyExist'));
+						$fields['label']->addError(Language::err('LabelAlreadyExist'));
 						break;
 					}
 				}
@@ -198,7 +201,7 @@ class AddField extends ActionAdd
 			$type = $fields['type']->getValue();
 			if($type == 'dropdown' || $type == 'multicheckbox' || $type == 'radiobutton')
 			{
-				$fields['tags']->isFilled(BL::err('FieldIsRequired'));
+				$fields['tags']->isFilled(Language::err('FieldIsRequired'));
 
 				// check if the default field is one of the options
 				if($fields['default']->isFilled())
@@ -206,17 +209,17 @@ class AddField extends ActionAdd
 					$options = explode(',', $fields['tags']->getValue());
 					if(!in_array($fields['default']->getValue(), $options))
 					{
-						$fields['default']->addError(BL::err('DefaultShouldBeAnOption'));
+						$fields['default']->addError(Language::err('DefaultShouldBeAnOption'));
 					}
 				}
 				// radiobuttons should have a default option
-				elseif($type == 'radiobutton') $fields['default']->addError(BL::err('FieldIsRequired'));
+				elseif($type == 'radiobutton') $fields['default']->addError(Language::err('FieldIsRequired'));
 			}
 
 			// if the type is images, the options should be in the form 200x200 seperated by a comma
 			if($type == 'image')
 			{
-				$fields['tags']->isFilled(BL::err('FieldIsRequired'));
+				$fields['tags']->isFilled(Language::err('FieldIsRequired'));
 				$tags = explode(',', $fields['tags']->getValue());
 
 				// loop all tags and check on format, example (400x400)
@@ -224,7 +227,7 @@ class AddField extends ActionAdd
 				{
 					if(!preg_match('\'([1-9][0-9]*x[1-9][0-9]*)\'', $tag))
 					{
-						$fields['tags']->addError(BL::err('ImageSizeNotWellFormed'));
+						$fields['tags']->addError(Language::err('ImageSizeNotWellFormed'));
 						break;
 					}
 				}
@@ -239,19 +242,19 @@ class AddField extends ActionAdd
 				// check the default values
 				if($type == 'text' || $type == 'password' || $type == 'file' || $type == 'image')
 				{
-					if(strlen($defaultValue) > 255) $fields['default']->addError(BL::err('Max255Characters'));
+					if(strlen($defaultValue) > 255) $fields['default']->addError(Language::err('Max255Characters'));
 				}
 				elseif($type == 'number')
 				{
-					if(!is_numeric($defaultValue)) $fields['default']->addError(BL::err('FieldIsNotNumeric'));
+					if(!is_numeric($defaultValue)) $fields['default']->addError(Language::err('FieldIsNotNumeric'));
 				}
 				elseif($type == 'datetime')
 				{
-					if(!BackendModuleMakerHelper::isValidDateTime($defaultValue)) $fields['default']->addError(BL::err('FieldIsNotAValidDateTime'));
+					if(!BackendModuleMakerHelper::isValidDateTime($defaultValue)) $fields['default']->addError(Language::err('FieldIsNotAValidDateTime'));
 				}
 				elseif($type == 'checkbox')
 				{
-					if(strtoupper($defaultValue) != 'Y' && strtoupper($defaultValue) != 'N') $fields['default']->addError(BL::err('MustBeAYOrAN'));
+					if(strtoupper($defaultValue) != 'Y' && strtoupper($defaultValue) != 'N') $fields['default']->addError(Language::err('MustBeAYOrAN'));
 				}
 			}
 
@@ -285,7 +288,7 @@ class AddField extends ActionAdd
 
 				// save
 				\SpoonSession::set('module', $this->record);
-				$this->redirect(BackendModel::createURLForAction('add_step2'));
+				$this->redirect(Model::createURLForAction('AddStep2'));
 			}
 		}
 	}
