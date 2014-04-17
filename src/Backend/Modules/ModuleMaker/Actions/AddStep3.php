@@ -11,6 +11,8 @@ namespace Backend\Modules\ModuleMaker\Actions;
 
 use Backend\Core\Engine\Base\ActionAdd;
 use Backend\Core\Engine\Form;
+use Backend\Core\Engine\Language;
+use Backend\Core\Engine\Model;
 
 /**
  * This is the add step 3-action, it will display a form to add special fields to a module
@@ -40,10 +42,10 @@ class AddStep3 extends ActionAdd
 	{
 		// If step 1 isn't entered, redirect back to the first step of the wizard
 		$this->record = \SpoonSession::get('module');
-		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('add'));
+		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('Add'));
 
 		// If there are no fields added, redirect back to the second step of the wizard
-		if(!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(BackendModel::createURLForAction('add_step2'));
+		if(!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(BackendModel::createURLForAction('AddStep2'));
 
 		parent::execute();
 
@@ -130,7 +132,7 @@ class AddStep3 extends ActionAdd
 			if($frmFields['search']->isChecked())
 			{
 				// we need fields when search is ticked
-				$frmFields['search_fields']->isFilled(BL::err('FieldIsRequired'));
+				$frmFields['search_fields']->isFilled(Language::err('FieldIsRequired'));
 			}
 
 			if($this->frm->isCorrect())
@@ -165,7 +167,7 @@ class AddStep3 extends ActionAdd
 
 				// save the object in our session
 				\SpoonSession::set('module', $this->record);
-				$this->redirect(BackendModel::createURLForAction('add_step4'));
+				$this->redirect(Model::createURLForAction('AddStep4'));
 			}
 		}
 	}
