@@ -22,7 +22,7 @@
         if(empty($item)) return array();
 
         // create full url
-        $item['full_url'] = Navigation::getURLForBlock('{$underscored_name}', 'category') . '/' . $item['url'];
+        $item['full_url'] = Navigation::getURLForBlock('{$camel_case_name}', 'category') . '/' . $item['url'];
 
         return $item;
     }

@@ -42,7 +42,7 @@ class Model
         if(empty($item)) return array();
 
         // create full url
-        $item['full_url'] = Navigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $item['url'];
+        $item['full_url'] = Navigation::getURLForBlock('{$camel_case_name}', 'detail') . '/' . $item['url'];
 
         return $item;
     }
@@ -68,7 +68,7 @@ class Model
         if(empty($items)) return array();
 
         // get detail action url
-        $detailUrl = Navigation::getURLForBlock('{$underscored_name}', 'detail');
+        $detailUrl = Navigation::getURLForBlock('{$camel_case_name}', 'detail');
 
         // prepare items for search
         foreach($items as &$item)

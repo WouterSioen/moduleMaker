@@ -42,7 +42,7 @@ class Categories extends Widget
         if(!empty($categories))
         {
             // build link
-            $link = Navigation::getURLForBlock('{$underscored_name}', 'category');
+            $link = Navigation::getURLForBlock('{$camel_case_name}', 'category');
 
             // loop and reset url
             foreach($categories as &$row) $row['url'] = $link . '/' . $row['url'];

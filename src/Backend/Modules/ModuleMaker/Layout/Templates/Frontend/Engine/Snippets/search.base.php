@@ -21,7 +21,7 @@
         );
 
         // get detail action url
-        $detailUrl = Navigation::getURLForBlock('{$underscored_name}', 'detail');
+        $detailUrl = Navigation::getURLForBlock('{$camel_case_name}', 'detail');
 
         // prepare items for search
         foreach($items as &$item)

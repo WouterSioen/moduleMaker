@@ -68,9 +68,9 @@ class Category extends Block
         $requestedPage = $this->URL->getParameter('page', 'int', 1);
 
         // set URL and limit
-        $this->pagination['url'] = Navigation::getURLForBlock('{$underscored_name}', 'category') . '/' . $this->category['url'];
+        $this->pagination['url'] = Navigation::getURLForBlock('{$camel_case_name}', 'category') . '/' . $this->category['url'];
 
-        $this->pagination['limit'] = Model::getModuleSetting('{$underscored_name}', 'overview_num_items', 10);
+        $this->pagination['limit'] = Model::getModuleSetting('{$camel_case_name}', 'overview_num_items', 10);
 
         // populate count fields in pagination
         $this->pagination['num_items'] = Frontend{$camel_case_name}Model::getCategoryCount($this->category['id']);
