@@ -10,6 +10,9 @@ namespace Backend\Modules\ModuleMaker\Actions;
  */
 
 use Backend\Core\Engine\Base\ActionAdd;
+use Backend\Core\Engine\DataGridArray;
+use Backend\Core\Engine\Language;
+use Backend\Core\Engine\Model;
 
 /**
  * This is the add-action, it will display a form to create a new item
@@ -46,7 +49,7 @@ class AddStep2 extends ActionAdd
 	{
 		// If step 1 isn't entered, redirect back to the first step of the wizard
 		$this->record = \SpoonSession::get('module');
-		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('add'));
+		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(Model::createURLForAction('add'));
 
 		parent::execute();
 
@@ -77,8 +80,8 @@ class AddStep2 extends ActionAdd
 		}
 
 		// if the record has fields, create a datagrid with all the fields
-		$this->datagrid = new BackendDataGridArray($this->record['fields']);
-		$this->datagrid->addColumn('delete', null, BL::lbl('Delete'), BackendModel::createURLForAction('delete_field') . '&amp;id=[key]', BL::lbl('Delete'));
+		$this->datagrid = new DataGridArray($this->record['fields']);
+		$this->datagrid->addColumn('delete', null, Language::lbl('Delete'), Model::createURLForAction('DeleteField') . '&amp;id=[key]', Language::lbl('Delete'));
 		$this->datagrid->setColumnsHidden(array('key', 'underscored_label', 'camel_cased_label', 'sql'));
 	}
 
