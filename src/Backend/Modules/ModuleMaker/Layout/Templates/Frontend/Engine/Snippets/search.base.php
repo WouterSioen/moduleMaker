@@ -12,7 +12,7 @@
 	 */
 	public static function search(array $ids)
 	{
-		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
+		$items = (array) FrontendModel::get('database')->getRecords(
 			'SELECT i.id, i.{$meta_field} AS title, m.url
 			 FROM {$underscored_name} AS i
 			 INNER JOIN meta AS m ON i.meta_id = m.id
@@ -21,7 +21,7 @@
 		);
 
 		// get detail action url
-		$detailUrl = FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail');
+		$detailUrl = Navigation::getURLForBlock('{$underscored_name}', 'detail');
 
 		// prepare items for search
 		foreach($items as &$item)

@@ -36,7 +36,7 @@
 								)
 							);
 						}
-						BackendModel::imageDelete(
+						Model::imageDelete(
 							$this->getModule(), $sImage['uploadName'],
 							'uploaded_images', Backend{$camel_case_name}Helper::$tempFileSizes
 						);

@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\{$camel_case_name}\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,21 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\ActionAdd;
+use Backend\Core\Engine\Form;
+use Backend\Core\Engine\Language;
+use Backend\Core\Engine\Model;
+use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}Model;
+use Backend\Modules\Search\Engine\Model as BackendSearchModel;
+use Backend\Modules\Tags\Engine\Model as BackendTagsModel;
+use Backend\Modules\Users\Engine\Model as BackendUsersModel;
+
 /**
  * This is the add-action, it will display a form to create a new item
  *
  * @author {$author_name} <{$author_email}>
  */
-class Backend{$camel_case_name}Add extends BackendBaseActionAdd
+class Add extends ActionAdd
 {
 	/**
 	 * Execute the actions
@@ -33,7 +44,7 @@ class Backend{$camel_case_name}Add extends BackendBaseActionAdd
 	 */
 	protected function loadForm()
 	{
-		$this->frm = new BackendForm('add');
+		$this->frm = new Form('add');
 
 {$multiFilesLoad}{$load_form_add}
 	}
@@ -62,16 +73,16 @@ class Backend{$camel_case_name}Add extends BackendBaseActionAdd
 			if($this->frm->isCorrect())
 			{
 				// build the item
-				$item['language'] = BL::getWorkingLanguage();
+				$item['language'] = Language::getWorkingLanguage();
 {$build_item_add}
 				// insert it
 				$item['id'] = Backend{$camel_case_name}Model::insert($item);
 {$multiFilesSave}{$save_tags}{$search_index}
-				BackendModel::triggerEvent(
+				Model::triggerEvent(
 					$this->getModule(), 'after_add', $item
 				);
 				$this->redirect(
-					BackendModel::createURLForAction('index') . '&report=added&highlight=row-' . $item['id']
+					Model::createURLForAction('index') . '&report=added&highlight=row-' . $item['id']
 				);
 			}
 		}

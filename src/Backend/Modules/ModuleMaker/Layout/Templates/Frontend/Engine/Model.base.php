@@ -1,5 +1,7 @@
 <?php
 
+namespace Frontend\Modules\{$camel_case_name}\Engine;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,15 @@
  * file that was distributed with this source code.
  */
 
+use Frontend\Core\Engine\Model;
+use Frontend\Core\Engine\Navigation;
+
 /**
  * In this file we store all generic functions that we will be using in the {$title} module
  *
  * @author {$author_name} <{$author_email}>
  */
-class Frontend{$camel_case_name}Model
+class Model
 {
 	/**
 	 * Fetches a certain item
@@ -22,7 +27,7 @@ class Frontend{$camel_case_name}Model
 	 */
 	public static function get($URL)
 	{
-		$item = (array) FrontendModel::getContainer()->get('database')->getRecord(
+		$item = (array) FrontendModel::get('database')->getRecord(
 			'SELECT i.*,
 			 m.keywords AS meta_keywords, m.keywords_overwrite AS meta_keywords_overwrite,
 			 m.description AS meta_description, m.description_overwrite AS meta_description_overwrite,
@@ -37,7 +42,7 @@ class Frontend{$camel_case_name}Model
 		if(empty($item)) return array();
 
 		// create full url
-		$item['full_url'] = FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $item['url'];
+		$item['full_url'] = Navigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $item['url'];
 
 		return $item;
 	}
@@ -51,7 +56,7 @@ class Frontend{$camel_case_name}Model
 	 */
 	public static function getAll($limit = 10, $offset = 0)
 	{
-		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
+		$items = (array) FrontendModel::get('database')->getRecords(
 			'SELECT i.*, m.url
 			 FROM {$underscored_name} AS i
 			 INNER JOIN meta AS m ON i.meta_id = m.id
@@ -63,7 +68,7 @@ class Frontend{$camel_case_name}Model
 		if(empty($items)) return array();
 
 		// get detail action url
-		$detailUrl = FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail');
+		$detailUrl = Navigation::getURLForBlock('{$underscored_name}', 'detail');
 
 		// prepare items for search
 		foreach($items as &$item)
@@ -82,7 +87,7 @@ class Frontend{$camel_case_name}Model
 	 */
 	public static function getAllCount()
 	{
-		return (int) FrontendModel::getContainer()->get('database')->getVar(
+		return (int) FrontendModel::get('database')->getVar(
 			'SELECT COUNT(i.id) AS count
 			 FROM {$underscored_name} AS i
 			 WHERE i.language = ?',

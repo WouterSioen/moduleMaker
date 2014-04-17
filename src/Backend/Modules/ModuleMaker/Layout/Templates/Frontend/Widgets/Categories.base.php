@@ -1,5 +1,7 @@
 <?php
 
+namespace Frontend\Modules\{$camel_case_name}\Widgets;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,16 @@
  * file that was distributed with this source code.
  */
 
+use Frontend\Core\Engine\Base\Widget;
+use Frontend\Core\Engine\Navigation;
+use Frontend\Modules\{$camel_case_name}\Engine\Model as Frontend{$camel_case_name}Model;
+
 /**
  * This is a widget with the {$title}-categories
  *
  * @author {$author_name} <{$author_email}>
  */
-class Frontend{$camel_case_name}WidgetCategories extends FrontendBaseWidget
+class Categories extends Widget
 {
 	/**
 	 * Execute the extra
@@ -36,7 +42,7 @@ class Frontend{$camel_case_name}WidgetCategories extends FrontendBaseWidget
 		if(!empty($categories))
 		{
 			// build link
-			$link = FrontendNavigation::getURLForBlock('{$underscored_name}', 'category');
+			$link = Navigation::getURLForBlock('{$underscored_name}', 'category');
 
 			// loop and reset url
 			foreach($categories as &$row) $row['url'] = $link . '/' . $row['url'];

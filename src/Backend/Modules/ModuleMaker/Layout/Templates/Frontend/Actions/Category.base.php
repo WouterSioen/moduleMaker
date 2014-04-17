@@ -1,5 +1,7 @@
 <?php
 
+namespace Frontend\Modules\{$camel_case_name}\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,17 @@
  * file that was distributed with this source code.
  */
 
+use Frontend\Core\Engine\Base\Block;
+use Frontend\Core\Engine\Model;
+use Frontend\Core\Engine\Navigation;
+use Frontend\Modules\{$camel_case_name}\Engine\Model as Frontend{$camel_case_name}Model;
+
 /**
  * This is the category-action, it will display the overview of {$title} categories
  *
  * @author {$author_name} <{$author_email}>
  */
-class Frontend{$camel_case_name}Category extends FrontendBaseBlock
+class Category extends Block
 {
 	/**
 	 * The items and category
@@ -51,19 +58,19 @@ class Frontend{$camel_case_name}Category extends FrontendBaseBlock
 	 */
 	private function getData()
 	{
-		if($this->URL->getParameter(0) === null) $this->redirect(FrontendNavigation::getURL(404));
+		if($this->URL->getParameter(0) === null) $this->redirect(Navigation::getURL(404));
 
 		// get category
 		$this->category = Frontend{$camel_case_name}Model::getCategory($this->URL->getParameter(0));
-		if(empty($this->category)) $this->redirect(FrontendNavigation::getURL(404));
+		if(empty($this->category)) $this->redirect(Navigation::getURL(404));
 
 		// requested page
 		$requestedPage = $this->URL->getParameter('page', 'int', 1);
 
 		// set URL and limit
-		$this->pagination['url'] = FrontendNavigation::getURLForBlock('{$underscored_name}', 'category') . '/' . $this->category['url'];
+		$this->pagination['url'] = Navigation::getURLForBlock('{$underscored_name}', 'category') . '/' . $this->category['url'];
 
-		$this->pagination['limit'] = FrontendModel::getModuleSetting('{$underscored_name}', 'overview_num_items', 10);
+		$this->pagination['limit'] = Model::getModuleSetting('{$underscored_name}', 'overview_num_items', 10);
 
 		// populate count fields in pagination
 		$this->pagination['num_items'] = Frontend{$camel_case_name}Model::getCategoryCount($this->category['id']);
@@ -75,7 +82,7 @@ class Frontend{$camel_case_name}Category extends FrontendBaseBlock
 		// redirect if the request page doesn't exist
 		if($requestedPage > $this->pagination['num_pages'] || $requestedPage < 1)
 		{
-			$this->redirect(FrontendNavigation::getURL(404));
+			$this->redirect(Navigation::getURL(404));
 		}
 
 		// populate calculated fields in pagination

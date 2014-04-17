@@ -16,15 +16,15 @@ use Backend\Core\Engine\Base\AjaxAction;
  *
  * @author Wouter Sioen <wouter.sioen@wijs.be>
  */
-class BackendModuleMakerAjaxRenderField extends AjaxAction
+class RenderField extends AjaxAction
 {
-	/**
-	 * Execute the action
-	 */
-	public function execute()
-	{
-		parent::execute();
+    /**
+     * Execute the action
+     */
+    public function execute()
+    {
+        parent::execute();
 
-		$this->output(self::OK, array(), 'field rendered');
-	}
+        $this->output(self::OK, array(), 'field rendered');
+    }
 }

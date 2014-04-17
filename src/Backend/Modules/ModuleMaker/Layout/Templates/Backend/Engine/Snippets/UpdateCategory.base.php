@@ -6,9 +6,9 @@
 	 */
 	public static function updateCategory(array $item)
 	{
-		$item['edited_on'] = BackendModel::getUTCDate();
+		$item['edited_on'] = Model::getUTCDate();
 
-		BackendModel::getContainer()->get('database')->update(
+		Model::get('database')->update(
 			'{$underscored_name}_categories', $item, 'id = ?', array($item['id'])
 		);
 	}

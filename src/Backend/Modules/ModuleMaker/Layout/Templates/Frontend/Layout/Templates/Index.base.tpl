@@ -1,3 +1,3 @@
 {$items|dump}
 
-{include:core/layout/templates/pagination.tpl}
+{include:core/Layout/Templates/Pagination.tpl}

@@ -1,5 +1,7 @@
 <?php
 
+namespace Frontend\Modules\{$camel_case_name}\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,17 @@
  * file that was distributed with this source code.
  */
 
+use Frontend\Core\Engine\Base\Block;
+use Frontend\Core\Engine\Model;
+use Frontend\Core\Engine\Navigation;
+use Frontend\Modules\{$camel_case_name}\Engine\Model as Frontend{$camel_case_name}Model;
+
 /**
  * This is the index-action (default), it will display the overview of {$title} posts
  *
  * @author {$author_name} <{$author_email}>
  */
-class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
+class Detail extends Block
 {
 	/**
 	 * The record
@@ -40,13 +47,13 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 		$lastParameter = $this->getLastParameter();
 		if (empty($lastParameter))
 		{
-			$this->redirect(FrontendNavigation::getURL(404));
+			$this->redirect(Navigation::getURL(404));
 		}
 		$this->record = Frontend{$camel_case_name}Model::get($lastParameter);
 
 		if (empty($this->record))
 		{
-			$this->redirect(FrontendNavigation::getURL(404));
+			$this->redirect(Navigation::getURL(404));
 		}
 	}
 
@@ -65,12 +72,12 @@ class Frontend{$camel_case_name}Detail extends FrontendBaseBlock
 		$this->header->addOpenGraphData('type', 'article', true);
 		$this->header->addOpenGraphData(
 			'url',
-			SITE_URL . FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->record['url'],
+			SITE_URL . Navigation::getURLForBlock('{$underscored_name}', 'detail') . '/' . $this->record['url'],
 			true
 		);
 		$this->header->addOpenGraphData(
 			'site_name',
-			FrontendModel::getModuleSetting('core', 'site_title_' . FRONTEND_LANGUAGE, SITE_DEFAULT_TITLE),
+			Model::getModuleSetting('core', 'site_title_' . FRONTEND_LANGUAGE, SITE_DEFAULT_TITLE),
 			true
 		);
 		$this->header->addOpenGraphData('description', $this->record['meta_title'], true);

@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\{$camel_case_name}\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,16 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\ActionDelete;
+use Backend\Core\Engine\Model;
+use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}Model;
+
 /**
  * This action will delete a category
  *
  * @author {$author_name} <{$author_email}>
  */
-class Backend{$camel_case_name}DeleteCategory extends BackendBaseActionDelete
+class DeleteCategory extends ActionDelete
 {
 	/**
 	 * Execute the action
@@ -25,7 +31,7 @@ class Backend{$camel_case_name}DeleteCategory extends BackendBaseActionDelete
 		if($this->id == null || !Backend{$camel_case_name}Model::existsCategory($this->id))
 		{
 			$this->redirect(
-				BackendModel::createURLForAction('categories') . '&error=non-existing'
+				Model::createURLForAction('categories') . '&error=non-existing'
 			);
 		}
 
@@ -34,11 +40,11 @@ class Backend{$camel_case_name}DeleteCategory extends BackendBaseActionDelete
 
 		// delete item
 		Backend{$camel_case_name}Model::deleteCategory($this->id);
-		BackendModel::triggerEvent($this->getModule(), 'after_delete_category', array('item' => $this->record));
+		Model::triggerEvent($this->getModule(), 'after_delete_category', array('item' => $this->record));
 
 		// category was deleted, so redirect
 		$this->redirect(
-			BackendModel::createURLForAction('categories') . '&report=deleted-category&var=' .
+			Model::createURLForAction('categories') . '&report=deleted-category&var=' .
 			urlencode($this->record['title'])
 		);
 	}

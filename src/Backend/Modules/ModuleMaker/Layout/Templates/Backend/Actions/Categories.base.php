@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\{$camel_case_name}\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,19 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\ActionIndex;
+use Backend\Core\Engine\Authentication;
+use Backend\Core\Engine\DataGridDB;
+use Backend\Core\Engine\Language;
+use Backend\Core\Engine\Model;
+use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}Model;
+
 /**
  * This is the categories-action, it will display the overview of categories
  *
  * @author {$author_name} <{$author_email}>
  */
-class Backend{$camel_case_name}Categories extends BackendBaseActionIndex
+class Categories extends ActionIndex
 {
 	/**
 	 * Execute the action
@@ -31,18 +40,18 @@ class Backend{$camel_case_name}Categories extends BackendBaseActionIndex
 	 */
 	private function loadDataGrid()
 	{
-		$this->dataGrid = new BackendDataGridDB(
+		$this->dataGrid = new DataGridDB(
 			Backend{$camel_case_name}Model::QRY_DATAGRID_BROWSE_CATEGORIES,
-			BL::getWorkingLanguage()
+			Language::getWorkingLanguage()
 		);
 
 		// check if this action is allowed
-		if(BackendAuthentication::isAllowedAction('edit_category'))
+		if(Authentication::isAllowedAction('edit_category'))
 		{
 			$this->dataGrid->addColumn(
-				'edit', null, BL::lbl('Edit'),
-				BackendModel::createURLForAction('edit_category') . '&amp;id=[id]',
-				BL::lbl('Edit')
+				'edit', null, Language::lbl('Edit'),
+				Model::createURLForAction('edit_category') . '&amp;id=[id]',
+				Language::lbl('Edit')
 			);
 		}
 

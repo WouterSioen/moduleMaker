@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\{$camel_case_name}\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,19 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\ActionIndex;
+use Backend\Core\Engine\Authentication;
+use Backend\Core\Engine\DataGridDB;
+use Backend\Core\Engine\Language;
+use Backend\Core\Engine\Model;
+use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}Model;
+
 /**
  * This is the index-action (default), it will display the overview of {$title} posts
  *
  * @author {$author_name} <{$author_email}>
  */
-class Backend{$camel_case_name}Index extends BackendBaseActionIndex
+class Index extends ActionIndex
 {
 	/**
 	 * Execute the action
@@ -31,9 +40,9 @@ class Backend{$camel_case_name}Index extends BackendBaseActionIndex
 	 */
 	protected function loadDataGrid()
 	{
-		$this->dataGrid = new BackendDataGridDB(
+		$this->dataGrid = new DataGridDB(
 			Backend{$camel_case_name}Model::QRY_DATAGRID_BROWSE,
-			BL::getWorkingLanguage()
+			Language::getWorkingLanguage()
 		);
 
 		// reform date
@@ -43,15 +52,15 @@ class Backend{$camel_case_name}Index extends BackendBaseActionIndex
 		);
 {$sequence_extra}
 		// check if this action is allowed
-		if(BackendAuthentication::isAllowedAction('edit'))
+		if(Authentication::isAllowedAction('edit'))
 		{
 			$this->dataGrid->addColumn(
-				'edit', null, BL::lbl('Edit'),
-				BackendModel::createURLForAction('edit') . '&amp;id=[id]',
-				BL::lbl('Edit')
+				'edit', null, Language::lbl('Edit'),
+				Model::createURLForAction('edit') . '&amp;id=[id]',
+				Language::lbl('Edit')
 			);
 			$this->dataGrid->setColumnURL(
-				'{$meta_field}', BackendModel::createURLForAction('edit') . '&amp;id=[id]'
+				'{$meta_field}', Model::createURLForAction('edit') . '&amp;id=[id]'
 			);
 		}
 	}

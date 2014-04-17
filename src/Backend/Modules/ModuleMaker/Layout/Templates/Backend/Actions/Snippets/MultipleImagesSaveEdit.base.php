@@ -15,7 +15,7 @@
 					if(!array_key_exists('_' . $key, $files))
 					{
 						Backend{$camel_case_name}Model::deleteImage($key);
-						BackendModel::imageDelete(
+						Model::imageDelete(
 							$this->getModule(), $image['uploadName'], null,
 							Backend{$camel_case_name}Helper::$tempFileSizes
 						);
@@ -64,7 +64,7 @@
 								)
 							);
 						}
-						BackendModel::imageDelete(
+						Model::imageDelete(
 							$this->getModule(), $sImage['uploadName'],
 							'uploaded_images', Backend{$camel_case_name}Helper::$tempFileSizes
 						);

@@ -7,7 +7,7 @@
 	 */
 	public static function getCategory($URL)
 	{
-		$item = (array) FrontendModel::getContainer()->get('database')->getRecord(
+		$item = (array) FrontendModel::get('database')->getRecord(
 			'SELECT i.*,
 			 m.keywords AS meta_keywords, m.keywords_overwrite AS meta_keywords_overwrite,
 			 m.description AS meta_description, m.description_overwrite AS meta_description_overwrite,
@@ -22,7 +22,7 @@
 		if(empty($item)) return array();
 
 		// create full url
-		$item['full_url'] = FrontendNavigation::getURLForBlock('{$underscored_name}', 'category') . '/' . $item['url'];
+		$item['full_url'] = Navigation::getURLForBlock('{$underscored_name}', 'category') . '/' . $item['url'];
 
 		return $item;
 	}

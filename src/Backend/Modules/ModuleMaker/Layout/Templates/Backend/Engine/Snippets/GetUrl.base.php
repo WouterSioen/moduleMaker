@@ -9,7 +9,7 @@
 	public static function getURL($url, $id = null)
 	{
 		$url = \SpoonFilter::urlise((string) $url);
-		$db = BackendModel::getContainer()->get('database');
+		$db = Model::get('database');
 
 		// new item
 		if($id === null)
@@ -21,9 +21,9 @@
 				 INNER JOIN meta AS m ON i.meta_id = m.id
 				 WHERE i.language = ? AND m.url = ?
 				 LIMIT 1',
-				array(BL::getWorkingLanguage(), $url)))
+				array(Language::getWorkingLanguage(), $url)))
 			{
-				$url = BackendModel::addNumber($url);
+				$url = Model::addNumber($url);
 				return self::getURL($url);
 			}
 		}
@@ -37,9 +37,9 @@
 				 INNER JOIN meta AS m ON i.meta_id = m.id
 				 WHERE i.language = ? AND m.url = ? AND i.id != ?
 				 LIMIT 1',
-				array(BL::getWorkingLanguage(), $url, $id)))
+				array(Language::getWorkingLanguage(), $url, $id)))
 			{
-				$url = BackendModel::addNumber($url);
+				$url = Model::addNumber($url);
 				return self::getURL($url, $id);
 			}
 		}

@@ -7,7 +7,7 @@
 	 */
 	public static function getImages($id)
 	{
-		$images = (array) BackendModel::getContainer()->get('database')->getRecords(
+		$images = (array) Model::get('database')->getRecords(
 			'SELECT i.id, i.name, i.sequence
 			 FROM {$underscored_name}_images AS i
 			 WHERE i.{$underscored_name}_id = ?

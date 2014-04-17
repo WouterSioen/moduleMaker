@@ -9,7 +9,7 @@
 	 */
 	public static function getAllByCategory($categoryId, $limit = 10, $offset = 0)
 	{
-		$items = (array) FrontendModel::getContainer()->get('database')->getRecords(
+		$items = (array) FrontendModel::get('database')->getRecords(
 			'SELECT i.*, m.url
 			 FROM {$underscored_name} AS i
 			 INNER JOIN meta AS m ON i.meta_id = m.id
@@ -21,7 +21,7 @@
 		if(empty($items)) return array();
 
 		// get detail action url
-		$detailUrl = FrontendNavigation::getURLForBlock('{$underscored_name}', 'detail');
+		$detailUrl = Navigation::getURLForBlock('{$underscored_name}', 'detail');
 
 		// prepare items for search
 		foreach($items as &$item)

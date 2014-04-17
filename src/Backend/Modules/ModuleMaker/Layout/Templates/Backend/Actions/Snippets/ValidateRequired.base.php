@@ -1,1 +1,1 @@
-			$fields['{$underscored_label}']->isFilled(BL::err('FieldIsRequired'));
+			$fields['{$underscored_label}']->isFilled(Language::err('FieldIsRequired'));

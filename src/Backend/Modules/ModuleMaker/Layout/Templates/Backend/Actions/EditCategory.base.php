@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\{$camel_case_name}\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,19 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\ActionEdit;
+use Backend\Core\Engine\Form;
+use Backend\Core\Engine\Language;
+use Backend\Core\Engine\Meta;
+use Backend\Core\Engine\Model;
+use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}Model;
+
 /**
  * This is the edit category action, it will display a form to edit an existing category.
  *
  * @author {$author_name} <{$author_email}>
  */
-class Backend{$camel_case_name}EditCategory extends BackendBaseActionEdit
+class EditCategory extends ActionEdit
 {
 	/**
 	 * Execute the action
@@ -38,7 +47,7 @@ class Backend{$camel_case_name}EditCategory extends BackendBaseActionEdit
 		if($this->id == null || !Backend{$camel_case_name}Model::existsCategory($this->id))
 		{
 			$this->redirect(
-				BackendModel::createURLForAction('categories') . '&error=non-existing'
+				Model::createURLForAction('categories') . '&error=non-existing'
 			);
 		}
 
@@ -51,10 +60,10 @@ class Backend{$camel_case_name}EditCategory extends BackendBaseActionEdit
 	private function loadForm()
 	{
 		// create form
-		$this->frm = new BackendForm('editCategory');
+		$this->frm = new Form('editCategory');
 		$this->frm->addText('title', $this->record['title']);
 
-		$this->meta = new BackendMeta($this->frm, $this->record['meta_id'], 'title', true);
+		$this->meta = new Meta($this->frm, $this->record['meta_id'], 'title', true);
 		$this->meta->setUrlCallback('Backend{$camel_case_name}Model', 'getURLForCategory', array($this->record['id']));
 	}
 
@@ -79,7 +88,7 @@ class Backend{$camel_case_name}EditCategory extends BackendBaseActionEdit
 			$this->frm->cleanupFields();
 
 			// validate fields
-			$this->frm->getField('title')->isFilled(BL::err('TitleIsRequired'));
+			$this->frm->getField('title')->isFilled(Language::err('TitleIsRequired'));
 			$this->meta->validate();
 
 			if($this->frm->isCorrect())
@@ -92,11 +101,11 @@ class Backend{$camel_case_name}EditCategory extends BackendBaseActionEdit
 
 				// update the item
 				Backend{$camel_case_name}Model::updateCategory($item);
-				BackendModel::triggerEvent($this->getModule(), 'after_edit_category', array('item' => $item));
+				Model::triggerEvent($this->getModule(), 'after_edit_category', array('item' => $item));
 
 				// everything is saved, so redirect to the overview
 				$this->redirect(
-					BackendModel::createURLForAction('categories') . '&report=edited-category&var=' .
+					Model::createURLForAction('categories') . '&report=edited-category&var=' .
 					urlencode($item['title']) . '&highlight=row-' . $item['id']
 				);
 			}

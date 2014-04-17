@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\{$camel_case_name}\Engine;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -12,7 +14,7 @@
  *
  * @author {$author_name} <{$author_email}>
  */
-class Backend{$camel_case_name}Helper
+class Helper
 {
 	/**
 	 * The imagesizes for the mutliple image upload

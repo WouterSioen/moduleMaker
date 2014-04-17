@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\{$camel_case_name}\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,18 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\ActionAdd;
+use Backend\Core\Engine\Form;
+use Backend\Core\Engine\Language;
+use Backend\Core\Engine\Model;
+use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}Model;
+
 /**
  * This is the add category-action, it will display a form to create a new category
  *
  * @author {$author_name} <{$author_email}>
  */
-class Backend{$camel_case_name}AddCategory extends BackendBaseActionAdd
+class AddCategory extends ActionAdd
 {
 	/**
 	 * Execute the action
@@ -33,7 +41,7 @@ class Backend{$camel_case_name}AddCategory extends BackendBaseActionAdd
 	 */
 	private function loadForm()
 	{
-		$this->frm = new BackendForm('addCategory');
+		$this->frm = new Form('addCategory');
 		$this->frm->addText('title');
 
 		$this->meta = new BackendMeta($this->frm, null, 'title', true);
@@ -50,24 +58,24 @@ class Backend{$camel_case_name}AddCategory extends BackendBaseActionAdd
 			$this->frm->cleanupFields();
 
 			// validate fields
-			$this->frm->getField('title')->isFilled(BL::err('TitleIsRequired'));
+			$this->frm->getField('title')->isFilled(Language::err('TitleIsRequired'));
 			$this->meta->validate();
 
 			if($this->frm->isCorrect())
 			{
 				// build item
 				$item['title'] = $this->frm->getField('title')->getValue();
-				$item['language'] = BL::getWorkingLanguage();
+				$item['language'] = Language::getWorkingLanguage();
 				$item['meta_id'] = $this->meta->save();
 				$item['sequence'] = Backend{$camel_case_name}Model::getMaximumCategorySequence() + 1;
 
 				// save the data
 				$item['id'] = Backend{$camel_case_name}Model::insertCategory($item);
-				BackendModel::triggerEvent($this->getModule(), 'after_add_category', array('item' => $item));
+				Model::triggerEvent($this->getModule(), 'after_add_category', array('item' => $item));
 
 				// everything is saved, so redirect to the overview
 				$this->redirect(
-					BackendModel::createURLForAction('categories') .
+					Model::createURLForAction('categories') .
 					'&report=added-category&var=' . urlencode($item['title']) .
 					'&highlight=row-' . $item['id']
 				);

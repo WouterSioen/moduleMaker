@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\{$camel_case_name}\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,21 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\ActionEdit;
+use Backend\Core\Engine\Form;
+use Backend\Core\Engine\Language;
+use Backend\Core\Engine\Model;
+use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}Model;
+use Backend\Modules\Search\Engine\Model as BackendSearchModel;
+use Backend\Modules\Tags\Engine\Model as BackendTagsModel;
+use Backend\Modules\Users\Engine\Model as BackendUsersModel;
+
 /**
  * This is the edit-action, it will display a form with the item data to edit
  *
  * @author {$author_name} <{$author_email}>
  */
-class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
+class Edit extends ActionEdit
 {
 	/**
 	 * Execute the action
@@ -38,7 +49,7 @@ class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
 		if($this->id == null || !Backend{$camel_case_name}Model::exists($this->id))
 		{
 			$this->redirect(
-				BackendModel::createURLForAction('index') . '&error=non-existing'
+				Model::createURLForAction('index') . '&error=non-existing'
 			);
 		}
 
@@ -51,7 +62,7 @@ class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
 	protected function loadForm()
 	{
 		// create form
-		$this->frm = new BackendForm('edit');
+		$this->frm = new Form('edit');
 
 {$multiFilesLoad}{$load_form_edit}
 	}
@@ -82,17 +93,17 @@ class Backend{$camel_case_name}Edit extends BackendBaseActionEdit
 			if($this->frm->isCorrect())
 			{
 				$item['id'] = $this->id;
-				$item['language'] = BL::getWorkingLanguage();
+				$item['language'] = Language::getWorkingLanguage();
 
 {$build_item_edit}
 				Backend{$camel_case_name}Model::update($item);
 				$item['id'] = $this->id;
 {$multiFilesSave}{$save_tags}{$search_index}
-				BackendModel::triggerEvent(
+				Model::triggerEvent(
 					$this->getModule(), 'after_edit', $item
 				);
 				$this->redirect(
-					BackendModel::createURLForAction('index') . '&report=edited&highlight=row-' . $item['id']
+					Model::createURLForAction('index') . '&report=edited&highlight=row-' . $item['id']
 				);
 			}
 		}

@@ -1,5 +1,7 @@
 <?php
 
+namespace Backend\Modules\{$camel_case_name}\Actions;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -7,12 +9,16 @@
  * file that was distributed with this source code.
  */
 
+use Backend\Core\Engine\Base\ActionDelete;
+use Backend\Core\Engine\Model;
+use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}Model;
+
 /**
  * This is the delete-action, it deletes an item
  *
  * @author {$author_name} <{$author_email}>
  */
-class Backend{$camel_case_name}Delete extends BackendBaseActionDelete
+class Delete extends ActionDelete
 {
 	/**
 	 * Execute the action
@@ -29,16 +35,16 @@ class Backend{$camel_case_name}Delete extends BackendBaseActionDelete
 
 			Backend{$camel_case_name}Model::delete($this->id);
 
-			BackendModel::triggerEvent(
+			Model::triggerEvent(
 				$this->getModule(), 'after_delete',
 				array('id' => $this->id)
 			);
 
 			$this->redirect(
-				BackendModel::createURLForAction('index') . '&report=deleted&var=' .
+				Model::createURLForAction('index') . '&report=deleted&var=' .
 				urlencode($this->record['title'])
 			);
 		}
-		else $this->redirect(BackendModel::createURLForAction('index') . '&error=non-existing');
+		else $this->redirect(Model::createURLForAction('index') . '&error=non-existing');
 	}
 }
