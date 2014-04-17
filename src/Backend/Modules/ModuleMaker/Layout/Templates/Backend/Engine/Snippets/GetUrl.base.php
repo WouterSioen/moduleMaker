@@ -9,7 +9,7 @@
     public static function getURL($url, $id = null)
     {
         $url = \SpoonFilter::urlise((string) $url);
-        $db = Model::get('database');
+        $db = BackendModel::get('database');
 
         // new item
         if($id === null)
@@ -23,7 +23,7 @@
                  LIMIT 1',
                 array(Language::getWorkingLanguage(), $url)))
             {
-                $url = Model::addNumber($url);
+                $url = BackendModel::addNumber($url);
                 return self::getURL($url);
             }
         }
@@ -39,7 +39,7 @@
                  LIMIT 1',
                 array(Language::getWorkingLanguage(), $url, $id)))
             {
-                $url = Model::addNumber($url);
+                $url = BackendModel::addNumber($url);
                 return self::getURL($url, $id);
             }
         }

@@ -9,7 +9,7 @@
     public static function getURLForCategory($url, $id = null)
     {
         $url = \SpoonFilter::urlise((string) $url);
-        $db = Model::get('database');
+        $db = BackendModel::get('database');
 
         // new category
         if($id === null)
@@ -22,7 +22,7 @@
                  LIMIT 1',
                 array(Language::getWorkingLanguage(), $url)))
             {
-                $url = Model::addNumber($url);
+                $url = BackendModel::addNumber($url);
                 return self::getURLForCategory($url);
             }
         }
@@ -37,7 +37,7 @@
                  LIMIT 1',
                 array(Language::getWorkingLanguage(), $url, $id)))
             {
-                $url = Model::addNumber($url);
+                $url = BackendModel::addNumber($url);
                 return self::getURLForCategory($url, $id);
             }
         }

@@ -7,7 +7,7 @@
      */
     public static function getCategories($includeCount = false)
     {
-        $db = Model::get('database');
+        $db = BackendModel::get('database');
 
         if($includeCount)
         {
@@ -35,7 +35,7 @@
      */
     public static function getCategory($id)
     {
-        return (array) Model::get('database')->getRecord(
+        return (array) BackendModel::get('database')->getRecord(
             'SELECT i.*
              FROM {$underscored_name}_categories AS i
              WHERE i.id = ? AND i.language = ?',
@@ -49,7 +49,7 @@
      */
     public static function getMaximumCategorySequence()
     {
-        return (int) Model::get('database')->getVar(
+        return (int) BackendModel::get('database')->getVar(
             'SELECT MAX(i.sequence)
              FROM {$underscored_name}_categories AS i
              WHERE i.language = ?',

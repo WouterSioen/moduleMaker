@@ -6,5 +6,5 @@
      */
     public static function deleteImage($id)
     {
-        Model::get('database')->delete('{$underscored_name}_images', 'id = ?', (int) $id);
+        BackendModel::get('database')->delete('{$underscored_name}_images', 'id = ?', (int) $id);
     }

@@ -9,7 +9,7 @@ namespace Backend\Modules\{$camel_case_name}\Engine;
  * file that was distributed with this source code.
  */
 
-use Backend\Core\Engine\Model;
+use Backend\Core\Engine\Model as BackendModel;
 use Backend\Core\Engine\Language;
 
 /**
@@ -31,7 +31,7 @@ class Model
      */
     public static function delete($id)
     {
-        Model::get('database')->delete('{$underscored_name}', 'id = ?', (int) $id);
+        BackendModel::get('database')->delete('{$underscored_name}', 'id = ?', (int) $id);
     }
 {$delete_category}{$delete_image}
     /**
@@ -42,7 +42,7 @@ class Model
      */
     public static function exists($id)
     {
-        return (bool) Model::get('database')->getVar(
+        return (bool) BackendModel::get('database')->getVar(
             'SELECT 1
              FROM {$underscored_name} AS i
              WHERE i.id = ?
@@ -59,7 +59,7 @@ class Model
      */
     public static function get($id)
     {
-        return (array) Model::get('database')->getRecord(
+        return (array) BackendModel::get('database')->getRecord(
             'SELECT i.*{$select_extra}
              FROM {$underscored_name} AS i
              WHERE i.id = ?',
@@ -75,10 +75,10 @@ class Model
      */
     public static function insert(array $item)
     {
-        $item['created_on'] = Model::getUTCDate();
-        $item['edited_on'] = Model::getUTCDate();
+        $item['created_on'] = BackendModel::getUTCDate();
+        $item['edited_on'] = BackendModel::getUTCDate();
 
-        return (int) Model::get('database')->insert('{$underscored_name}', $item);
+        return (int) BackendModel::get('database')->insert('{$underscored_name}', $item);
     }
 {$insert_category}{$insert_image}
     /**
@@ -88,9 +88,9 @@ class Model
      */
     public static function update(array $item)
     {
-        $item['edited_on'] = Model::getUTCDate();
+        $item['edited_on'] = BackendModel::getUTCDate();
 
-        Model::get('database')->update(
+        BackendModel::get('database')->update(
             '{$underscored_name}', $item, 'id = ?', (int) $item['id']
         );
     }

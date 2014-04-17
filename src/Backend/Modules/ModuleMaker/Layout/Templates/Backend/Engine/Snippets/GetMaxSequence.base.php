@@ -6,7 +6,7 @@
      */
     public static function getMaximumSequence()
     {
-        return (int) Model::get('database')->getVar(
+        return (int) BackendModel::get('database')->getVar(
             'SELECT MAX(i.sequence)
              FROM {$underscored_name} AS i'
         );

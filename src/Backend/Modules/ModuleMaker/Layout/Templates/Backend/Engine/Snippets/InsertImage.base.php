@@ -7,8 +7,8 @@
      */
     public static function insertImage(array $item)
     {
-        $item['created_on'] = Model::getUTCDate();
-        $item['edited_on'] = Model::getUTCDate();
+        $item['created_on'] = BackendModel::getUTCDate();
+        $item['edited_on'] = BackendModel::getUTCDate();
 
-        return Model::get('database')->insert('{$underscored_name}_images', $item);
+        return BackendModel::get('database')->insert('{$underscored_name}_images', $item);
     }

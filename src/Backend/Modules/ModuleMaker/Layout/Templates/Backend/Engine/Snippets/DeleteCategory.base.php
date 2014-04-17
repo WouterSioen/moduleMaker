@@ -6,7 +6,7 @@
      */
     public static function deleteCategory($id)
     {
-        $db = Model::get('database');
+        $db = BackendModel::get('database');
         $item = self::getCategory($id);
 
         if(!empty($item))

@@ -12,6 +12,7 @@ namespace Backend\Modules\{$camel_case_name}\Actions;
 use Backend\Core\Engine\Base\ActionAdd;
 use Backend\Core\Engine\Form;
 use Backend\Core\Engine\Language;
+use Backend\Core\Engine\Meta;
 use Backend\Core\Engine\Model;
 use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}Model;
 
@@ -44,8 +45,8 @@ class AddCategory extends ActionAdd
         $this->frm = new Form('addCategory');
         $this->frm->addText('title');
 
-        $this->meta = new BackendMeta($this->frm, null, 'title', true);
-        $this->meta->setURLCallback('Backend{$camel_case_name}Model', 'getURLForCategory');
+        $this->meta = new Meta($this->frm, null, 'title', true);
+        $this->meta->setURLCallback('Backend\Modules\{$camel_case_name}\Engine\Model', 'getURLForCategory');
     }
 
     /**
