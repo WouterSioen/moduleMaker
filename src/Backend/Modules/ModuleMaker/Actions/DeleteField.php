@@ -10,6 +10,7 @@ namespace Backend\Modules\ModuleMaker\Actions;
  */
 
 use Backend\Core\Engine\Base\ActionDelete;
+use Backend\Core\Engine\Model;
 
 /**
  * This action will delete an field from the current record
@@ -25,10 +26,10 @@ class DeleteField extends ActionDelete
 	{
 		// If step 1 isn't entered, redirect back to the first step of the wizard
 		$this->record = \SpoonSession::get('module');
-		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('add'));
+		if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(Model::createURLForAction('Add'));
 
 		// If there are no fields added, redirect back to the second step of the wizard
-		if(!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(BackendModel::createURLForAction('add_step2') . '&amp;error=non-existing');
+		if(!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(Model::createURLForAction('AddStep2') . '&amp;error=non-existing');
 
 		// get parameters
 		$this->id = $this->getParameter('id', 'int');
@@ -38,10 +39,10 @@ class DeleteField extends ActionDelete
 		{
 			unset($this->record['fields'][$this->id]);
 			\SpoonSession::set('module', $this->record);
-			$this->redirect(BackendModel::createURLForAction('add_step2') . '&report=deleted');
+			$this->redirect(Model::createURLForAction('AddStep2') . '&report=deleted');
 		}
 
 		// something went wrong
-		else $this->redirect(BackendModel::createURLForAction('add_step2') . '&error=non-existing');
+		else $this->redirect(Model::createURLForAction('AddStep2') . '&error=non-existing');
 	}
 }
