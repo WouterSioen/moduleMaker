@@ -31,15 +31,17 @@ class Generator
 		// loop through fields
 		foreach($module['fields'] as $field)
 		{
+			$field['type'] = \SpoonFiler::toCamelCase($field['type']);
+
 			// for images, create the code to create folders for each image size
-			if($field['type'] == 'image' || $field['type'] == 'image_caption')
+			if($field['type'] == 'Image' || $field['type'] == 'ImageCaption')
 			{
 				// loop through the options, they contain the image sizes
 				$options = explode(',', $field['options']);
 				$field['create_folders'] = '';
 				foreach($options as $option)
 				{
-					$field['create_folders'] .= self::generateSnippet('/backend/actions/snippets/create_folder.base.php', array('option' => $option));
+					$field['create_folders'] .= self::generateSnippet('/Backend/Actions/Snippets/CreateFolder.base.php', array('option' => $option));
 				}
 
 				// add the function used to create the filename
@@ -47,17 +49,17 @@ class Generator
 			}
 
 			// when there is a snippet provided for the datatype, use it. This falls back to a default snippet
-			if(file_exists(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/build_' . $field['type'] . '.base.php'))
+			if(file_exists(BACKEND_MODULE_PATH . '/Layout/Templates/Backend/Actions/Snippets/Build' . $field['type'] . '.base.php'))
 			{
-				$return .= self::generateSnippet('backend/actions/snippets/build_' . $field['type'] . '.base.php', $field);
+				$return .= self::generateSnippet('Backend/Actions/Snippets/Build' . $field['type'] . '.base.php', $field);
 			}
-			else $return .= self::generateSnippet('backend/actions/snippets/build_simple.base.php', $field);
+			else $return .= self::generateSnippet('Backend/Actions/Snippets/BuildSimple.base.php', $field);
 		}
 
 		// add sequence, categories or meta if necessary
-		if($module['useSequence']) $return .= self::generateSnippet('backend/actions/snippets/build_sequence.base.php', $module);
-		if($module['useCategories']) $return .= self::generateSnippet('backend/actions/snippets/build_category.base.php');
-		$return .= self::generateSnippet('backend/actions/snippets/build_meta.base.php');
+		if($module['useSequence']) $return .= self::generateSnippet('Backend/Actions/Snippets/BuildSequence.base.php', $module);
+		if($module['useCategories']) $return .= self::generateSnippet('Backend/Actions/Snippets/BuildCategory.base.php');
+		$return .= self::generateSnippet('Backend/Actions/Snippets/BuildMeta.base.php');
 
 		// return the string we build up
 		return $return;
@@ -90,22 +92,22 @@ class Generator
 		if($module['useSequence']) $extras .= "\n\t\t\$this->setActionRights(1, '" . $module['underscored_name'] . "', 'sequence');";
 		if($module['useCategories'])
 		{
-			$extras .= self::generateSnippet('backend/installer/snippets/categories.base.php', $module);
-			$navigation = self::generateSnippet('backend/installer/snippets/navigation_categories.base.php', $module);
+			$extras .= self::generateSnippet('Backend/Installer/Snippets/Categories.base.php', $module);
+			$navigation = self::generateSnippet('Backend/Installer/Snippets/NavigationCategories.base.php', $module);
 		}
 		else
 		{
-			$navigation = self::generateSnippet('backend/installer/snippets/navigation.base.php', $module);
+			$navigation = self::generateSnippet('Backend/Installer/Snippets/Navigation.base.php', $module);
 		}
 
 		if($module['searchFields'])
 		{
-			$extras .= self::generateSnippet('backend/installer/snippets/search.base.php', $module);
+			$extras .= self::generateSnippet('Backend/Installer/Snippets/Search.base.php', $module);
 		}
 
 		if($module['multipleImages'])
 		{
-			$extras .= self::generateSnippet('backend/installer/snippets/multiple_images.base.php', $module);
+			$extras .= self::generateSnippet('Backend/Installer/Snippets/MultipleImages.base.php', $module);
 		}
 
 		return array($extras, $navigation);
@@ -122,7 +124,7 @@ class Generator
 	{
 		if($isEdit && $module['multipleImages'])
 		{
-			return self::generateSnippet('backend/actions/snippets/multiple_images_get.base.php', $module);
+			return self::generateSnippet('Backend/Actions/Snippets/MultipleImagesGet.base.php', $module);
 		}
 
 		return '';
@@ -161,11 +163,13 @@ class Generator
 		// loop through fields and create and addField statement for each field
 		foreach($module['fields'] as $field)
 		{
+			$field['type'] = \SpoonFiler::toCamelCase($field['type']);
+
 			// don't add the metafield, it's already added
 			if($field['meta']) continue;
 
 			// for fields with multiple options: add them
-			if($field['type'] == 'multicheckbox' || $field['type'] == 'radiobutton')
+			if($field['type'] == 'Multicheckbox' || $field['type'] == 'Radiobutton')
 			{
 				$return .= "\n\t\t// build array with options for the " . $field['label'] . ' ' . $field['type'] . "\n";
 
@@ -176,7 +180,7 @@ class Generator
 					$return .= "\t\t\$" . $field['type'] . $field['camel_cased_label'] . "Values[] = array('label' => BL::lbl('" . Helper::buildCamelCasedName($option) . "'), 'value' => '" . $option . "');\n";
 				}
 			}
-			elseif($field['type'] == 'dropdown')
+			elseif($field['type'] == 'Dropdown')
 			{
 				$return .= "\n\t\t// build array with options for the " . $field['label'] . ' ' . $field['type'] . "\n";
 
@@ -195,49 +199,49 @@ class Generator
 			$default = '';
 			if($isEdit)
 			{
-				if($field['type'] == 'image_caption') $default = ", \$this->record['" . $field['underscored_label'] . "_caption']";
-				elseif($field['type'] == 'checkbox') $default = ", \$this->record['" . $field['underscored_label'] . "'] == 'Y'";
+				if($field['type'] == 'ImageCaption') $default = ", \$this->record['" . $field['underscored_label'] . "_caption']";
+				elseif($field['type'] == 'Checkbox') $default = ", \$this->record['" . $field['underscored_label'] . "'] == 'Y'";
 				else $default = ", \$this->record['" . $field['underscored_label'] . "']";
 			}
-			elseif($field['type'] == 'author') $default = ', BackendAuthentication::getUser()->getUserId()';
+			elseif($field['type'] == 'Author') $default = ', BackendAuthentication::getUser()->getUserId()';
 			elseif($field['default'] !== '')
 			{
-				if($field['type'] == 'number') $default = ', ' . $field['default'];
-				elseif($field['type'] == 'dropdown') $default = ", BL::lbl('" . Helper::buildCamelCasedName($field['default']) . "')";
-				elseif($field['type'] == 'checkbox') $default = ($field['default'] == 'N') ? ', false': ', true';
+				if($field['type'] == 'Number') $default = ', ' . $field['default'];
+				elseif($field['type'] == 'Dropdown') $default = ", BL::lbl('" . Helper::buildCamelCasedName($field['default']) . "')";
+				elseif($field['type'] == 'Checkbox') $default = ($field['default'] == 'N') ? ', false': ', true';
 				else $default = ", '" . $field['default'] . "'";
 			}
 			$field['default'] = $default;
-			$field['default_time'] = ($default && $field['type'] == 'datetime') ? ", date('H:i', \$this->record['" . $field['underscored_label'] . "'])" : '';
+			$field['default_time'] = ($default && $field['type'] == 'Datetime') ? ", date('H:i', \$this->record['" . $field['underscored_label'] . "'])" : '';
 
 			// when there is a snippet provided for the datatype, use it. This falls back to a default snippet
-			if(file_exists(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/add_' . $field['type'] . '.base.php'))
+			if(file_exists(BACKEND_MODULE_PATH . '/Layout/Templates/Backend/Actions/Snippets/Add' . $field['type'] . '.base.php'))
 			{
-				$return .= self::generateSnippet('backend/actions/snippets/add_' . $field['type'] . '.base.php', $field);
+				$return .= self::generateSnippet('Backend/Actions/Snippets/Add' . $field['type'] . '.base.php', $field);
 			}
-			else $return .= self::generateSnippet('backend/actions/snippets/add_simple.base.php', $field);
+			else $return .= self::generateSnippet('Backend/Actions/Snippets/AddSimple.base.php', $field);
 		}
 
 		// add the tags field if necessary
 		if($module['useTags'])
 		{
-			if($isEdit) $return .= self::generateSnippet('backend/actions/snippets/load_tags_edit.base.php', $module);
-			else $return .= self::generateSnippet('backend/actions/snippets/load_tags_add.base.php', $module);
+			if($isEdit) $return .= self::generateSnippet('Backend/Actions/Snippets/LoadTagsEdit.base.php', $module);
+			else $return .= self::generateSnippet('Backend/Actions/Snippets/LoadTagsAdd.base.php', $module);
 		}
 
 		// add the categories
 		if($module['useCategories'])
 		{
-			if($isEdit) $return .= self::generateSnippet('backend/actions/snippets/load_categories_edit.base.php', $module);
-			else $return .= self::generateSnippet('backend/actions/snippets/load_categories_add.base.php', $module);
+			if($isEdit) $return .= self::generateSnippet('Backend/Actions/Snippets/LoadCategoriesEdit.base.php', $module);
+			else $return .= self::generateSnippet('Backend/Actions/Snippets/LoadCategoriesAdd.base.php', $module);
 		}
 
 		// Add the meta
 		$metaField = $module['fields'][(int) $module['metaField']];
 		$metaField['module'] = $module['camel_case_name'];
 
-		if($isEdit) $return .= self::generateSnippet('backend/actions/snippets/load_meta_edit.base.php', $metaField);
-		else $return .= self::generateSnippet('backend/actions/snippets/load_meta_add.base.php', $metaField);
+		if($isEdit) $return .= self::generateSnippet('Backend/Actions/Snippets/LoadMetaEdit.base.php', $metaField);
+		else $return .= self::generateSnippet('Backend/Actions/Snippets/LoadMetaAdd.base.php', $metaField);
 
 		// return the string we build up
 		return $return;
@@ -254,11 +258,11 @@ class Generator
 	{
 		if(!$module['multipleImages']) return array('', '', '');
 
-		$js = self::generateSnippet('backend/actions/snippets/multiple_images_js.base.php', $module);
-		if($isEdit) $load = self::generateSnippet('backend/actions/snippets/multiple_images_load_edit.base.php', $module);
-		else $load = self::generateSnippet('backend/actions/snippets/multiple_images_load.base.php', $module);
-		if($isEdit) $save = self::generateSnippet('backend/actions/snippets/multiple_images_save_edit.base.php', $module);
-		else $save = self::generateSnippet('backend/actions/snippets/multiple_images_save.base.php', $module);
+		$js = self::generateSnippet('Backend/Actions/Snippets/MultipleImagesJs.base.php', $module);
+		if($isEdit) $load = self::generateSnippet('Backend/Actions/Snippets/MultipleImagesLoadEdit.base.php', $module);
+		else $load = self::generateSnippet('Backend/Actions/Snippets/MultipleImagesLoad.base.php', $module);
+		if($isEdit) $save = self::generateSnippet('Backend/Actions/Snippets/MultipleImagesSaveEdit.base.php', $module);
+		else $save = self::generateSnippet('Backend/Actions/Snippets/MultipleImagesSave.base.php', $module);
 
 		return array($js, $load, $save);
 	}
@@ -273,7 +277,7 @@ class Generator
 	{
 		if(!$module['useTags']) return '';
 
-		return self::generateSnippet('backend/actions/snippets/save_tags.base.php');
+		return self::generateSnippet('Backend/Actions/Snippets/SaveTags.base.php');
 	}
 
 	/**
@@ -296,7 +300,7 @@ class Generator
 
 		$searchString = rtrim($searchString, ', ');
 
-		return self::generateSnippet('backend/actions/snippets/search_index.base.php', array('fields' => $searchString));
+		return self::generateSnippet('Backend/Actions/Snippets/SearchIndex.base.php', array('fields' => $searchString));
 	}
 
 	/**
@@ -309,7 +313,7 @@ class Generator
 	public static function generateSnippet($template, $variables = null)
 	{
 		// get the content of the file
-		$content = Model::readFile(BACKEND_MODULE_PATH . '/layout/templates/' . $template);
+		$content = Model::readFile(BACKEND_MODULE_PATH . '/Layout/Templates/' . $template);
 
 		// replace the variables
 		if($variables && is_array($variables) && !empty($variables))
@@ -375,39 +379,41 @@ class Generator
 
 		// first add the meta field
 		$metaField = $module['fields'][(int) $module['metaField']];
-		if($isEdit) $returnTitle = self::generateSnippet('backend/layout/templates/snippets/meta_edit.base.tpl', $metaField);
-		else $returnTitle = self::generateSnippet('backend/layout/templates/snippets/meta.base.tpl', $metaField);
+		if($isEdit) $returnTitle = self::generateSnippet('Backend/Layout/Templates/Snippets/MetaEdit.base.tpl', $metaField);
+		else $returnTitle = self::generateSnippet('Backend/Layout/Templates/Snippets/Meta.base.tpl', $metaField);
 
 		// loop through fields and add items
-		foreach($module['fields'] as &$field)
+		foreach($module['fields'] as $field)
 		{
+			$field['type'] = \SpoonFiler::toCamelCase($field['type']);
+
 			if($field['meta']) continue;
 
 			$field['required_html'] = ($field['required']) ? '<abbr title="{$lblRequiredField}">*</abbr>' : '';
 
 			// if it's an image of a file and it's an edit action, we want to show a preview
-			if($isEdit && ($field['type'] == 'image' || $field['type'] == 'file' || $field['type'] == 'image_caption'))
+			if($isEdit && ($field['type'] == 'Image' || $field['type'] == 'File' || $field['type'] == 'ImageCaption'))
 			{
 				$field['module'] = $module['underscored_name'];
-				if($field['type'] == 'image')
+				if($field['type'] == 'Image')
 				{
 					$imageSizes = explode(',', $field['options']);
 					$field['image_size'] = $imageSizes[0];
 				}
-				$return .= self::generateSnippet('backend/layout/templates/snippets/' . $field['type'] . '_edit.base.tpl', $field);
+				$return .= self::generateSnippet('Backend/Layout/Templates/Snippets/' . $field['type'] . 'Edit.base.tpl', $field);
 			}
-			elseif($field['type'] == 'editor' || $field['type'] == 'text' || $field['type'] == 'number' || $field['type'] == 'password')
+			elseif($field['type'] == 'Editor' || $field['type'] == 'Text' || $field['type'] == 'Number' || $field['type'] == 'Password')
 			{
-				$return .= self::generateSnippet('backend/layout/templates/snippets/' . $field['type'] . '.base.tpl', $field);
+				$return .= self::generateSnippet('Backend/Layout/Templates/Snippets/' . $field['type'] . '.base.tpl', $field);
 			}
-			else $returnSide .= self::generateSnippet('backend/layout/templates/snippets/' . $field['type'] . '.base.tpl', $field);
+			else $returnSide .= self::generateSnippet('Backend/Layout/Templates/Snippets/' . $field['type'] . '.base.tpl', $field);
 
 			unset($field['required_html']);
 		}
 
 		// add tags and categories
-		if($module['useTags']) $returnSide .= self::generateSnippet('backend/layout/templates/snippets/tags.base.tpl');
-		if($module['useCategories']) $returnSide .= self::generateSnippet('backend/layout/templates/snippets/category.base.tpl');
+		if($module['useTags']) $returnSide .= self::generateSnippet('Backend/Layout/Templates/Snippets/Tags.base.tpl');
+		if($module['useCategories']) $returnSide .= self::generateSnippet('Backend/Layout/Templates/Snippets/Category.base.tpl');
 
 		// return the strings we build up
 		return array($returnTitle, $return, $returnSide);
@@ -424,12 +430,12 @@ class Generator
 		$returnTop = $returnBottom = '';
 
 		$returnTop .= "\n\t\t\t<li><a href=\"#tabSEO\">{\$lblSEO|ucfirst}</a></li>";
-		$returnBottom .= self::generateSnippet('backend/layout/templates/snippets/seo.base.tpl');
+		$returnBottom .= self::generateSnippet('Backend/Layout/Templates/Snippets/Seo.base.tpl');
 
 		if($module['multipleImages'])
 		{
 			$returnTop .= "\n\t\t\t<li><a href=\"#tabImages\">{\$lblImages|ucfirst}</a></li>";
-			$returnBottom .= self::generateSnippet('backend/layout/templates/snippets/images.base.tpl');
+			$returnBottom .= self::generateSnippet('Backend/Layout/Templates/Snippets/Images.base.tpl');
 		}
 
 		return array($returnTop, $returnBottom);
@@ -450,37 +456,39 @@ class Generator
 		// loop through fields and create and addField statement for each field
 		foreach($module['fields'] as $field)
 		{
+			$field['type'] = \SpoonFiler::toCamelCase($field['type']);
+
 			// check if required fields are filled
 			if($field['required'])
 			{
-				if($field['type'] == 'datetime')
+				if($field['type'] == 'Datetime')
 				{
-					$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', array('underscored_label' => $field['underscored_label'] . '_date'));
-					$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', array('underscored_label' => $field['underscored_label'] . '_time'));
+					$return .= self::generateSnippet('Backend/Actions/Snippets/ValidateRequired.base.php', array('underscored_label' => $field['underscored_label'] . '_date'));
+					$return .= self::generateSnippet('Backend/Actions/Snippets/ValidateRequired.base.php', array('underscored_label' => $field['underscored_label'] . '_time'));
 				}
-				elseif(!($field['type'] == 'image' || $field['type'] == 'file'))
+				elseif(!($field['type'] == 'Image' || $field['type'] == 'File'))
 				{
-					$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', $field);
+					$return .= self::generateSnippet('Backend/Actions/Snippets/ValidateRequired.base.php', $field);
 				}
 			}
 
 			// when there is a snippet provided to validate this form type, use it
-			if(file_exists(BACKEND_MODULE_PATH . '/layout/templates/backend/actions/snippets/validate_' . $field['type'] . '.base.php'))
+			if(file_exists(BACKEND_MODULE_PATH . '/Layout/Templates/Backend/Actions/Snippets/Validate' . $field['type'] . '.base.php'))
 			{
-				$return .= self::generateSnippet('backend/actions/snippets/validate_' . $field['type'] . '.base.php', $field);
+				$return .= self::generateSnippet('Backend/Actions/Snippets/Validate' . $field['type'] . '.base.php', $field);
 			}
 
-			if(($field['type'] == 'image' || $field['type'] == 'file') && $field['required'] && !$isEdit) $return .= "\t\t\telse \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
+			if(($field['type'] == 'Image' || $field['type'] == 'File') && $field['required'] && !$isEdit) $return .= "\t\t\telse \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
 		}
 
 		// add validate category if necessary
 		if($module['useCategories'] !== false)
 		{
-			$return .= self::generateSnippet('backend/actions/snippets/validate_required.base.php', array('underscored_label' => 'category_id'));
+			$return .= self::generateSnippet('Backend/Actions/Snippets/ValidateRequired.base.php', array('underscored_label' => 'category_id'));
 		}
 
 		// add validate meta
-		$return .= self::generateSnippet('backend/actions/snippets/validate_meta.base.php');
+		$return .= self::generateSnippet('Backend/Actions/Snippets/ValidateMeta.base.php');
 
 		// return the string we build up
 		return $return;

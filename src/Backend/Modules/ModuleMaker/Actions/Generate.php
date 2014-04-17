@@ -561,7 +561,7 @@ class Generate extends Action
 	 */
 	protected function generateInstallerFiles()
 	{
-		list($this->variables['install_extras'], $this->variables['Backend_navigation']) = BackendModuleMakerGenerator::generateInstall($this->variables);
+		list($this->variables['install_extras'], $this->variables['backend_navigation']) = BackendModuleMakerGenerator::generateInstall($this->variables);
 
 		// generate installer.php
 		BackendModuleMakerGenerator::generateFile(

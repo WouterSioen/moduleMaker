@@ -1,3 +1,3 @@
 
 
-		$this->makeSearchable('{$underscored_name}');
+		$this->makeSearchable('{$camel_case_name}');
