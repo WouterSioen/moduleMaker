@@ -76,7 +76,7 @@ class Generate extends Action
         $this->generateFrontendActions();
         $this->generateFrontendCategoryActions();
         $this->generateFrontendCategoryWidget();
-exit;
+
         $this->parse();
         $this->display();
     }
