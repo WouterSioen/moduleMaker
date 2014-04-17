@@ -1,11 +1,16 @@
 <?php
 
+namespace Backend\Modules\{$camel_case_name}\Ajax;
+
+use Backend\Core\Engine\Base\AjaxAction;
+use Backend\Modules\{$camel_case_name}\Engine\Model as Backend{$camel_case_name}Model;
+
 /**
  * Alters the sequence of {$title} articles
  *
  * @author {$author_name} <{$author_email}>
  */
-class Backend{$camel_case_name}AjaxSequence extends BackendBaseAJAXAction
+class Sequence extends AjaxAction
 {
 	public function execute()
 	{

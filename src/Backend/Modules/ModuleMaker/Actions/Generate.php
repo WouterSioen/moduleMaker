@@ -225,7 +225,7 @@ class Generate extends Action
 			'Backend/Js/Snippets/DoMeta.base.js', $this->record['fields'][$this->record['metaField']]
 		);
 		BackendModuleMakerGenerator::generateFile(
-			'Backend/Js/Javascript.base.js', $this->variables, $this->backendPath . 'js/' . $this->record['underscored_name'] . '.js'
+			'Backend/Js/Javascript.base.js', $this->variables, $this->backendPath . 'js/' . $this->record['camel_case_name'] . '.js'
 		);
 		unset($this->variables['multiJs'], $this->variables['do_meta']);
 

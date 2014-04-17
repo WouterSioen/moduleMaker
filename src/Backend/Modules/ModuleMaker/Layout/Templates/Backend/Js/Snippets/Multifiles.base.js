@@ -16,11 +16,11 @@
 				element: $('#jsImageUploader').fineUploader(
 					{
 						request: {
-							endpoint: '/backend/ajax.php',
+							endpoint: '/src/Backend/Ajax.php',
 							params: {
 								fork: {
-									module: '{$underscored_name}',
-									action: 'upload'
+									module: '{$camel_case_name}',
+									action: 'Upload'
 								}
 							}
 						},

@@ -1,5 +1,11 @@
 <?php
 
+namespace Backend\Modules\{$camel_case_name}\Ajax;
+
+use Backend\Core\Engine\Base\AjaxAction;
+use Backend\Core\Engine\TemplateModifiers;
+use Backend\Modules\{$camel_case_name}\Engine\Helper as Backend{$camel_case_name}Helper;
+
 /*
  * This file is part of Fork CMS.
  *
@@ -12,15 +18,12 @@
  * 
  * @author {$author_name} <{$author_email}>
  */
-class Backend{$camel_case_name}AjaxUpload extends BackendBaseAJAXAction
+class Upload extends AjaxAction
 {
 	public function execute()
 	{
 		// Include the uploader class
 		require_once PATH_LIBRARY . '/external/qqFileUploader.php';
-
-		// require frontend template
-		require_once BACKEND_CORE_PATH . '/engine/template.php';
 
 		$pathSlug = '/{$underscored_name}/uploaded_images';
 		$uploadPath = FRONTEND_FILES_PATH . $pathSlug;
@@ -74,7 +77,7 @@ class Backend{$camel_case_name}AjaxUpload extends BackendBaseAJAXAction
 			// To return a name used for uploaded file you can use the following line.
 			$result['uploadName'] = $uploader->getUploadName();
 			$result['uploadURL'] = $uploadURL;
-			$result['originalFileName'] = BackendTemplateModifiers::truncate($uploader->getName(), 40);
+			$result['originalFileName'] = TemplateModifiers::truncate($uploader->getName(), 40);
 
 			// is svg?
 			if($fileExtension === 'svg') $result['isSvg'] = true;
