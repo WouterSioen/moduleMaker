@@ -3,6 +3,12 @@
 namespace Backend\Modules\ModuleMaker\Actions;
 
 use Backend\Core\Engine\Base\ActionIndex;
+use Backend\Core\Engine\Authentication;
+use Backend\Core\Engine\DataGridArray;
+use Backend\Core\Engine\Language;
+use Backend\Core\Engine\Model;
+use Backend\Core\Extensions\Model as BackendExtensionsModel;
+use Backend\Core\ModuleMaker\Helper as BackendModuleMakerHelper;
 
 /**
  * This is the modules-action, it will display the overview of modules.
@@ -46,8 +52,8 @@ class CreateZip extends ActionIndex
 
             // check if dir exist
             if (file_exists($frontendDir)) {
-                $dir = new RecursiveDirectoryIterator($frontendDir);
-                foreach (new RecursiveIteratorIterator($dir) as $filename => $file) {
+                $dir = new \RecursiveDirectoryIterator($frontendDir);
+                foreach (new \RecursiveIteratorIterator($dir) as $filename => $file) {
                     $files[] = str_replace(PATH_WWW . '/', '', $filename);
                 }
             }
@@ -57,8 +63,8 @@ class CreateZip extends ActionIndex
 
             // check if dir exist
             if (file_exists($backendDir)) {
-                $dir = new RecursiveDirectoryIterator($backendDir);
-                foreach (new RecursiveIteratorIterator($dir) as $filename => $file) {
+                $dir = new \RecursiveDirectoryIterator($backendDir);
+                foreach (new \RecursiveIteratorIterator($dir) as $filename => $file) {
                     $files[] = str_replace(PATH_WWW . '/', '', $filename);
                 }
             }
@@ -78,7 +84,7 @@ class CreateZip extends ActionIndex
                     exit();
                 }
             } else {
-                $this->redirect(BackendModel::createURLForAction('create_zip') . '&error=non-existing');
+                $this->redirect(Model::createURLForAction('create_zip') . '&error=non-existing');
             }
         } else {
             $this->loadDataGridInstalled();
@@ -110,29 +116,29 @@ class CreateZip extends ActionIndex
     private function loadDataGridInstallable()
     {
         // create datagrid
-        $this->dataGridInstallableModules = new BackendDataGridArray($this->installableModules);
+        $this->dataGridInstallableModules = new DataGridArray($this->installableModules);
 
         $this->dataGridInstallableModules->setSortingColumns(array('raw_name'));
-        $this->dataGridInstallableModules->setHeaderLabels(array('raw_name' => SpoonFilter::ucfirst(BL::getLabel('Name'))));
+        $this->dataGridInstallableModules->setHeaderLabels(array('raw_name' => \SpoonFilter::ucfirst(Language::getLabel('Name'))));
         $this->dataGridInstallableModules->setColumnsHidden(array('installed', 'name', 'cronjobs_active'));
 
         // check if this action is allowed
-        if (BackendAuthentication::isAllowedAction('detail_module')) {
+        if (Authentication::isAllowedAction('detail_module')) {
             $this->dataGridInstallableModules->setColumnURL(
-                'raw_name', BackendModel::createURLForAction('detail_module') . '&amp;module=[raw_name]'
+                'raw_name', Model::createURLForAction('detail_module') . '&amp;module=[raw_name]'
             );
             $this->dataGridInstallableModules->addColumn(
-                'details', null, BL::lbl('Details'),
-                BackendModel::createURLForAction('detail_module') . '&amp;module=[raw_name]',
-                BL::lbl('Details')
+                'details', null, Language::lbl('Details'),
+                Model::createURLForAction('detail_module') . '&amp;module=[raw_name]',
+                Language::lbl('Details')
             );
         }
 
         // add create zip column
         $this->dataGridInstallableModules->addColumn(
-            'install', null, ucfirst(BL::lbl('CreateZip')),
-            BackendModel::createURLForAction('create_zip', 'module_maker') . '&amp;module=[raw_name]',
-            ucfirst(BL::lbl('CreateZip'))
+            'install', null, ucfirst(Language::lbl('CreateZip')),
+            Model::createURLForAction('create_zip', 'module_maker') . '&amp;module=[raw_name]',
+            ucfirst(Language::lbl('CreateZip'))
         );
     }
 
@@ -142,28 +148,28 @@ class CreateZip extends ActionIndex
     private function loadDataGridInstalled()
     {
         // create datagrid
-        $this->dataGridInstalledModules = new BackendDataGridArray($this->installedModules);
+        $this->dataGridInstalledModules = new DataGridArray($this->installedModules);
 
         $this->dataGridInstalledModules->setSortingColumns(array('name'));
         $this->dataGridInstalledModules->setColumnsHidden(array('installed', 'raw_name', 'cronjobs_active'));
 
         // check if this action is allowed
-        if (BackendAuthentication::isAllowedAction('detail_module')) {
+        if (Authentication::isAllowedAction('detail_module')) {
             $this->dataGridInstalledModules->setColumnURL(
-                'name', BackendModel::createURLForAction('detail_module', 'extensions') . '&amp;module=[raw_name]'
+                'name', Model::createURLForAction('detail_module', 'extensions') . '&amp;module=[raw_name]'
             );
             $this->dataGridInstalledModules->addColumn(
-                'details', null, BL::lbl('Details'),
-                BackendModel::createURLForAction('detail_module', 'extensions') . '&amp;module=[raw_name]',
-                BL::lbl('Details')
+                'details', null, Language::lbl('Details'),
+                Model::createURLForAction('detail_module', 'extensions') . '&amp;module=[raw_name]',
+                Language::lbl('Details')
             );
         }
 
         // add create zip column
         $this->dataGridInstalledModules->addColumn(
-            'install', null, ucfirst(BL::lbl('CreateZip')),
-            BackendModel::createURLForAction('create_zip', 'module_maker') . '&amp;module=[raw_name]',
-            ucfirst(BL::lbl('CreateZip'))
+            'install', null, ucfirst(Language::lbl('CreateZip')),
+            Model::createURLForAction('create_zip', 'module_maker') . '&amp;module=[raw_name]',
+            ucfirst(Language::lbl('CreateZip'))
         );
     }
 
