@@ -23,7 +23,7 @@ class Config extends BackendBaseConfig
      *
      * @var	string
      */
-    protected $defaultAction = 'index';
+    protected $defaultAction = 'Add';
 
     /**
      * The disabled actions
