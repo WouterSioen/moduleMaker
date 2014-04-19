@@ -140,7 +140,7 @@ class Generator
             $default = " ,\$this->record['" . $metaField['underscored_label'] . "']";
         } elseif ($metaField['default'] !== '') {
             if($metaField['type'] == 'number') $default = ' ,' . $metaField['default'];
-            elseif($metaField['type'] == 'dropdown') $default = ", BL::lbl('" . Helper::buildCamelCasedName($metaField['default']) . "')";
+            elseif($metaField['type'] == 'dropdown') $default = ", Language::lbl('" . Helper::buildCamelCasedName($metaField['default']) . "')";
             else $default = " ,'" . $metaField['default'] . "'";
         }
 
@@ -160,7 +160,7 @@ class Generator
                 // split the options on the comma and add them to an array
                 $options = explode(',', $field['options']);
                 foreach ($options as $option) {
-                    $return .= "        \$" . $field['type'] . $field['camel_cased_label'] . "Values[] = array('label' => BL::lbl('" . Helper::buildCamelCasedName($option) . "'), 'value' => '" . $option . "');\n";
+                    $return .= "        \$" . $field['type'] . $field['camel_cased_label'] . "Values[] = array('label' => Language::lbl('" . Helper::buildCamelCasedName($option) . "'), 'value' => '" . $option . "');\n";
                 }
             } elseif ($field['type'] == 'Dropdown') {
                 $return .= "\n        // build array with options for the " . $field['label'] . ' ' . $field['type'] . "\n";
@@ -169,7 +169,7 @@ class Generator
                 $options = explode(',', $field['options']);
                 $return .= "        \$" . $field['type'] . $field['camel_cased_label'] . 'Values = array(';
                 foreach ($options as $option) {
-                    $return .= "BL::lbl('" . Helper::buildCamelCasedName($option) . "'), ";
+                    $return .= "Language::lbl('" . Helper::buildCamelCasedName($option) . "'), ";
                 }
                 $return = rtrim($return, ', ');
                 $return .= ");\n";
@@ -184,7 +184,7 @@ class Generator
             } elseif($field['type'] == 'Author') $default = ', BackendAuthentication::getUser()->getUserId()';
             elseif ($field['default'] !== '') {
                 if($field['type'] == 'Number') $default = ', ' . $field['default'];
-                elseif($field['type'] == 'Dropdown') $default = ", BL::lbl('" . Helper::buildCamelCasedName($field['default']) . "')";
+                elseif($field['type'] == 'Dropdown') $default = ", Language::lbl('" . Helper::buildCamelCasedName($field['default']) . "')";
                 elseif($field['type'] == 'Checkbox') $default = ($field['default'] == 'N') ? ', false': ', true';
                 else $default = ", '" . $field['default'] . "'";
             }
@@ -434,7 +434,7 @@ class Generator
                 $return .= self::generateSnippet('Backend/Actions/Snippets/Validate' . $field['type'] . '.base.php', $field);
             }
 
-            if(($field['type'] == 'Image' || $field['type'] == 'File') && $field['required'] && !$isEdit) $return .= "            else \$fields['" . $field['underscored_label'] . "'" . "]->addError(BL::err('FieldIsRequired'));\n";
+            if(($field['type'] == 'Image' || $field['type'] == 'File') && $field['required'] && !$isEdit) $return .= "            else \$fields['" . $field['underscored_label'] . "'" . "]->addError(Language::err('FieldIsRequired'));\n";
         }
 
         // add validate category if necessary
