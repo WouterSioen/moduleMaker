@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>ModuleMaker</name>
+	<version>1.1.0</version>
+	<requirements>
+		<minimum_version>3.7.0</minimum_version>
+	</requirements>
+	<description>
+		<![CDATA[
+			This module uses an easy wizard to generate basic other modules.
+			These other modules are fully installable and contain a working backend.
+
+			The generated modules can contain
+				- All normal fields types
+				- Generated meta
+				- Sequencing
+				- Search
+				- Tags
+				- Multi image uploader
+
+			In the frontend: meta tags, open graph tags and twitter card are integrated
+		]]>
+	</description>
+	<authors>
+		<author>
+			<name><![CDATA[Wouter Sioen]]></name>
+			<url><![CDATA[http://woutersioen.be]]></url>
+		</author>
+	</authors>
+	<events/>
+</module>
