@@ -7,8 +7,8 @@ use Backend\Core\Engine\Authentication;
 use Backend\Core\Engine\DataGridArray;
 use Backend\Core\Engine\Language;
 use Backend\Core\Engine\Model;
-use Backend\Core\Extensions\Model as BackendExtensionsModel;
-use Backend\Core\ModuleMaker\Helper as BackendModuleMakerHelper;
+use Backend\Modules\Extensions\Engine\Model as BackendExtensionsModel;
+use Backend\Modules\ModuleMaker\Engine\Helper as BackendModuleMakerHelper;
 
 /**
  * This is the modules-action, it will display the overview of modules.
@@ -48,7 +48,7 @@ class CreateZip extends ActionIndex
             $files = array();
 
             // frontend files
-            $frontendDir = FRONTEND_PATH . "/modules/" . $module . "/";
+            $frontendDir = FRONTEND_PATH . "/Modules/" . $module . "/";
 
             // check if dir exist
             if (file_exists($frontendDir)) {
@@ -59,7 +59,7 @@ class CreateZip extends ActionIndex
             }
 
             // backend files
-            $backendDir = BACKEND_PATH . "/modules/" . $module . "/";
+            $backendDir = BACKEND_PATH . "/Modules/" . $module . "/";
 
             // check if dir exist
             if (file_exists($backendDir)) {
