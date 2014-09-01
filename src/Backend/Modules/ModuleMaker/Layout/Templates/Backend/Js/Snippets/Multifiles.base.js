@@ -16,7 +16,7 @@
                 element: $('#jsImageUploader').fineUploader(
                     {
                         request: {
-                            endpoint: '/src/Backend/Ajax.php',
+                            endpoint: '/backend/ajax',
                             params: {
                                 fork: {
                                     module: '{$camel_case_name}',

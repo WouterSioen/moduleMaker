@@ -40,7 +40,7 @@ class Upload extends AjaxAction
         \SpoonDirectory::create($uploadPath . '/chunks');
 
         // create uploader
-        $uploader = new qqFileUploader();
+        $uploader = new \qqFileUploader();
 
         // Specify the list of valid extensions, ex. array("jpeg", "xml", "bmp")
         $uploader->allowedExtensions = array();
