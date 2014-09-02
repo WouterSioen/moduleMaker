@@ -24,7 +24,7 @@ class Installer extends ModuleInstaller
         $this->addModule('ModuleMaker');
 
         // install the locale, this is set here beceause we need the module for this
-        $this->importLocale(dirname(__FILE__) . '/data/locale.xml');
+        $this->importLocale(dirname(__FILE__) . '/Data/locale.xml');
 
         $this->setModuleRights(1, 'ModuleMaker');
 
