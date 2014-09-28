@@ -52,14 +52,14 @@ class Index extends ActionIndex
         );
 {$sequence_extra}
         // check if this action is allowed
-        if (Authentication::isAllowedAction('edit')) {
+        if (Authentication::isAllowedAction('Edit')) {
             $this->dataGrid->addColumn(
                 'edit', null, Language::lbl('Edit'),
-                Model::createURLForAction('edit') . '&amp;id=[id]',
+                Model::createURLForAction('Edit') . '&amp;id=[id]',
                 Language::lbl('Edit')
             );
             $this->dataGrid->setColumnURL(
-                '{$meta_field}', Model::createURLForAction('edit') . '&amp;id=[id]'
+                '{$meta_field}', Model::createURLForAction('Edit') . '&amp;id=[id]'
             );
         }
     }
