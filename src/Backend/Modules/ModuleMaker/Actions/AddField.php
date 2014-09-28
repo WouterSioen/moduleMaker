@@ -36,7 +36,7 @@ class AddField extends ActionAdd
     {
         // If step 1 isn't entered, redirect back to the first step of the wizard
         $this->record = \SpoonSession::get('module');
-        if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(Model::createURLForAction('Add'));
+        if (!$this->record || !array_key_exists('title', $this->record)) $this->redirect(Model::createURLForAction('Add'));
 
         parent::execute();
 
@@ -60,7 +60,7 @@ class AddField extends ActionAdd
         $default = '';
 
         if ($field['default'] !== '') {
-            if($field['type'] == 'number') $default = " DEFAULT " . $field['default'];
+            if ($field['type'] == 'number') $default = " DEFAULT " . $field['default'];
             else $default = " DEFAULT '" . $field['default'] . "'";
         }
 
@@ -202,7 +202,7 @@ class AddField extends ActionAdd
                     }
                 }
                 // radiobuttons should have a default option
-                elseif($type == 'radiobutton') $fields['default']->addError(Language::err('FieldIsRequired'));
+                elseif ($type == 'radiobutton') $fields['default']->addError(Language::err('FieldIsRequired'));
             }
 
             // if the type is images, the options should be in the form 200x200 seperated by a comma
@@ -226,13 +226,13 @@ class AddField extends ActionAdd
 
                 // check the default values
                 if ($type == 'text' || $type == 'password' || $type == 'file' || $type == 'image') {
-                    if(strlen($defaultValue) > 255) $fields['default']->addError(Language::err('Max255Characters'));
+                    if (strlen($defaultValue) > 255) $fields['default']->addError(Language::err('Max255Characters'));
                 } elseif ($type == 'number') {
-                    if(!is_numeric($defaultValue)) $fields['default']->addError(Language::err('FieldIsNotNumeric'));
+                    if (!is_numeric($defaultValue)) $fields['default']->addError(Language::err('FieldIsNotNumeric'));
                 } elseif ($type == 'datetime') {
-                    if(!BackendModuleMakerHelper::isValidDateTime($defaultValue)) $fields['default']->addError(Language::err('FieldIsNotAValidDateTime'));
+                    if (!BackendModuleMakerHelper::isValidDateTime($defaultValue)) $fields['default']->addError(Language::err('FieldIsNotAValidDateTime'));
                 } elseif ($type == 'checkbox') {
-                    if(strtoupper($defaultValue) != 'Y' && strtoupper($defaultValue) != 'N') $fields['default']->addError(Language::err('MustBeAYOrAN'));
+                    if (strtoupper($defaultValue) != 'Y' && strtoupper($defaultValue) != 'N') $fields['default']->addError(Language::err('MustBeAYOrAN'));
                 }
             }
 
@@ -257,7 +257,7 @@ class AddField extends ActionAdd
                 $item['sql'] = $this->generateSQL($item);
 
                 // if the record has no fields key yet, add it
-                if(!array_key_exists('fields', $this->record)) $this->record['fields'] = array();
+                if (!array_key_exists('fields', $this->record)) $this->record['fields'] = array();
 
                 // add the item to the fields array of the record
                 $this->record['fields'][] = $item;

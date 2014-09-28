@@ -16,7 +16,7 @@ jsBackend.moduleMaker =
 	init: function()
 	{
 		// do meta
-		if($('#title').length > 0) $('#title').doMeta();
+		if ($('#title').length > 0) $('#title').doMeta();
 
 		jsBackend.moduleMaker.tagBoxes();
 		jsBackend.moduleMaker.toggleOptions();
@@ -29,7 +29,7 @@ jsBackend.moduleMaker =
 	// initializes tagBox
 	tagBoxes: function()
 	{
-		if($('input.tagBox').length > 0)
+		if ($('input.tagBox').length > 0)
 		{
 			$('input.tagBox').tagBox(
 			{
@@ -45,7 +45,7 @@ jsBackend.moduleMaker =
 		$ddmType = $('#type');
 		$caption = $('#jsToggleCaption');
 
-		if($ddmType.length > 0 && $options.length > 0)
+		if ($ddmType.length > 0 && $options.length > 0)
 		{
 			$value = $ddmType.val();
 
@@ -53,7 +53,7 @@ jsBackend.moduleMaker =
 				$value = $ddmType.val();
 
 				// show or hide it on change
-				if($value == 'image') $caption.slideDown(200);
+				if ($value == 'image') $caption.slideDown(200);
 				else $caption.slideUp(200);
 			})
 		}
@@ -66,12 +66,12 @@ jsBackend.moduleMaker =
 		$options = $('#jsToggleOptions');
 		$optionsLabel = $("label[for='addValue-tags']");
 
-		if($ddmType.length > 0 && $options.length > 0)
+		if ($ddmType.length > 0 && $options.length > 0)
 		{
 			$value = $ddmType.val();
 
 			// initialize the options if necessary
-			if($value == 'dropdown' || $value == 'multicheckbox' || $value == 'radiobutton' || $value == 'image')
+			if ($value == 'dropdown' || $value == 'multicheckbox' || $value == 'radiobutton' || $value == 'image')
 			{
 				$options.show();
 			}
@@ -80,15 +80,15 @@ jsBackend.moduleMaker =
 				$value = $ddmType.val();
 
 				// show or hide it on change
-				if($value == 'dropdown' || $value == 'multicheckbox' || $value == 'radiobutton' || $value == 'image') $options.slideDown(200);
+				if ($value == 'dropdown' || $value == 'multicheckbox' || $value == 'radiobutton' || $value == 'image') $options.slideDown(200);
 				else $options.slideUp(200);
 
 				// change label to imagesizes when the type is image
-				if($value == 'image') $optionsLabel.text(utils.string.ucfirst(jsBackend.locale.lbl('ImageSizes')) + '*');
+				if ($value == 'image') $optionsLabel.text(utils.string.ucfirst(jsBackend.locale.lbl('ImageSizes')) + '*');
 				else $optionsLabel.text(utils.string.ucfirst(jsBackend.locale.lbl('Options')) + '*');
 
 				// don't show default option for text area (mysql type TEXT can't use default value)
-				if($value == 'editor' || $value == 'author') $('#defaultOption').hide();
+				if ($value == 'editor' || $value == 'author') $('#defaultOption').hide();
 				else $('#defaultOption').show();
 			})
 		}
@@ -100,7 +100,7 @@ jsBackend.moduleMaker =
 		$chkSearch = $('#search');
 		$ddmSearchFieldsDiv = $('.showOnSearch');
 
-		if($chkSearch.length > 0 && $ddmSearchFieldsDiv.length > 0)
+		if ($chkSearch.length > 0 && $ddmSearchFieldsDiv.length > 0)
 		{
 			$chkSearch.on('change', function(){
 				($chkSearch.attr('checked') === 'checked')
@@ -116,7 +116,7 @@ jsBackend.moduleMaker =
 		$chkTwitter = $('#twitter');
 		$ddmTwitterFieldsDiv = $('.showOnTwitter');
 
-		if($chkTwitter.length > 0 && $ddmTwitterFieldsDiv.length > 0)
+		if ($chkTwitter.length > 0 && $ddmTwitterFieldsDiv.length > 0)
 		{
 			$chkTwitter.on('change', function(){
 				($chkTwitter.attr('checked') === 'checked')
@@ -133,12 +133,12 @@ jsBackend.moduleMaker =
 		$ddmType = $('#type');
 		$chkRequired = $('#required');
 
-		if($txtLabel.length > 0 && $ddmType.length > 0 && $chkRequired.length > 0)
+		if ($txtLabel.length > 0 && $ddmType.length > 0 && $chkRequired.length > 0)
 		{
 			$txtLabel.on('change', jsBackend.moduleMaker.render);
 			$ddmType.on('change', jsBackend.moduleMaker.render);
 			$('#addValue-tags').live('keyup', function(e) {
-				if(e.which == '13') jsBackend.moduleMaker.render;
+				if (e.which == '13') jsBackend.moduleMaker.render;
 			});
 			$('.deleteButton-tags').live('click', jsBackend.moduleMaker.render);
 			$('#addValue-tags').live('change', jsBackend.moduleMaker.render);

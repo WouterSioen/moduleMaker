@@ -35,10 +35,10 @@ class AddStep4 extends ActionAdd
     {
         // If step 1 isn't entered, redirect back to the first step of the wizard
         $this->record = \SpoonSession::get('module');
-        if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(Model::createURLForAction('Add'));
+        if (!$this->record || !array_key_exists('title', $this->record)) $this->redirect(Model::createURLForAction('Add'));
 
         // If there are no fields added, redirect back to the second step of the wizard
-        if(!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(Model::createURLForAction('AddStep2'));
+        if (!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(Model::createURLForAction('AddStep2'));
 
         parent::execute();
 
@@ -90,7 +90,7 @@ class AddStep4 extends ActionAdd
                 if ($frmFields['twitter']->isChecked()) {
                     $this->record['twitter'] = $frmFields['twitter_name']->getValue();
                 } else {
-                    if(array_key_exists('twitter', $this->record)) unset($this->record['twitter']);
+                    if (array_key_exists('twitter', $this->record)) unset($this->record['twitter']);
                 }
 
                 // save the object in our session

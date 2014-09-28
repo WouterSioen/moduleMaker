@@ -1,5 +1,5 @@
 
-        if($('#uploadedImages').length == 1) jsBackend.{$underscored_name}.uploadHandler.init();
+        if ($('#uploadedImages').length == 1) jsBackend.{$underscored_name}.uploadHandler.init();
     },
 
     // ajax uploader
@@ -53,7 +53,7 @@
             };
 
             // add uploadedFiles if the uploadedImages field is filled
-            if($('#uploadedImages').val())
+            if ($('#uploadedImages').val())
             {
                 $images = $.parseJSON($('#uploadedImages').val());
                 $.each($images, function(i, item){
@@ -96,7 +96,7 @@
             // bind complete callback
             uploader.element.on('complete', function(event, id, fileName, response)
             {
-                if(response.success && typeof response.uploadURL !== 'undefined')
+                if (response.success && typeof response.uploadURL !== 'undefined')
                 {
                     // add image to uploaded files array
                     uploader.uploadedFiles[id]['uploadURL'] = response.uploadURL;
@@ -119,7 +119,7 @@
         // build the list of uploaded files
         buildFileList: function()
         {
-            if($('#jsFileList').length > 0)
+            if ($('#jsFileList').length > 0)
             {
                 var filledFields = {};
                 var html = '';
@@ -138,7 +138,7 @@
                     item = uploader.uploadedFiles[item];
 
                     var formFields = '<div class="progressBar" style="width: 0%;"></div>';
-                    if(item.progress == 100)
+                    if (item.progress == 100)
                     {
                         var find = '{id}';
                         var re = new RegExp(find, 'g');
@@ -176,7 +176,7 @@
             var tempList = {};
             $.each(uploader.uploadedFiles, function(index, item)
             {
-                if(typeof item !== 'undefined' && index != listId)
+                if (typeof item !== 'undefined' && index != listId)
                 {
                     tempList[index] = item;
                 }

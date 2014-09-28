@@ -47,10 +47,10 @@ class Generate extends Action
     {
         // If step 1 isn't entered, redirect back to the first step of the wizard
         $this->record = \SpoonSession::get('module');
-        if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(Model::createURLForAction('Add'));
+        if (!$this->record || !array_key_exists('title', $this->record)) $this->redirect(Model::createURLForAction('Add'));
 
         // If there are no fields added, redirect back to the second step of the wizard
-        if(!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(Model::createURLForAction('AddStep2'));
+        if (!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(Model::createURLForAction('AddStep2'));
 
         parent::execute();
 
@@ -175,7 +175,7 @@ class Generate extends Action
      */
     protected function generateBackendCategoryActions()
     {
-        if(!$this->record['useCategories']) return;
+        if (!$this->record['useCategories']) return;
 
         // generate categories
         BackendModuleMakerGenerator::generateFile(
@@ -295,7 +295,7 @@ class Generate extends Action
         $this->variables['select_extra'] = '';
         foreach ($this->record['fields'] as $field) {
             // datetime fields should be fetched as timestamps
-            if($field['type'] == 'datetime') $this->variables['select_extra'] .= ', UNIX_TIMESTAMP(i.' . $field['underscored_label'] . ') AS ' . $field['underscored_label'];
+            if ($field['type'] == 'datetime') $this->variables['select_extra'] .= ', UNIX_TIMESTAMP(i.' . $field['underscored_label'] . ') AS ' . $field['underscored_label'];
         }
 
         // select the sequence for the datagrid if we have sequencing
@@ -442,7 +442,7 @@ class Generate extends Action
      */
     protected function generateFrontendCategoryActions()
     {
-        if(!$this->record['useCategories']) return;
+        if (!$this->record['useCategories']) return;
 
         // generate category action
         BackendModuleMakerGenerator::generateFile(
@@ -458,7 +458,7 @@ class Generate extends Action
      */
     protected function generateFrontendCategoryWidget()
     {
-        if(!$this->record['useCategories']) return;
+        if (!$this->record['useCategories']) return;
 
         // generate categories widget
         BackendModuleMakerGenerator::generateFile(

@@ -49,7 +49,7 @@ class AddStep2 extends ActionAdd
     {
         // If step 1 isn't entered, redirect back to the first step of the wizard
         $this->record = \SpoonSession::get('module');
-        if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(Model::createURLForAction('add'));
+        if (!$this->record || !array_key_exists('title', $this->record)) $this->redirect(Model::createURLForAction('add'));
 
         parent::execute();
 
@@ -61,7 +61,7 @@ class AddStep2 extends ActionAdd
     private function loadDataGrid()
     {
         // add a fields array key to the record to make sure the datagrid can be crated
-        if(!array_key_exists('fields', $this->record)) $this->record['fields'] = array();
+        if (!array_key_exists('fields', $this->record)) $this->record['fields'] = array();
 
         // add the key of each items to the values. This will be used for a link to the delete_field action
         foreach ($this->record['fields'] as $key => $field) {

@@ -87,7 +87,7 @@ class Add extends ActionAdd
             $title = preg_replace('/[^A-Za-z ]/', '', $fields['title']->getValue());
 
             // check if there is already a module with this name
-            if(BackendExtensionsModel::existsModule($title)) $fields['title']->addError(Language::err('DuplicateModuleName'));
+            if (BackendExtensionsModel::existsModule($title)) $fields['title']->addError(Language::err('DuplicateModuleName'));
 
             if ($this->frm->isCorrect()) {
                 $this->record['title'] = $title;

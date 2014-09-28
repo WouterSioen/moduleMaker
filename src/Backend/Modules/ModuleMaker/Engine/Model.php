@@ -40,7 +40,7 @@ class Model
             // loob the dir to check for subdirs if this isn't the main
             foreach ($dir as $name => $subdir) {
                 // no subdirs
-                if(!is_array($subdir)) mkdir($mainDir . $subdir);
+                if (!is_array($subdir)) mkdir($mainDir . $subdir);
                 // more subdirs
                 else {
                     // create new array to pass
@@ -68,7 +68,7 @@ class Model
         $oFile = fopen($file, 'w');
 
         // input?
-        if($input !== null) fwrite($oFile, $input);
+        if ($input !== null) fwrite($oFile, $input);
 
         // close the file
         fclose($oFile);
@@ -83,7 +83,7 @@ class Model
     public static function readFile($file)
     {
         // file exists?
-        if(!file_exists($file)) throw new Exception('The given file(' . $file . ') does not exist.');
+        if (!file_exists($file)) throw new Exception('The given file(' . $file . ') does not exist.');
 
         // open the file
         $oFile = fopen($file, 'r');

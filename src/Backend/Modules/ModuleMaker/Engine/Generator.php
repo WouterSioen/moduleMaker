@@ -52,8 +52,8 @@ class Generator
         }
 
         // add sequence, categories or meta if necessary
-        if($module['useSequence']) $return .= self::generateSnippet('Backend/Actions/Snippets/BuildSequence.base.php', $module);
-        if($module['useCategories']) $return .= self::generateSnippet('Backend/Actions/Snippets/BuildCategory.base.php');
+        if ($module['useSequence']) $return .= self::generateSnippet('Backend/Actions/Snippets/BuildSequence.base.php', $module);
+        if ($module['useCategories']) $return .= self::generateSnippet('Backend/Actions/Snippets/BuildCategory.base.php');
         $return .= self::generateSnippet('Backend/Actions/Snippets/BuildMeta.base.php');
 
         // return the string we build up
@@ -84,7 +84,7 @@ class Generator
     public static function generateInstall($module)
     {
         $extras = $navigation = '';
-        if($module['useSequence']) $extras .= "\n        \$this->setActionRights(1, '" . $module['underscored_name'] . "', 'sequence');";
+        if ($module['useSequence']) $extras .= "\n        \$this->setActionRights(1, '" . $module['underscored_name'] . "', 'sequence');";
         if ($module['useCategories']) {
             $extras .= self::generateSnippet('Backend/Installer/Snippets/Categories.base.php', $module);
             $navigation = self::generateSnippet('Backend/Installer/Snippets/NavigationCategories.base.php', $module);
@@ -139,8 +139,8 @@ class Generator
         if ($isEdit) {
             $default = " ,\$this->record['" . $metaField['underscored_label'] . "']";
         } elseif ($metaField['default'] !== '') {
-            if($metaField['type'] == 'number') $default = ' ,' . $metaField['default'];
-            elseif($metaField['type'] == 'dropdown') $default = ", Language::lbl('" . Helper::buildCamelCasedName($metaField['default']) . "')";
+            if ($metaField['type'] == 'number') $default = ' ,' . $metaField['default'];
+            elseif ($metaField['type'] == 'dropdown') $default = ", Language::lbl('" . Helper::buildCamelCasedName($metaField['default']) . "')";
             else $default = " ,'" . $metaField['default'] . "'";
         }
 
@@ -151,7 +151,7 @@ class Generator
             $field['type'] = \SpoonFilter::toCamelCase($field['type']);
 
             // don't add the metafield, it's already added
-            if($field['meta']) continue;
+            if ($field['meta']) continue;
 
             // for fields with multiple options: add them
             if ($field['type'] == 'Multicheckbox' || $field['type'] == 'Radiobutton') {
@@ -178,14 +178,14 @@ class Generator
             // create the default value
             $default = '';
             if ($isEdit) {
-                if($field['type'] == 'ImageCaption') $default = ", \$this->record['" . $field['underscored_label'] . "_caption']";
-                elseif($field['type'] == 'Checkbox') $default = ", \$this->record['" . $field['underscored_label'] . "'] == 'Y'";
+                if ($field['type'] == 'ImageCaption') $default = ", \$this->record['" . $field['underscored_label'] . "_caption']";
+                elseif ($field['type'] == 'Checkbox') $default = ", \$this->record['" . $field['underscored_label'] . "'] == 'Y'";
                 else $default = ", \$this->record['" . $field['underscored_label'] . "']";
-            } elseif($field['type'] == 'Author') $default = ', BackendAuthentication::getUser()->getUserId()';
+            } elseif ($field['type'] == 'Author') $default = ', BackendAuthentication::getUser()->getUserId()';
             elseif ($field['default'] !== '') {
-                if($field['type'] == 'Number') $default = ', ' . $field['default'];
-                elseif($field['type'] == 'Dropdown') $default = ", Language::lbl('" . Helper::buildCamelCasedName($field['default']) . "')";
-                elseif($field['type'] == 'Checkbox') $default = ($field['default'] == 'N') ? ', false': ', true';
+                if ($field['type'] == 'Number') $default = ', ' . $field['default'];
+                elseif ($field['type'] == 'Dropdown') $default = ", Language::lbl('" . Helper::buildCamelCasedName($field['default']) . "')";
+                elseif ($field['type'] == 'Checkbox') $default = ($field['default'] == 'N') ? ', false': ', true';
                 else $default = ", '" . $field['default'] . "'";
             }
             $field['default'] = $default;
@@ -199,13 +199,13 @@ class Generator
 
         // add the tags field if necessary
         if ($module['useTags']) {
-            if($isEdit) $return .= self::generateSnippet('Backend/Actions/Snippets/LoadTagsEdit.base.php', $module);
+            if ($isEdit) $return .= self::generateSnippet('Backend/Actions/Snippets/LoadTagsEdit.base.php', $module);
             else $return .= self::generateSnippet('Backend/Actions/Snippets/LoadTagsAdd.base.php', $module);
         }
 
         // add the categories
         if ($module['useCategories']) {
-            if($isEdit) $return .= self::generateSnippet('Backend/Actions/Snippets/LoadCategoriesEdit.base.php', $module);
+            if ($isEdit) $return .= self::generateSnippet('Backend/Actions/Snippets/LoadCategoriesEdit.base.php', $module);
             else $return .= self::generateSnippet('Backend/Actions/Snippets/LoadCategoriesAdd.base.php', $module);
         }
 
@@ -214,7 +214,7 @@ class Generator
         $metaField['module'] = $module['camel_case_name'];
         $metaField['camel_case_name'] = $module['camel_case_name'];
 
-        if($isEdit) $return .= self::generateSnippet('Backend/Actions/Snippets/LoadMetaEdit.base.php', $metaField);
+        if ($isEdit) $return .= self::generateSnippet('Backend/Actions/Snippets/LoadMetaEdit.base.php', $metaField);
         else $return .= self::generateSnippet('Backend/Actions/Snippets/LoadMetaAdd.base.php', $metaField);
 
         // return the string we build up
@@ -230,12 +230,12 @@ class Generator
      */
     public static function generateMultiFiles($module, $isEdit)
     {
-        if(!$module['multipleImages']) return array('', '', '');
+        if (!$module['multipleImages']) return array('', '', '');
 
         $js = self::generateSnippet('Backend/Actions/Snippets/MultipleImagesJs.base.php', $module);
-        if($isEdit) $load = self::generateSnippet('Backend/Actions/Snippets/MultipleImagesLoadEdit.base.php', $module);
+        if ($isEdit) $load = self::generateSnippet('Backend/Actions/Snippets/MultipleImagesLoadEdit.base.php', $module);
         else $load = self::generateSnippet('Backend/Actions/Snippets/MultipleImagesLoad.base.php', $module);
-        if($isEdit) $save = self::generateSnippet('Backend/Actions/Snippets/MultipleImagesSaveEdit.base.php', $module);
+        if ($isEdit) $save = self::generateSnippet('Backend/Actions/Snippets/MultipleImagesSaveEdit.base.php', $module);
         else $save = self::generateSnippet('Backend/Actions/Snippets/MultipleImagesSave.base.php', $module);
         return array($js, $load, $save);
     }
@@ -248,7 +248,7 @@ class Generator
      */
     public static function generateSaveTags($module)
     {
-        if(!$module['useTags']) return '';
+        if (!$module['useTags']) return '';
 
         return self::generateSnippet('Backend/Actions/Snippets/SaveTags.base.php');
     }
@@ -261,7 +261,7 @@ class Generator
      */
     public static function generateSearchIndex($module)
     {
-        if($module['searchFields'] === false) return '';
+        if ($module['searchFields'] === false) return '';
 
         $searchFields = explode(',', $module['searchFields']);
         $searchString = '';
@@ -290,7 +290,7 @@ class Generator
         // replace the variables
         if ($variables && is_array($variables) && !empty($variables)) {
             foreach ($variables AS $key => $value) {
-                if(!is_array($value)) $content = str_replace('{$' . $key . '}', $value, $content);
+                if (!is_array($value)) $content = str_replace('{$' . $key . '}', $value, $content);
             }
         }
 
@@ -313,7 +313,7 @@ class Generator
         $return .= " `id` int(11) NOT NULL auto_increment,\n";
         $return .= " `meta_id` int(11) NOT NULL,\n";
 
-        if($module['useCategories']) $return .= " `category_id` int(11) NOT NULL,\n";
+        if ($module['useCategories']) $return .= " `category_id` int(11) NOT NULL,\n";
 
         $return .= " `language` varchar(5) NOT NULL,\n";
 
@@ -326,7 +326,7 @@ class Generator
         $return .= " `created_on` datetime NOT NULL,\n";
         $return .= " `edited_on` datetime NOT NULL,\n";
 
-        if($module['useSequence']) $return .= " `sequence` int(11) NOT NULL,\n";
+        if ($module['useSequence']) $return .= " `sequence` int(11) NOT NULL,\n";
 
         // add primary key and row settings
         $return .= " PRIMARY KEY (`id`)\n";
@@ -348,14 +348,14 @@ class Generator
 
         // first add the meta field
         $metaField = $module['fields'][(int) $module['metaField']];
-        if($isEdit) $returnTitle = self::generateSnippet('Backend/Layout/Templates/Snippets/MetaEdit.base.tpl', $metaField);
+        if ($isEdit) $returnTitle = self::generateSnippet('Backend/Layout/Templates/Snippets/MetaEdit.base.tpl', $metaField);
         else $returnTitle = self::generateSnippet('Backend/Layout/Templates/Snippets/Meta.base.tpl', $metaField);
 
         // loop through fields and add items
         foreach ($module['fields'] as $field) {
             $field['type'] = \SpoonFilter::toCamelCase($field['type']);
 
-            if($field['meta']) continue;
+            if ($field['meta']) continue;
 
             $field['required_html'] = ($field['required']) ? '<abbr title="{$lblRequiredField}">*</abbr>' : '';
 
@@ -375,8 +375,8 @@ class Generator
         }
 
         // add tags and categories
-        if($module['useTags']) $returnSide .= self::generateSnippet('Backend/Layout/Templates/Snippets/Tags.base.tpl');
-        if($module['useCategories']) $returnSide .= self::generateSnippet('Backend/Layout/Templates/Snippets/Category.base.tpl');
+        if ($module['useTags']) $returnSide .= self::generateSnippet('Backend/Layout/Templates/Snippets/Tags.base.tpl');
+        if ($module['useCategories']) $returnSide .= self::generateSnippet('Backend/Layout/Templates/Snippets/Category.base.tpl');
 
         // return the strings we build up
         return array($returnTitle, $return, $returnSide);
@@ -434,7 +434,7 @@ class Generator
                 $return .= self::generateSnippet('Backend/Actions/Snippets/Validate' . $field['type'] . '.base.php', $field);
             }
 
-            if(($field['type'] == 'Image' || $field['type'] == 'File') && $field['required'] && !$isEdit) $return .= "            else \$fields['" . $field['underscored_label'] . "'" . "]->addError(Language::err('FieldIsRequired'));\n";
+            if (($field['type'] == 'Image' || $field['type'] == 'File') && $field['required'] && !$isEdit) $return .= "            else \$fields['" . $field['underscored_label'] . "'" . "]->addError(Language::err('FieldIsRequired'));\n";
         }
 
         // add validate category if necessary

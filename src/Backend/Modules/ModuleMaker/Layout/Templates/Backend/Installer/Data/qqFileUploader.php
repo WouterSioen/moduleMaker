@@ -60,7 +60,7 @@ class qqFileUploader {
             return array('error' => "Server error. Uploads directory isn't writable or executable.");
         }
 
-        if(!isset($_SERVER['CONTENT_TYPE'])) {
+        if (!isset($_SERVER['CONTENT_TYPE'])) {
             return array('error' => "No files were uploaded.");
         } else if (strpos(strtolower($_SERVER['CONTENT_TYPE']), 'multipart/') !== 0){
             return array('error' => "Server error. Not a multipart request. Please set forceMultipart to default value (true).");
@@ -96,7 +96,7 @@ class qqFileUploader {
         $pathinfo = pathinfo($name);
         $ext = isset($pathinfo['extension']) ? $pathinfo['extension'] : '';
 
-        if($this->allowedExtensions && !in_array(strtolower($ext), array_map("strtolower", $this->allowedExtensions))){
+        if ($this->allowedExtensions && !in_array(strtolower($ext), array_map("strtolower", $this->allowedExtensions))){
             $these = implode(', ', $this->allowedExtensions);
             return array('error' => 'File has an invalid extension, it should be one of '. $these . '.');
         }

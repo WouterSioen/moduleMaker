@@ -42,10 +42,10 @@ class AddStep3 extends ActionAdd
     {
         // If step 1 isn't entered, redirect back to the first step of the wizard
         $this->record = \SpoonSession::get('module');
-        if(!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('Add'));
+        if (!$this->record || !array_key_exists('title', $this->record)) $this->redirect(BackendModel::createURLForAction('Add'));
 
         // If there are no fields added, redirect back to the second step of the wizard
-        if(!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(BackendModel::createURLForAction('AddStep2'));
+        if (!array_key_exists('fields', $this->record) || empty($this->record['fields'])) $this->redirect(BackendModel::createURLForAction('AddStep2'));
 
         parent::execute();
 
@@ -66,8 +66,8 @@ class AddStep3 extends ActionAdd
         $this->selectedMeta = false;
 
         foreach ($this->record['fields'] as $key => $field) {
-            if($field['type'] == 'text') $fields[$key] = $field['label'];
-            if(array_key_exists('meta', $field) && $field['meta'] == true) $this->selectedMeta = $key;
+            if ($field['type'] == 'text') $fields[$key] = $field['label'];
+            if (array_key_exists('meta', $field) && $field['meta'] == true) $this->selectedMeta = $key;
         }
 
         // create all variables needed for searchindex
@@ -81,7 +81,7 @@ class AddStep3 extends ActionAdd
                     'value' => $key
                 );
             }
-            if(array_key_exists('searchable', $field) && $field['searchable'] == true) $this->selectedSearch = $key;
+            if (array_key_exists('searchable', $field) && $field['searchable'] == true) $this->selectedSearch = $key;
         }
 
         // create the form
@@ -130,7 +130,7 @@ class AddStep3 extends ActionAdd
 
             if ($this->frm->isCorrect()) {
                 // set all fields to searchable false
-                foreach($this->record['fields'] as &$field) $field['searchable'] = false;
+                foreach ($this->record['fields'] as &$field) $field['searchable'] = false;
 
                 // get meta value
                 $metaField = $frmFields['meta_field']->getValue();

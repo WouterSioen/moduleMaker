@@ -105,7 +105,7 @@ class CreateZip extends ActionIndex
 
         // split the modules in 2 separate data grid sources
         foreach ($modules as $module) {
-            if($module['installed']) $this->installedModules[] = $module;
+            if ($module['installed']) $this->installedModules[] = $module;
             else $this->installableModules[] = $module;
         }
     }
