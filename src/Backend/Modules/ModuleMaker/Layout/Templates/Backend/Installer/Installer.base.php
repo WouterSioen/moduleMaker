@@ -38,7 +38,7 @@ class Installer extends ModuleInstaller
 
         // add extra's
         $subnameID = $this->insertExtra('{$camel_case_name}', 'block', '{$camel_case_name}', null, null, 'N', 1000);
-        $this->insertExtra('{$camel_case_name}', 'block', '{$camel_case_name}Detail', 'detail', null, 'N', 1001);
+        $this->insertExtra('{$camel_case_name}', 'block', '{$camel_case_name}Detail', 'Detail', null, 'N', 1001);
 
 {$backend_navigation}
     }

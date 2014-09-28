@@ -222,7 +222,7 @@ class Generate extends Action
             'Backend/Js/Snippets/DoMeta.base.js', $this->record['fields'][$this->record['metaField']]
         );
         BackendModuleMakerGenerator::generateFile(
-            'Backend/Js/Javascript.base.js', $this->variables, $this->backendPath . 'js/' . $this->record['camel_case_name'] . '.js'
+            'Backend/Js/Javascript.base.js', $this->variables, $this->backendPath . 'Js/' . $this->record['camel_case_name'] . '.js'
         );
         unset($this->variables['multiJs'], $this->variables['do_meta']);
 
@@ -416,7 +416,7 @@ class Generate extends Action
             'Frontend/Actions/Index.base.php', $this->variables, $this->frontendPath . 'Actions/Index.php'
         );
         BackendModuleMakerGenerator::generateFile(
-            'Frontend/Layout/templates/Index.base.tpl', $this->variables, $this->frontendPath . 'Layout/Templates/Index.tpl'
+            'Frontend/Layout/Templates/Index.base.tpl', $this->variables, $this->frontendPath . 'Layout/Templates/Index.tpl'
         );
 
         // create twittercard variable if necessary
@@ -449,7 +449,7 @@ class Generate extends Action
             'Frontend/Actions/Category.base.php', $this->variables, $this->frontendPath . 'Actions/Category.php'
         );
         BackendModuleMakerGenerator::generateFile(
-            'Frontend/Layout/templates/Category.base.tpl', $this->variables, $this->frontendPath . 'Layout/Templates/Category.tpl'
+            'Frontend/Layout/Templates/Category.base.tpl', $this->variables, $this->frontendPath . 'Layout/Templates/Category.tpl'
         );
     }
 
@@ -570,7 +570,7 @@ class Generate extends Action
                 'Backend/Installer/Snippets/MultipleImages.base.sql', $this->variables
             );
         }
-        BackendModuleMakerModel::makeFile($this->backendPath . 'Installer/data/install.sql', $sql);
+        BackendModuleMakerModel::makeFile($this->backendPath . 'Installer/Data/install.sql', $sql);
     }
 
     /**
