@@ -159,9 +159,13 @@
 				<translation language="nl"><![CDATA[There is already a module with this name.]]></translation>
 			</item>
 			<item type="error" name="ImageSizeNotWellFormed">
-				<translation language="en"><![CDATA[The sizes should be in the format widthxheight (400x400).]]></translation>
-				<translation language="nl"><![CDATA[De groottes moeten in het formaat breedtexhoogte zijn (400x400).]]></translation>
+				<translation language="en"><![CDATA[The sizes should be in the format (width)x(height) (400x400, x400 or 400x).]]></translation>
+				<translation language="nl"><![CDATA[De groottes moeten in het formaat (breedte)x(hoogte) zijn (400x400, x400 of 400x).]]></translation>
 			</item>
+            <item type="error" name="AddOptionsBeforeSubmitting">
+                <translation language="en"><![CDATA[Add the option before submitting.]]></translation>
+                <translation language="nl"><![CDATA[Voeg de optie toe vooraleer je verder gaat.]]></translation>
+            </item>
 		</ModuleMaker>
 		<Core>
 			<item type="label" name="ModuleMaker">

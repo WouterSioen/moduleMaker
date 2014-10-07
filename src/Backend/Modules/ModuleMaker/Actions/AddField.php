@@ -212,7 +212,7 @@ class AddField extends ActionAdd
 
                 // loop all tags and check on format, example (400x400)
                 foreach ($tags as $tag) {
-                    if (!preg_match('\'([1-9][0-9]*x[1-9][0-9]*)\'', $tag)) {
+                    if (!preg_match('\'([1-9][0-9]*x[1-9][0-9]*|x[1-9][0-9]*|[1-9][0-9]*x)\'', $tag)) {
                         $fields['tags']->addError(Language::err('ImageSizeNotWellFormed'));
                         break;
                     }
