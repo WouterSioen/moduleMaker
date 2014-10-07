@@ -52,7 +52,7 @@ class Generator
         }
 
         // add sequence, categories or meta if necessary
-        if ($module['useSequence']) $return .= self::generateSnippet('Backend/Actions/Snippets/BuildSequence.base.php', $module);
+        if ($module['useSequence'] && !$isEdit) $return .= self::generateSnippet('Backend/Actions/Snippets/BuildSequence.base.php', $module);
         if ($module['useCategories']) $return .= self::generateSnippet('Backend/Actions/Snippets/BuildCategory.base.php');
         $return .= self::generateSnippet('Backend/Actions/Snippets/BuildMeta.base.php');
 
