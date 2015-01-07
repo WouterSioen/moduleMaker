@@ -23,7 +23,7 @@
 {option:datagrid}
     <div id="dataGridFieldsHolder">
         <h3>{$lblFields|ucfirst}</h3>
-        <div class="dataGridHolder" id="{$item.id}">
+        <div class="dataGridHolder">
             {$datagrid}
         </div>
     </div>
