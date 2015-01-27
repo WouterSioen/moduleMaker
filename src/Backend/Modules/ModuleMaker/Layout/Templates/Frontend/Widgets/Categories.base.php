@@ -2,13 +2,6 @@
 
 namespace Frontend\Modules\{$camel_case_name}\Widgets;
 
-/*
- * This file is part of Fork CMS.
- *
- * For the full copyright and license information, please view the license
- * file that was distributed with this source code.
- */
-
 use Frontend\Core\Engine\Base\Widget;
 use Frontend\Core\Engine\Navigation;
 use Frontend\Modules\{$camel_case_name}\Engine\Model as Frontend{$camel_case_name}Model;

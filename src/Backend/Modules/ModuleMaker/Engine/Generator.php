@@ -2,13 +2,6 @@
 
 namespace Backend\Modules\ModuleMaker\Engine;
 
-/*
- * This file is part of Fork CMS.
- *
- * For the full copyright and license information, please view the license
- * file that was distributed with this source code.
- */
-
 /**
  * In this file we store all functions that generate blocks of code for the modulemaker module
  *

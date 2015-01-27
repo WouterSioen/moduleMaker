@@ -2,13 +2,6 @@
 
 namespace Backend\Modules\{$camel_case_name}\Engine;
 
-/*
- * This file is part of Fork CMS.
- *
- * For the full copyright and license information, please view the license
- * file that was distributed with this source code.
- */
-
 /**
  * In this file we store all helper functions that we will be using in the {$title} module
  *
@@ -18,7 +11,7 @@ class Helper
 {
     /**
      * The imagesizes for the mutliple image upload
-     * 
+     *
      * @var array
      */
     static $imageSizes = array(
@@ -29,7 +22,7 @@ class Helper
 
     /**
      * The thumbnailsize for the temporary images
-     * 
+     *
      * @var array
      */
     static $tempFileSizes = array(
@@ -38,7 +31,7 @@ class Helper
 
     /**
      * Returns the biggest images size
-     * 
+     *
      * @return array
      */
     static function getBiggestImageSize()
@@ -48,7 +41,7 @@ class Helper
 
     /**
      * Gets the nth size of the image
-     * 
+     *
      * @param int $n
      * @return array
      */
@@ -61,7 +54,7 @@ class Helper
 
     /**
      * Returns the biggest images size
-     * 
+     *
      * @return array
      */
     static function getSmallestImageSize()

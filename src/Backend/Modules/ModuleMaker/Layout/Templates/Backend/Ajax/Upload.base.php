@@ -6,16 +6,9 @@ use Backend\Core\Engine\Base\AjaxAction;
 use Backend\Core\Engine\TemplateModifiers;
 use Backend\Modules\{$camel_case_name}\Engine\Helper as Backend{$camel_case_name}Helper;
 
-/*
- * This file is part of Fork CMS.
- *
- * For the full copyright and license information, please view the license
- * file that was distributed with this source code.
- */
-
 /**
  * Uploads files to the server
- * 
+ *
  * @author {$author_name} <{$author_email}>
  */
 class Upload extends AjaxAction
