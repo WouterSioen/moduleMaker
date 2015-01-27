@@ -63,7 +63,7 @@ class Detail extends Block
         $this->header->addOpenGraphData('type', 'article', true);
         $this->header->addOpenGraphData(
             'url',
-            SITE_URL . Navigation::getURLForBlock('{$camel_case_name}', 'detail') . '/' . $this->record['url'],
+            SITE_URL . Navigation::getURLForBlock('{$camel_case_name}', 'Detail') . '/' . $this->record['url'],
             true
         );
         $this->header->addOpenGraphData(

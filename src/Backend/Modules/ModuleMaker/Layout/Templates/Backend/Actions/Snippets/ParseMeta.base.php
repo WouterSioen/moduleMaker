@@ -1,7 +1,7 @@
 
 
         // get url
-        $url = Model::getURLForBlock($this->URL->getModule(), 'detail');
+        $url = Model::getURLForBlock($this->URL->getModule(), 'Detail');
         $url404 = Model::getURL(404);
 
         // parse additional variables

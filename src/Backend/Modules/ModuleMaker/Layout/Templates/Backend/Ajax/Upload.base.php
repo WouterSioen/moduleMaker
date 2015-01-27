@@ -63,7 +63,7 @@ class Upload extends AjaxAction
         $chunkIndex = \SpoonFilter::getGetValue('qqpartindex', null, null, 'int');
 
         $result['num'] = $numChunks;
-        $result['index'] = $chunkIndex;
+        $result['Index'] = $chunkIndex;
 
         if ($chunkIndex === ($numChunks - 1)) {
             // To return a name used for uploaded file you can use the following line.

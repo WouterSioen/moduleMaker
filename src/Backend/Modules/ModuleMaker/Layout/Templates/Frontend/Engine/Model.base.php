@@ -37,7 +37,7 @@ class Model
         }
 
         // create full url
-        $item['full_url'] = Navigation::getURLForBlock('{$camel_case_name}', 'detail') . '/' . $item['url'];
+        $item['full_url'] = Navigation::getURLForBlock('{$camel_case_name}', 'Detail') . '/' . $item['url'];
 
         return $item;
     }
@@ -65,7 +65,7 @@ class Model
         }
 
         // get detail action url
-        $detailUrl = Navigation::getURLForBlock('{$camel_case_name}', 'detail');
+        $detailUrl = Navigation::getURLForBlock('{$camel_case_name}', 'Detail');
 
         // prepare items for search
         foreach ($items as &$item) {

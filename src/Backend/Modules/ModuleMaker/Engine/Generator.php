@@ -77,7 +77,7 @@ class Generator
     public static function generateInstall($module)
     {
         $extras = $navigation = '';
-        if ($module['useSequence']) $extras .= "\n        \$this->setActionRights(1, '" . $module['underscored_name'] . "', 'sequence');";
+        if ($module['useSequence']) $extras .= "\n        \$this->setActionRights(1, '" . $module['underscored_name'] . "', 'Sequence');";
         if ($module['useCategories']) {
             $extras .= self::generateSnippet('Backend/Installer/Snippets/Categories.base.php', $module);
             $navigation = self::generateSnippet('Backend/Installer/Snippets/NavigationCategories.base.php', $module);

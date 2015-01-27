@@ -9,7 +9,7 @@
         $this->header->addMetaData(
             array(
                 'property' => 'twitter:url',
-                'content' => SITE_URL . Navigation::getURLForBlock('{$camel_case_name}', 'detail') . '/' . $this->record['url']
+                'content' => SITE_URL . Navigation::getURLForBlock('{$camel_case_name}', 'Detail') . '/' . $this->record['url']
             ), true, 'property'
         );
         $this->header->addMetaData(array('property' => 'twitter:title', 'content' => $this->record['meta_title']), true, 'property');

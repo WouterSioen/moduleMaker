@@ -33,10 +33,10 @@ class Delete extends ActionDelete
             );
 
             $this->redirect(
-                Model::createURLForAction('index') . '&report=deleted&var=' .
+                Model::createURLForAction('Index') . '&report=deleted&var=' .
                 urlencode($this->record['title'])
             );
         }
-        else $this->redirect(Model::createURLForAction('index') . '&error=non-existing');
+        else $this->redirect(Model::createURLForAction('Index') . '&error=non-existing');
     }
 }

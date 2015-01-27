@@ -53,7 +53,7 @@
                                 array(
                                     '{$underscored_name}_id' => $item['id'],
                                     'name' => $sImage['uploadName'],
-                                    'sequence' => $images->$sImage['index']->sequence
+                                    'sequence' => $images->$sImage['Index']->sequence
                                 )
                             );
                         }

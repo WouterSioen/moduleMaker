@@ -42,7 +42,7 @@ class Edit extends ActionEdit
         $this->id = $this->getParameter('id', 'int', null);
         if ($this->id == null || !Backend{$camel_case_name}Model::exists($this->id)) {
             $this->redirect(
-                Model::createURLForAction('index') . '&error=non-existing'
+                Model::createURLForAction('Index') . '&error=non-existing'
             );
         }
 
@@ -94,7 +94,7 @@ class Edit extends ActionEdit
                     $this->getModule(), 'after_edit', $item
                 );
                 $this->redirect(
-                    Model::createURLForAction('index') . '&report=edited&highlight=row-' . $item['id']
+                    Model::createURLForAction('Index') . '&report=edited&highlight=row-' . $item['id']
                 );
             }
         }
