@@ -39,7 +39,7 @@ class Generator
             }
 
             // when there is a snippet provided for the datatype, use it. This falls back to a default snippet
-            if (file_exists(BACKEND_MODULE_PATH . '/Layout/Templates/Backend/Actions/Snippets/Build' . $field['type'] . '.base.php')) {
+            if (file_exists(BACKEND_MODULES_PATH . '/ModuleMaker/Layout/Templates/Backend/Actions/Snippets/Build' . $field['type'] . '.base.php')) {
                 $return .= self::generateSnippet('Backend/Actions/Snippets/Build' . $field['type'] . '.base.php', $field);
             } else $return .= self::generateSnippet('Backend/Actions/Snippets/BuildSimple.base.php', $field);
         }
@@ -185,7 +185,7 @@ class Generator
             $field['default_time'] = ($default && $field['type'] == 'Datetime') ? ", date('H:i', \$this->record['" . $field['underscored_label'] . "'])" : '';
 
             // when there is a snippet provided for the datatype, use it. This falls back to a default snippet
-            if (file_exists(BACKEND_MODULE_PATH . '/Layout/Templates/Backend/Actions/Snippets/Add' . $field['type'] . '.base.php')) {
+            if (file_exists(BACKEND_MODULES_PATH . '/ModuleMaker/Layout/Templates/Backend/Actions/Snippets/Add' . $field['type'] . '.base.php')) {
                 $return .= self::generateSnippet('Backend/Actions/Snippets/Add' . $field['type'] . '.base.php', $field);
             } else $return .= self::generateSnippet('Backend/Actions/Snippets/AddSimple.base.php', $field);
         }
@@ -278,7 +278,7 @@ class Generator
     public static function generateSnippet($template, $variables = null)
     {
         // get the content of the file
-        $content = Model::readFile(BACKEND_MODULE_PATH . '/Layout/Templates/' . $template);
+        $content = Model::readFile(BACKEND_MODULES_PATH . '/ModuleMaker/Layout/Templates/' . $template);
 
         // replace the variables
         if ($variables && is_array($variables) && !empty($variables)) {
@@ -423,7 +423,7 @@ class Generator
             }
 
             // when there is a snippet provided to validate this form type, use it
-            if (file_exists(BACKEND_MODULE_PATH . '/Layout/Templates/Backend/Actions/Snippets/Validate' . $field['type'] . '.base.php')) {
+            if (file_exists(BACKEND_MODULES_PATH . 'ModuleMaker/Layout/Templates/Backend/Actions/Snippets/Validate' . $field['type'] . '.base.php')) {
                 $return .= self::generateSnippet('Backend/Actions/Snippets/Validate' . $field['type'] . '.base.php', $field);
             }
 
