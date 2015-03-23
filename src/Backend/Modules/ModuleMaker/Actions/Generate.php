@@ -24,10 +24,10 @@ class Generate extends Action
 
     /**
      * Some variables used in multiple functions
-     * $backendPath:		the path to the Backend part of the module (string)
-     * $frontendPath:		the path to the Frontend part of the module (string)
-     * $templatesPath		The path where our templates and Snippets are stored (string)
-     * $variables:			A part of the records variable used for string replacement (array)
+     * $backendPath:        the path to the Backend part of the module (string)
+     * $frontendPath:       the path to the Frontend part of the module (string)
+     * $templatesPath       The path where our templates and Snippets are stored (string)
+     * $variables:          A part of the records variable used for string replacement (array)
      *
      * @var mixed
      */
@@ -243,7 +243,7 @@ class Generate extends Action
         // if we use the fineuploader, we should copy the needed js and css files
         if ($this->record['multipleImages']) {
             \SpoonDirectory::copy(
-                BACKEND_MODULE_PATH . '/Layout/Templates/Backend/Js/fineuploader', $this->backendPath . 'Js/fineuploader'
+                BACKEND_MODULES_PATH . 'ModuleMaker/Layout/Templates/Backend/Js/fineuploader', $this->backendPath . 'Js/fineuploader'
             );
             BackendModuleMakerGenerator::generateFile(
                 'Backend/Layout/Css/fineuploader.css', null, $this->backendPath . 'Layout/Css/fineuploader.css'
