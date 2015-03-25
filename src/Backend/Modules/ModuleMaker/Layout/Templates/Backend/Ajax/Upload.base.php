@@ -18,7 +18,7 @@ class Upload extends AjaxAction
         // Include the uploader class
         require_once PATH_LIBRARY . '/external/qqFileUploader.php';
 
-        $pathSlug = '/{$underscored_name}/uploaded_images';
+        $pathSlug = '/{$camel_case_name}/uploaded_images';
         $uploadPath = FRONTEND_FILES_PATH . $pathSlug;
         $uploadURL = FRONTEND_FILES_URL . $pathSlug;
 
