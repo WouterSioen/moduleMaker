@@ -243,7 +243,7 @@ class Generate extends Action
         // if we use the fineuploader, we should copy the needed js and css files
         if ($this->record['multipleImages']) {
             \SpoonDirectory::copy(
-                BACKEND_MODULES_PATH . 'ModuleMaker/Layout/Templates/Backend/Js/fineuploader', $this->backendPath . 'Js/fineuploader'
+                BACKEND_MODULES_PATH . '/ModuleMaker/Layout/Templates/Backend/Js/fineuploader', $this->backendPath . 'Js/fineuploader'
             );
             BackendModuleMakerGenerator::generateFile(
                 'Backend/Layout/Css/fineuploader.css', null, $this->backendPath . 'Layout/Css/fineuploader.css'
