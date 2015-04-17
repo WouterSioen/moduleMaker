@@ -30,7 +30,7 @@
                                 array(
                                     '{$underscored_name}_id' => $item['id'],
                                     'name' => $sImage['uploadName'],
-                                    'sequence' => $images->$sImage['Index']->sequence
+                                    'sequence' => $sImage['Index']
                                 )
                             );
                         }
