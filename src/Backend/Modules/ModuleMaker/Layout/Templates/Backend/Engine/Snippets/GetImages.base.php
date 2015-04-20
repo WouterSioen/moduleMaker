@@ -16,7 +16,7 @@
             'id'
         );
 
-        $url = FRONTEND_FILES_URL . '/{$underscored_name}';
+        $url = FRONTEND_FILES_URL . '/{$camel_case_name}/';
 
         foreach ($images as &$image) {
             $image['uploadURL'] = $url;

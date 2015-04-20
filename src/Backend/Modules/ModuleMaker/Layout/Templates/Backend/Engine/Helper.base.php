@@ -15,9 +15,9 @@ class Helper
      * @var array
      */
     static $imageSizes = array(
-        '100x100' => array('width' => 100, 'height' => 100, 'allowEnlargement' => false, 'forceOriginalAspectRatio' => false),
-        '600x450' => array('width' => 600, 'height' => 450, 'allowEnlargement' => false, 'forceOriginalAspectRatio' => false),
-        '900x600' => array('width' => 900, 'height' => 600, 'allowEnlargement' => false, 'forceOriginalAspectRatio' => false)
+        '100x100' => array('width' => 100, 'height' => 100, 'allowEnlargement' => true, 'forceOriginalAspectRatio' => false),
+        '600x450' => array('width' => 600, 'height' => 450, 'allowEnlargement' => true, 'forceOriginalAspectRatio' => false),
+        '900x600' => array('width' => 900, 'height' => 600, 'allowEnlargement' => true, 'forceOriginalAspectRatio' => false)
     );
 
     /**
@@ -26,7 +26,7 @@ class Helper
      * @var array
      */
     static $tempFileSizes = array(
-        '100x100' => array('width' => 100, 'height' => 100, 'allowEnlargement' => false, 'forceOriginalAspectRatio' => false)
+        '100x100' => array('width' => 100, 'height' => 100, 'allowEnlargement' => true, 'forceOriginalAspectRatio' => false)
     );
 
     /**
