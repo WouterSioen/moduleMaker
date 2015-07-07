@@ -41,18 +41,23 @@ class Index extends ActionIndex
         // reform date
         $this->dataGrid->setColumnFunction(
             array('Backend\Core\Engine\DataGridFunctions', 'getLongDate'),
-            array('[created_on]'), 'created_on', true
+            array('[created_on]'),
+            'created_on',
+            true
         );
 {$sequence_extra}
         // check if this action is allowed
         if (Authentication::isAllowedAction('Edit')) {
             $this->dataGrid->addColumn(
-                'edit', null, Language::lbl('Edit'),
+                'edit',
+                null,
+                Language::lbl('Edit'),
                 Model::createURLForAction('Edit') . '&amp;id=[id]',
                 Language::lbl('Edit')
             );
             $this->dataGrid->setColumnURL(
-                '{$meta_field}', Model::createURLForAction('Edit') . '&amp;id=[id]'
+                '{$meta_field}',
+                Model::createURLForAction('Edit') . '&amp;id=[id]'
             );
         }
     }
