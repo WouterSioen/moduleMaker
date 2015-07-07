@@ -24,10 +24,8 @@
                 $url = BackendModel::addNumber($url);
                 return self::getURLForCategory($url);
             }
-        }
-        // current category should be excluded
-        else
-        {
+        } else {
+            // current category should be excluded
             if ((bool) $db->getVar(
                 'SELECT 1
                  FROM {$underscored_name}_categories AS i

@@ -16,14 +16,16 @@
                  LEFT OUTER JOIN {$underscored_name} AS p ON i.id = p.category_id AND i.language = p.language
                  WHERE i.language = ?
                  GROUP BY i.id',
-                 array(Language::getWorkingLanguage()));
+                array(Language::getWorkingLanguage())
+            );
         }
 
         return (array) $db->getPairs(
             'SELECT i.id, i.title
              FROM {$underscored_name}_categories AS i
              WHERE i.language = ?',
-             array(Language::getWorkingLanguage()));
+            array(Language::getWorkingLanguage())
+        );
     }
 
     /**
@@ -38,7 +40,8 @@
             'SELECT i.*
              FROM {$underscored_name}_categories AS i
              WHERE i.id = ? AND i.language = ?',
-             array((int) $id, Language::getWorkingLanguage()));
+            array((int) $id, Language::getWorkingLanguage())
+        );
     }
 
     /**
@@ -52,5 +55,6 @@
             'SELECT MAX(i.sequence)
              FROM {$underscored_name}_categories AS i
              WHERE i.language = ?',
-             array(Language::getWorkingLanguage()));
+            array(Language::getWorkingLanguage())
+        );
     }

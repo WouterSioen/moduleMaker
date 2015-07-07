@@ -41,7 +41,9 @@ class Categories extends ActionIndex
         // check if this action is allowed
         if (Authentication::isAllowedAction('edit_category')) {
             $this->dataGrid->addColumn(
-                'edit', null, Language::lbl('Edit'),
+                'edit',
+                null,
+                Language::lbl('Edit'),
                 Model::createURLForAction('edit_category') . '&amp;id=[id]',
                 Language::lbl('Edit')
             );

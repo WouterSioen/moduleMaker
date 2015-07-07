@@ -9,6 +9,9 @@
         $item['edited_on'] = BackendModel::getUTCDate();
 
         BackendModel::get('database')->update(
-            '{$underscored_name}_categories', $item, 'id = ?', array($item['id'])
+            '{$underscored_name}_categories',
+            $item,
+            'id = ?',
+            array($item['id'])
         );
     }

@@ -84,7 +84,10 @@ class Model
         $item['edited_on'] = BackendModel::getUTCDate();
 
         BackendModel::get('database')->update(
-            '{$underscored_name}', $item, 'id = ?', (int) $item['id']
+            '{$underscored_name}',
+            $item,
+            'id = ?',
+            (int) $item['id']
         );
     }
 {$update_category}{$update_image}}

@@ -12,5 +12,6 @@
              FROM {$underscored_name}_categories AS i
              WHERE i.id = ? AND i.language = ?
              LIMIT 1',
-            array((int) $id, Language::getWorkingLanguage()));
+            array((int) $id, Language::getWorkingLanguage())
+        );
     }
