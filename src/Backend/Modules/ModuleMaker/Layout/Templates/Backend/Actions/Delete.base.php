@@ -18,25 +18,29 @@ class Delete extends ActionDelete
      */
     public function execute()
     {
-        $this->id = $this->getParameter('id', 'int');
+        $id = $this->getParameter('id', 'int');
 
         // does the item exist
-        if ($this->id !== null && Backend{$camel_case_name}Model::exists($this->id)) {
-            parent::execute();
-            $this->record = (array) Backend{$camel_case_name}Model::get($this->id);
-
-            Backend{$camel_case_name}Model::delete($this->id);
-
-            Model::triggerEvent(
-                $this->getModule(), 'after_delete',
-                array('id' => $this->id)
-            );
-
-            $this->redirect(
-                Model::createURLForAction('Index') . '&report=deleted&var=' .
-                urlencode($this->record['title'])
+        if ($id === null || !Backend{$camel_case_name}Model::exists($id)) {
+            return $this->redirect(
+                Model::createURLForAction('Index') . '&error=non-existing'
             );
         }
-        else $this->redirect(Model::createURLForAction('Index') . '&error=non-existing');
+
+        parent::execute();
+
+        $record = (array) Backend{$camel_case_name}Model::get($id);
+        Backend{$camel_case_name}Model::delete($id);
+
+        Model::triggerEvent(
+            $this->getModule(),
+            'after_delete',
+            array('id' => $id)
+        );
+
+        $this->redirect(
+            Model::createURLForAction('Index') . '&report=deleted&var=' .
+            urlencode($record['title'])
+        );
     }
 }
