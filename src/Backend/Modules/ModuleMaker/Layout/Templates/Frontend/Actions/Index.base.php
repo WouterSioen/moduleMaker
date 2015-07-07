@@ -72,7 +72,8 @@ class Index extends Block
 
         // populate calculated fields in pagination
         $this->pagination['requested_page'] = $requestedPage;
-        $this->pagination['offset'] = ($this->pagination['requested_page'] * $this->pagination['limit']) - $this->pagination['limit'];
+        $this->pagination['offset'] = 
+        $this->pagination['offset'] = ($this->pagination['requested_page'] - 1) * $this->pagination['limit'];
 
         // get articles
         $this->items = Frontend{$camel_case_name}Model::getAll($this->pagination['limit'], $this->pagination['offset']);
