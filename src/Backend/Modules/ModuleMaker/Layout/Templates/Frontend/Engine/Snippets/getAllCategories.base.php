@@ -12,7 +12,8 @@
              INNER JOIN meta AS m ON c.meta_id = m.id
              GROUP BY c.id
              ORDER BY c.sequence ASC',
-            array(), 'id'
+            array(),
+            'id'
         );
 
         // loop items and unserialize

@@ -17,7 +17,8 @@
              FROM {$underscored_name} AS i
              INNER JOIN meta AS m ON i.meta_id = m.id
              WHERE i.language = ? AND i.id IN (' . implode(',', $ids) . ')',
-            array(FRONTEND_LANGUAGE), 'id'
+            array(FRONTEND_LANGUAGE),
+            'id'
         );
 
         // get detail action url
