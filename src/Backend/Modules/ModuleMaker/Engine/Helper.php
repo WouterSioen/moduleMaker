@@ -114,7 +114,9 @@ class Helper
             // cycle through each file
             foreach ($files as $file) {
                 // make sure the file exists
-                if (file_exists($file)) $valid_files[] = $file;
+                if (file_exists($file) && is_file($file)) {
+                    $valid_files[] = $file;
+                }
             }
         }
 
