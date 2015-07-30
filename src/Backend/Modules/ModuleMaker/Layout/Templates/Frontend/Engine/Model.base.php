@@ -57,7 +57,8 @@ class Model
              INNER JOIN meta AS m ON i.meta_id = m.id
              WHERE i.language = ?
              ORDER BY {$sequence_sorting}i.id DESC LIMIT ?, ?',
-            array(FRONTEND_LANGUAGE, (int) $offset, (int) $limit));
+            array(FRONTEND_LANGUAGE, (int) $offset, (int) $limit)
+        );
 
         // no results?
         if (empty($items)) {
