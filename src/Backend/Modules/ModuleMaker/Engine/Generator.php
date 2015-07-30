@@ -130,11 +130,11 @@ class Generator
         // create the default value
         $default = '';
         if ($isEdit) {
-            $default = " ,\$this->record['" . $metaField['underscored_label'] . "']";
+            $default = ", \$this->record['" . $metaField['underscored_label'] . "']";
         } elseif ($metaField['default'] !== '') {
-            if ($metaField['type'] == 'number') $default = ' ,' . $metaField['default'];
+            if ($metaField['type'] == 'number') $default = ', ' . $metaField['default'];
             elseif ($metaField['type'] == 'dropdown') $default = ", Language::lbl('" . Helper::buildCamelCasedName($metaField['default']) . "')";
-            else $default = " ,'" . $metaField['default'] . "'";
+            else $default = ", '" . $metaField['default'] . "'";
         }
 
         $return .= "        \$this->frm->addText('" . $metaField['underscored_label'] . "'" . $default . (($default) ? '' : ', null') . ", null, 'inputText title', 'inputTextError title');\n";
