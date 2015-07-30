@@ -108,7 +108,7 @@ class Detail extends Block
      */
     private function getLastParameter()
     {
-        $numberOfParameters = count($this->URL->getParameters());
+        $numberOfParameters = count($this->URL->getParameters(false));
         return $this->URL->getParameter($numberOfParameters - 1);
     }
 
