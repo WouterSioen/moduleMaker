@@ -3,7 +3,7 @@
      * Retrieve the unique URL for a category
      *
      * @param string $url
-     * @param int[optional] $id The id of the category to ignore.
+     * @param int $id The id of the category to ignore.
      * @return string
      */
     public static function getURLForCategory($url, $id = null)

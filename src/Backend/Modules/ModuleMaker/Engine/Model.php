@@ -53,7 +53,7 @@ class Model
      * Creates a file in a specific directory
      *
      * @param string           $file  The file name.
-     * @param string[optional] $input The input for the file.
+     * @param string $input The input for the file.
      */
     public static function makeFile($file, $input = null)
     {

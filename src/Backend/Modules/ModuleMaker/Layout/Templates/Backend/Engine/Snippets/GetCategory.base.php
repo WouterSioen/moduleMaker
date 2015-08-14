@@ -2,7 +2,7 @@
     /**
      * Get all the categories
      *
-     * @param bool[optional] $includeCount
+     * @param bool $includeCount
      * @return array
      */
     public static function getCategories($includeCount = false)

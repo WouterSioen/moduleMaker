@@ -70,10 +70,10 @@ class Helper
      * @param string $module Module name.
      * @param string $currentFilename Current filename.
      * @param string $newFilename New filename.
-     * @param string[optional] $newSubDirectory New subdirectory.
-     * @param string[optional] $currentSubDirectory Current subdirectory.
-     * @param array[optional] $fileSizes Possible file sizes.
-     * @param bool[optional] $createMissingFromSource Create the missing files from the source.
+     * @param string $newSubDirectory New subdirectory.
+     * @param string $currentSubDirectory Current subdirectory.
+     * @param array $fileSizes Possible file sizes.
+     * @param bool $createMissingFromSource Create the missing files from the source.
      */
     public static function imageRename($module, $currentFilename, $newFilename, $newSubDirectory = '', $currentSubDirectory = '', $fileSizes = null, $createMissingFromSource = false)
     {

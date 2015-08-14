@@ -45,8 +45,8 @@ class Model
     /**
      * Get all items (at least a chunk)
      *
-     * @param int[optional] $limit The number of items to get.
-     * @param int[optional] $offset The offset.
+     * @param int $limit The number of items to get.
+     * @param int $offset The offset.
      * @return array
      */
     public static function getAll($limit = 10, $offset = 0)

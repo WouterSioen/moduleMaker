@@ -3,7 +3,7 @@
      * Retrieve the unique URL for an item
      *
      * @param string $url
-     * @param int[optional] $id    The id of the item to ignore.
+     * @param int $id    The id of the item to ignore.
      * @return string
      */
     public static function getURL($url, $id = null)
