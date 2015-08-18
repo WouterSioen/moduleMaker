@@ -90,9 +90,6 @@ class Edit extends ActionEdit
                 Backend{$camel_case_name}Model::update($item);
                 $item['id'] = $this->id;
 {$multiFilesSave}{$save_tags}{$search_index}
-                Model::triggerEvent(
-                    $this->getModule(), 'after_edit', $item
-                );
                 $this->redirect(
                     Model::createURLForAction('Index') . '&report=edited&highlight=row-' . $item['id']
                 );

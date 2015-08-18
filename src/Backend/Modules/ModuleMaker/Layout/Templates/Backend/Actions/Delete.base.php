@@ -32,12 +32,6 @@ class Delete extends ActionDelete
         $record = (array) Backend{$camel_case_name}Model::get($id);
         Backend{$camel_case_name}Model::delete($id);
 
-        Model::triggerEvent(
-            $this->getModule(),
-            'after_delete',
-            array('id' => $id)
-        );
-
         $this->redirect(
             Model::createURLForAction('Index') . '&report=deleted&var=' .
             urlencode($record['title'])

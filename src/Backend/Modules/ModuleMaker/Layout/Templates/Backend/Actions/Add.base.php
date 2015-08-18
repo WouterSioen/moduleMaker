@@ -70,11 +70,6 @@ class Add extends ActionAdd
                 // insert it
                 $item['id'] = Backend{$camel_case_name}Model::insert($item);
 {$multiFilesSave}{$save_tags}{$search_index}
-                Model::triggerEvent(
-                    $this->getModule(),
-                    'after_add',
-                    $item
-                );
                 $this->redirect(
                     Model::createURLForAction('Index') . '&report=added&highlight=row-' . $item['id']
                 );

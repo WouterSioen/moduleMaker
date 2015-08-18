@@ -91,7 +91,6 @@ class EditCategory extends ActionEdit
 
                 // update the item
                 Backend{$camel_case_name}Model::updateCategory($item);
-                Model::triggerEvent($this->getModule(), 'after_edit_category', array('item' => $item));
 
                 // everything is saved, so redirect to the overview
                 $this->redirect(

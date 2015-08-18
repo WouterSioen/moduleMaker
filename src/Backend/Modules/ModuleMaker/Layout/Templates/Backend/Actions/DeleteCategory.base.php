@@ -32,7 +32,6 @@ class DeleteCategory extends ActionDelete
 
         // delete item
         Backend{$camel_case_name}Model::deleteCategory($this->id);
-        Model::triggerEvent($this->getModule(), 'after_delete_category', array('item' => $this->record));
 
         // category was deleted, so redirect
         $this->redirect(
