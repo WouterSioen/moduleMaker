@@ -56,6 +56,7 @@ class AddCategory extends ActionAdd
 
             if ($this->frm->isCorrect()) {
                 // build item
+                $item = array();
                 $item['title'] = $this->frm->getField('title')->getValue();
                 $item['language'] = Language::getWorkingLanguage();
                 $item['meta_id'] = $this->meta->save();

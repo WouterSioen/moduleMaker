@@ -84,6 +84,7 @@ class EditCategory extends ActionEdit
 
             if ($this->frm->isCorrect()) {
                 // build item
+                $item = array();
                 $item['id'] = $this->id;
                 $item['language'] = $this->record['language'];
                 $item['title'] = $this->frm->getField('title')->getValue();

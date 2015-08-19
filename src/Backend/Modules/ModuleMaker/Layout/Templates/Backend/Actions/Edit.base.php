@@ -83,6 +83,7 @@ class Edit extends ActionEdit
 
 {$validate_form_edit}
             if ($this->frm->isCorrect()) {
+                $item = array();
                 $item['id'] = $this->id;
                 $item['language'] = Language::getWorkingLanguage();
 

@@ -65,6 +65,7 @@ class Add extends ActionAdd
 {$validate_form_add}
             if ($this->frm->isCorrect()) {
                 // build the item
+                $item = array();
                 $item['language'] = Language::getWorkingLanguage();
 {$build_item_add}
                 // insert it
