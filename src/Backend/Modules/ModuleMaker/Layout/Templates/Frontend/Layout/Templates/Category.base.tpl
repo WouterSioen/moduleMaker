@@ -2,4 +2,4 @@
 
 {$items|dump}
 
-{include:core/Layout/Templates/Pagination.tpl}
+{include:Core/Layout/Templates/Pagination.tpl}
