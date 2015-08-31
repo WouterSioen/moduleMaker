@@ -68,7 +68,7 @@ class Detail extends Block
         );
         $this->header->addOpenGraphData(
             'site_name',
-            Model::getModuleSetting('Core', 'site_title_' . FRONTEND_LANGUAGE, SITE_DEFAULT_TITLE),
+            $this->get('fork.settings')->get('Core', 'site_title_' . FRONTEND_LANGUAGE, SITE_DEFAULT_TITLE),
             true
         );
         $this->header->addOpenGraphData('description', $this->record['meta_title'], true);
