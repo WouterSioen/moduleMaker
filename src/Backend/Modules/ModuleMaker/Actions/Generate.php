@@ -217,6 +217,19 @@ class Generate extends Action
         BackendModuleMakerGenerator::generateFile(
             'Backend/Js/Javascript.base.js', $this->variables, $this->backendPath . 'Js/' . $this->record['camel_case_name'] . '.js'
         );
+
+        // classes needed to register module specific services
+        BackendModuleMakerGenerator::generateFile(
+            'Backend/DependencyInjection/ModuleExtension.base.php',
+            $this->variables,
+            $this->backendPath . 'DependencyInjection/' . $this->record['camel_case_name'] . 'Extension.php'
+        );
+        BackendModuleMakerGenerator::generateFile(
+            'Backend/Resources/config/services.base.yml',
+            $this->variables,
+            $this->backendPath . 'Resources/config/services.yml'
+        );
+
         unset($this->variables['multiJs'], $this->variables['do_meta']);
 
         // add a sequence Ajax action if necessary
@@ -373,9 +386,10 @@ class Generate extends Action
         $backendDirs = array(
             'main' => $this->backendPath,
             'sub' => array(
-                'Actions', 'Ajax', 'Js', 'Cronjobs', 'Engine',
+                'Actions', 'Ajax', 'DependencyInjection', 'Js', 'Cronjobs', 'Engine',
                 'Installer' => array('Data'),
-                'Layout' => array('Templates', 'Css')
+                'Layout' => array('Templates', 'Css'),
+                'Resources' => array('config'),
             )
         );
 
@@ -388,7 +402,7 @@ class Generate extends Action
             'sub' => array(
                 'Actions', 'Engine', 'Widgets',
                 'Layout' => array('Templates', 'Widgets'),
-                'Js'
+                'Js',
             )
         );
 
