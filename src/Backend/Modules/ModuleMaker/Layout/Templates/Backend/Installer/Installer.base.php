@@ -30,8 +30,8 @@ class Installer extends ModuleInstaller
         $this->setActionRights(1, '{$camel_case_name}', 'Delete');{$install_extras}
 
         // add extra's
-        $subnameID = $this->insertExtra('{$camel_case_name}', 'block', '{$camel_case_name}', null, null, 'N', 1000);
-        $this->insertExtra('{$camel_case_name}', 'block', '{$camel_case_name}Detail', 'Detail', null, 'N', 1001);
+        $subnameID = $this->insertExtra('{$camel_case_name}', 'block', '{$camel_case_name}');
+        $this->insertExtra('{$camel_case_name}', 'block', '{$camel_case_name}Detail', 'Detail');
 
 {$backend_navigation}
     }
