@@ -427,7 +427,7 @@ class Generator
                 $return .= self::generateSnippet('Backend/Actions/Snippets/Validate' . $field['type'] . '.base.php', $field);
             }
 
-            if (($field['type'] == 'Image' || $field['type'] == 'File') && $field['required'] && !$isEdit) $return .= "            else \$fields['" . $field['underscored_label'] . "'" . "]->addError(Language::err('FieldIsRequired'));\n";
+            if (($field['type'] == 'Image' || $field['type'] == 'File') && $field['required'] && !$isEdit) $return .= "            \$fields['" . $field['underscored_label'] . "'" . "]->isFilled(Language::err('FieldIsRequired'));\n";
         }
 
         // add validate category if necessary
