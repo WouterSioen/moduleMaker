@@ -22,16 +22,16 @@ class Installer extends ModuleInstaller
         // install the locale, this is set here beceause we need the module for this
         $this->importLocale(dirname(__FILE__) . '/Data/locale.xml');
 
-        $this->setModuleRights(1, '{$camel_case_name}');
+        $this->setModuleRights(1, $this->getModule());
 
-        $this->setActionRights(1, '{$camel_case_name}', 'Index');
-        $this->setActionRights(1, '{$camel_case_name}', 'Add');
-        $this->setActionRights(1, '{$camel_case_name}', 'Edit');
-        $this->setActionRights(1, '{$camel_case_name}', 'Delete');{$install_extras}
+        $this->setActionRights(1, $this->getModule(), 'Index');
+        $this->setActionRights(1, $this->getModule(), 'Add');
+        $this->setActionRights(1, $this->getModule(), 'Edit');
+        $this->setActionRights(1, $this->getModule(), 'Delete');{$install_extras}
 
         // add extra's
-        $subnameID = $this->insertExtra('{$camel_case_name}', 'block', '{$camel_case_name}');
-        $this->insertExtra('{$camel_case_name}', 'block', '{$camel_case_name}Detail', 'Detail');
+        $subnameID = $this->insertExtra($this->getModule(), 'block', '{$camel_case_name}');
+        $this->insertExtra($this->getModule(), 'block', '{$camel_case_name}Detail', 'Detail');
 
 {$backend_navigation}
     }
