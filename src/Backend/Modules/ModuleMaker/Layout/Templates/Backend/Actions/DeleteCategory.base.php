@@ -18,25 +18,25 @@ class DeleteCategory extends ActionDelete
      */
     public function execute()
     {
-        $this->id = $this->getParameter('id', 'int');
+        $id = $this->getParameter('id', 'int');
 
         // does the item exist
-        if ($this->id == null || !Backend{$camel_case_name}Model::existsCategory($this->id)) {
-            $this->redirect(
+        if ($id == null || !Backend{$camel_case_name}Model::existsCategory($id)) {
+            return $this->redirect(
                 Model::createURLForAction('categories') . '&error=non-existing'
             );
         }
 
         // fetch the category
-        $this->record = (array) Backend{$camel_case_name}Model::getCategory($this->id);
+        $record = (array) Backend{$camel_case_name}Model::getCategory($id);
 
         // delete item
-        Backend{$camel_case_name}Model::deleteCategory($this->id);
+        Backend{$camel_case_name}Model::deleteCategory($id);
 
         // category was deleted, so redirect
-        $this->redirect(
+        return $this->redirect(
             Model::createURLForAction('categories') . '&report=deleted-category&var=' .
-            urlencode($this->record['title'])
+            urlencode($record['title'])
         );
     }
 }
