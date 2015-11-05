@@ -1,8 +1,8 @@
         $navigationModulesId = $this->setNavigation(null, 'Modules');
-        $navigation{$camel_case_name}Id = $this->setNavigation($navigationModulesId, '{$camel_case_name}');
+        $navigation{$camel_case_name}Id = $this->setNavigation($navigationModulesId, $this->getModule());
         $this->setNavigation(
             $navigation{$camel_case_name}Id,
-            '{$camel_case_name}',
+            $this->getModule(),
             '{$underscored_name}/index',
             array('{$underscored_name}/add', '{$underscored_name}/edit')
         );
