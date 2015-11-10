@@ -49,11 +49,18 @@
                                 true
                             );
 
-                            $photoId = Backend{$camel_case_name}Model::insertImage(
+                            $sequence = 0;
+                            foreach ($images as $image) {
+                                if ($image->uploadName == $sImage['uploadName']) {
+                                    $sequence = $image->sequence;
+                                }
+                            }
+
+                            Backend{$camel_case_name}Model::insertImage(
                                 array(
                                     '{$underscored_name}_id' => $item['id'],
                                     'name' => $sImage['uploadName'],
-                                    'sequence' => $sImage['Index']
+                                    'sequence' => $sequence,
                                 )
                             );
                         }
