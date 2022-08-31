@@ -1,5 +1,7 @@
 # ModuleMaker
 
+> :warning: The module maker is not updated for newer versions of Fork CMS
+
 Generate Fork CMS modules using a straightforward form in the backend.
 
 1. Download zip <https://github.com/WouterSioen/moduleMaker/archive/master.zip>
